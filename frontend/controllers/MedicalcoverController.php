@@ -14,7 +14,7 @@ use frontend\models\Imprestcard;
 use frontend\models\Imprestline;
 use frontend\models\Imprestsurrendercard;
 use frontend\models\Leaveplancard;
-use frontend\models\Leave;
+use frontend\models\Medicalcover;
 use frontend\models\Salaryadvance;
 use frontend\models\Trainingplan;
 use Yii;
@@ -26,10 +26,11 @@ use yii\helpers\Html;
 use yii\web\Controller;
 use yii\web\BadRequestHttpException;
 
+use frontend\models\Leave;
 use yii\web\Response;
 use kartik\mpdf\Pdf;
 
-class LeaveController extends Controller
+class MedicalcoverController extends Controller
 {
     public function behaviors()
     {
@@ -77,26 +78,19 @@ class LeaveController extends Controller
 
     public function actionCreate(){
 
-        $model = new Leave();
-        $service = Yii::$app->params['ServiceName']['LeaveCard'];
+        $model = new Medicalcover();
+        $service = Yii::$app->params['ServiceName']['MedicalCoverCard'];
 
         /*Do initial request */
-        if(!isset(Yii::$app->request->post()['Leave'])){
-
-            $now = date('Y-m-d');
-            $model->Start_Date = date('Y-m-d', strtotime($now.' + 2 days'));
-            $request = Yii::$app->navhelper->postData($service,$model);
-            //Yii::$app->recruitment->printrr($request);
+        if(!isset(Yii::$app->request->post()['Medicalcover'])){
+            $request = Yii::$app->navhelper->postData($service,[]);
             if(is_object($request) )
             {
                 Yii::$app->navhelper->loadmodel($request,$model);
-            }else{
-                Yii::$app->session->setFlash('error', 'Error : ' . $request, true);
-                return $this->redirect(['index']);
             }
         }
 
-        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Leave'],$model) ){
+        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Medicalcover'],$model) ){
 
             $filter = [
                 'Application_No' => $model->Application_No,
@@ -123,8 +117,7 @@ class LeaveController extends Controller
 
         return $this->render('create',[
             'model' => $model,
-            'leavetypes' => $this->getLeaveTypes(),
-            'employees' => $this->getEmployees(),
+            'covertypes' => $this->getCovertypes()
         ]);
     }
 
@@ -132,8 +125,8 @@ class LeaveController extends Controller
 
 
     public function actionUpdate(){
-        $model = new Leave();
-        $service = Yii::$app->params['ServiceName']['LeaveCard'];
+        $model = new Medicalcover();
+        $service = Yii::$app->params['ServiceName']['MedicalCoverCard'];
         $model->isNewRecord = false;
 
         $filter = [
@@ -149,7 +142,7 @@ class LeaveController extends Controller
         }
 
 
-        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Leave'],$model) ){
+        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Medicalcover'],$model) ){
             $filter = [
                 'Application_No' => $model->Application_No,
             ];
@@ -180,8 +173,7 @@ class LeaveController extends Controller
         if(Yii::$app->request->isAjax){
             return $this->renderAjax('update', [
                 'model' => $model,
-                'leavetypes' => $this->getLeaveTypes(),
-                'employees' => $this->getEmployees(),
+                'covertypes' => $this->getCovertypes()
 
 
             ]);
@@ -189,14 +181,13 @@ class LeaveController extends Controller
 
         return $this->render('update',[
             'model' => $model,
-            'leavetypes' => $this->getLeaveTypes(),
-            'employees' => $this->getEmployees(),
+            'covertypes' => $this->getCovertypes()
 
         ]);
     }
 
     public function actionDelete(){
-        $service = Yii::$app->params['ServiceName']['LeaveCard'];
+        $service = Yii::$app->params['ServiceName']['MedicalCoverList'];
         $result = Yii::$app->navhelper->deleteData($service,Yii::$app->request->get('Key'));
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         if(!is_string($result)){
@@ -208,8 +199,8 @@ class LeaveController extends Controller
     }
 
     public function actionView($No){
-        $model = new Leave();
-        $service = Yii::$app->params['ServiceName']['LeaveCard'];
+        $model = new Medicalcover();
+        $service = Yii::$app->params['ServiceName']['MedicalCoverCard'];
 
         $filter = [
             'Application_No' => $No
@@ -232,7 +223,7 @@ class LeaveController extends Controller
     // Get imprest list
 
     public function actionList(){
-        $service = Yii::$app->params['ServiceName']['LeaveList'];
+        $service = Yii::$app->params['ServiceName']['MedicalCoverList'];
         $filter = [
             'Employee_No' => Yii::$app->user->identity->Employee[0]->No,
         ];
@@ -387,49 +378,44 @@ class LeaveController extends Controller
         return ArrayHelper::map($result,'No','detail');
     }
 
-    public function getLeaveTypes($gender = ''){
-        $service = Yii::$app->params['ServiceName']['LeaveTypesSetup']; //['leaveTypes'];
+    /*Get Programs */
+
+    public function getPrograms(){
+        $service = Yii::$app->params['ServiceName']['DimensionValueList'];
+
         $filter = [
-            // 'Gender' => $gender,
-            //'Gender' => !empty(Yii::$app->user->identity->Employee[0]->Gender)?Yii::$app->user->identity->Employee[0]->Gender:'Both'
+            'Global_Dimension_No' => 1
         ];
 
-        $result = \Yii::$app->navhelper->getData($service,$filter);
+        $result = \Yii::$app->navhelper->getData($service, $filter);
+        return ArrayHelper::map($result,'Code','Name');
+    }
+
+    /* Get Department*/
+
+    public function getDepartments(){
+        $service = Yii::$app->params['ServiceName']['DimensionValueList'];
+
+        $filter = [
+            'Global_Dimension_No' => 2
+        ];
+        $result = \Yii::$app->navhelper->getData($service, $filter);
+        return ArrayHelper::map($result,'Code','Name');
+    }
+
+
+    // Get Currencies
+
+    public function getCurrencies(){
+        $service = Yii::$app->params['ServiceName']['Currencies'];
+
+        $result = \Yii::$app->navhelper->getData($service, []);
         return ArrayHelper::map($result,'Code','Description');
     }
 
-    public function getEmployees(){
-        $service = Yii::$app->params['ServiceName']['Employees'];
-
-        $employees = \Yii::$app->navhelper->getData($service);
-        $data = [];
-        $i = 0;
-        if(is_array($employees)){
-
-            foreach($employees as  $emp){
-                $i++;
-                if(!empty($emp->Full_Name) && !empty($emp->No)){
-                    $data[$i] = [
-                        'No' => $emp->No,
-                        'Full_Name' => $emp->Full_Name
-                    ];
-                }
-
-            }
-
-
-
-        }
-
-        return ArrayHelper::map($data,'No','Full_Name');
-    }
-
-
-
-
-    public function actionSetleavetype(){
-        $model = new Leave();
-        $service = Yii::$app->params['ServiceName']['LeaveCard'];
+    public function actionSetcovertype(){
+        $model = new Medicalcover();
+        $service = Yii::$app->params['ServiceName']['MedicalCoverCard'];
 
         $filter = [
             'Application_No' => Yii::$app->request->post('No')
@@ -439,7 +425,7 @@ class LeaveController extends Controller
         if(is_array($request)){
             Yii::$app->navhelper->loadmodel($request[0],$model);
             $model->Key = $request[0]->Key;
-            $model->Leave_Code = Yii::$app->request->post('Leave_Code');
+            $model->Cover_Type = Yii::$app->request->post('Cover_Type');
         }
 
 
@@ -452,9 +438,9 @@ class LeaveController extends Controller
     }
 
     /*Set Receipt Amount */
-    public function actionSetdays(){
-        $model = new Leave();
-        $service = Yii::$app->params['ServiceName']['LeaveCard'];
+    public function actionSetamount(){
+        $model = new Medicalcover();
+        $service = Yii::$app->params['ServiceName']['MedicalCoverCard'];
 
         $filter = [
             'Application_No' => Yii::$app->request->post('No')
@@ -464,31 +450,7 @@ class LeaveController extends Controller
         if(is_array($request)){
             Yii::$app->navhelper->loadmodel($request[0],$model);
             $model->Key = $request[0]->Key;
-            $model->Days_To_Go_on_Leave = Yii::$app->request->post('Days_To_Go_on_Leave');
-        }
-
-        $result = Yii::$app->navhelper->updateData($service,$model);
-
-        Yii::$app->response->format = \yii\web\response::FORMAT_JSON;
-
-        return $result;
-
-    }
-
-    /*Set Start Date */
-    public function actionSetstartdate(){
-        $model = new Leave();
-        $service = Yii::$app->params['ServiceName']['LeaveCard'];
-
-        $filter = [
-            'Application_No' => Yii::$app->request->post('No')
-        ];
-        $request = Yii::$app->navhelper->getData($service, $filter);
-
-        if(is_array($request)){
-            Yii::$app->navhelper->loadmodel($request[0],$model);
-            $model->Key = $request[0]->Key;
-            $model->Start_Date = Yii::$app->request->post('Start_Date');
+            $model->Receipt_Amount = Yii::$app->request->post('Receipt_Amount');
         }
 
         $result = Yii::$app->navhelper->updateData($service,$model);

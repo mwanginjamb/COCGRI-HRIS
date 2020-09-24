@@ -11,7 +11,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-$this->title = 'AAS - Employee Profile'
+$this->title = 'COGRI - Employee Profile'
 ?>
 <h2 class="title">Employee : <?= $model->No.' - '. $model->First_Name. ' '. $model->Last_Name?></h2>
 
@@ -50,20 +50,71 @@ if(Yii::$app->session->hasFlash('success')){
                             <?= $form->field($model, 'First_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                             <?= $form->field($model, 'Middle_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                             <?= $form->field($model, 'Last_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'ID_Number')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Job_Title')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Initials')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Search_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Gender')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Phone_No_2')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
 
-                            <?= $form->field($model, 'Passport_Number')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Citizenship')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Responsibility_Center')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Title')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+
+
+
                         </div>
                         <div class="col-md-6">
-                            <?= $form->field($model, 'User_ID')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Supervisor_Code')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Supervisor_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+
+                            <?= $form->field($model, 'Company_E_Mail')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                             <?= $form->field($model, 'Last_Date_Modified')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Last_Date_Modified_By')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Status')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Privacy_Blocked')->checkbox(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Global_Dimension_1_Code')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Global_Dimension_2_Code')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Max_Imprest_Amount')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Suspend_Leave_Application')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Maximum_Applicable_Trainings')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Balance')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+            </div>
+        </div>
+
+
+
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Address & Contact</h3>
+            </div>
+            <div class="card-body">
+
+                <div class="row">
+                    <div class=" row col-md-12">
+                        <div class="col-md-6">
+                            <?= $form->field($model, 'Address')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Address_2')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Post_Code')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'City')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Country_Region_Code')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+
+                            <?= $form->field($model, 'ShowMap')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+
+
+                        </div>
+                        <div class="col-md-6">
+                            <?= $form->field($model, 'Mobile_Phone_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Pager')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Extension')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'E_Mail')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Alt_Address_Code')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Alt_Address_Start_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Alt_Address_End_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
 
 
 
@@ -79,6 +130,8 @@ if(Yii::$app->session->hasFlash('success')){
 
             </div>
         </div>
+
+
 
         <div class="card">
             <div class="card-header">
@@ -89,220 +142,128 @@ if(Yii::$app->session->hasFlash('success')){
                 <div class="row">
                     <div class=" row col-md-12">
                         <div class="col-md-6">
-                            <?= $form->field($model, 'Gender')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Birth_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Period_To_Retirement')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Service_Period')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Service_Period')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'National_ID')->checkbox(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Age')->checkbox(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Physical_Address')->checkbox(['readonly'=> true, 'disabled'=>true]) ?>
+
+
+                        </div>
+                        <div class="col-md-6">
+                            <?= $form->field($model, 'Grade')->checkbox(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Global_Dimension_1_Name')->checkbox(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'NHIF_Number')->checkbox(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'NSSF_Number')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'KRA_Number')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                             <?= $form->field($model, 'Marital_Status')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Religion')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'First_Language_R_W_S')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'First_Language_Read')->checkbox(['readonly'=> true, 'disabled'=>true]) ?>
-
-                            <?= $form->field($model, 'First_Language_Write')->checkbox(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'First_Language_Speak')->checkbox(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Second_Language_R_W_S')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
 
                         </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Administration</h3>
+            </div>
+            <div class="card-body">
+
+                <div class="row">
+                    <div class=" row col-md-12">
                         <div class="col-md-6">
-                            <?= $form->field($model, 'Second_Language_Read')->checkbox(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Second_Language_Write')->checkbox(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Second_Language_Speak')->checkbox(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Additional_Language')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Vehicle_Registration_Number')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Number_Of_Dependants')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Payment_Methods')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Employment_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Nature_Of_Employment')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                             <?= $form->field($model, 'Disabled')->checkbox(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Status')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
 
-
-
-                        </div>
-                    </div>
-                </div>
-
-
-
-
-
-
-
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Important Dates</h3>
-            </div>
-            <div class="card-body">
-
-                <div class="row">
-                    <div class=" row col-md-12">
-                        <div class="col-md-6">
-                            <?= $form->field($model, 'Date_Of_Birth')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'DAge')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Date_Of_Join')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'DService')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Probation_Duration')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-
-                            <?= $form->field($model, 'End_Of_Probation_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Retirement_date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-
-
-                        </div>
-                        <div class="col-md-6">
-                            <?= $form->field($model, 'Pension_Scheme_Join_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Dretire')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'DPension')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Medical_Scheme_Join_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'DMedical')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Wedding_Anniversary')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-
-                        </div>
-                    </div>
-                </div>
-
-
-
-
-
-
-
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Job Details</h3>
-            </div>
-            <div class="card-body">
-
-                <div class="row">
-                    <div class=" row col-md-12">
-                        <div class="col-md-6">
-                            <?= $form->field($model, 'Job_ID')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Job_Title')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Salary_Grade')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Grade')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-
-
-
-                        </div>
-                        <div class="col-md-6">
-                            <?= $form->field($model, 'Posting_Group')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Professional_Body')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Effective_From_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Expiry_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-
-
-                        </div>
-                    </div>
-                </div>
-
-
-
-
-
-
-
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Terms of Service</h3>
-            </div>
-            <div class="card-body">
-
-                <div class="row">
-                    <div class=" row col-md-12">
-                        <div class="col-md-6">
-                            <?= $form->field($model, 'Contract_Type')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Contract_End_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-
-                        </div>
-                        <div class="col-md-6">
+                            <?= $form->field($model, 'End_of_Contract_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                             <?= $form->field($model, 'Notice_Period')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Send_Alert_to')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Inactive_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Cause_of_Inactivity_Code')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Termination_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Grounds_for_Term_Code')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+
+
+                        </div>
+                        <div class="col-md-6">
+                            <?= $form->field($model, 'Emplymt_Contract_Code')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Statistics_Group_Code')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Resource_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Salespers_Purch_Code')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Manager_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Probation_Status')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Probation_Period_Extended')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'End_of_Probation_Period')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Probabtion_Extended_By')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'New_Probation_Period_End_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Reasons_For_Extension')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'User_ID')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+
 
                         </div>
                     </div>
                 </div>
+
+
+
+
+
+
 
             </div>
         </div>
 
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Payment Information</h3>
+                <h3 class="card-title">Payments</h3>
             </div>
             <div class="card-body">
 
                 <div class="row">
                     <div class=" row col-md-12">
                         <div class="col-md-6">
-                            <?= $form->field($model, 'PIN_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'NSSF_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Employee_Posting_Group')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Application_Method')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Bank_Branch_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
 
                         </div>
                         <div class="col-md-6">
-                            <?= $form->field($model, 'NHIF_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'No_Of_Bank_A_Cs')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Bank_Account_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'IBAN')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'SWIFT_Code')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
 
                         </div>
                     </div>
                 </div>
 
-            </div>
-        </div>
 
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Leave Details</h3>
-            </div>
-            <div class="card-body">
 
-                <div class="row">
-                    <div class=" row col-md-12">
-                        <div class="col-md-6">
-                            <?= $form->field($model, 'Reimbursed_Leave_Days')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Allocated_Leave_Days')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Total_Leave_Days')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Total_Leave_Taken')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
 
-                        </div>
-                        <div class="col-md-6">
-                            <?= $form->field($model, 'Acrued_Leave_Days')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Leave_Bal')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Cash_Leave_Earned')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Cash_per_Leave_Day')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
 
-                        </div>
-                    </div>
-                </div>
+
 
             </div>
         </div>
 
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Separation Details</h3>
-            </div>
-            <div class="card-body">
-
-                <div class="row">
-                    <div class=" row col-md-12">
-                        <div class="col-md-6">
-                            <?= $form->field($model, 'Date_Of_Leaving_the_Company')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Termination_Grounds')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Exit_Interview_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-
-                        </div>
-                        <div class="col-md-6">
-                            <?= $form->field($model, 'Exit_Interview_Done_by')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Activate')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
 
 
-                        </div>
-                    </div>
-                </div>
 
-            </div>
-        </div>
+
+
+
+
 
         <?php ActiveForm::end(); ?>
     </div>

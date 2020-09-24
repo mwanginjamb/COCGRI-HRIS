@@ -10,11 +10,23 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'HRMIS - AAS Active Leaves';
-$this->params['breadcrumbs'][] = ['label' => 'My Leaves List', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => 'Staff on Leaves', 'url' => ['activeleaves']];
+$this->title = Yii::$app->params['generalTitle'];
+$this->params['breadcrumbs'][] = ['label' => 'Overtime List', 'url' => ['index']];
+$this->params['breadcrumbs'][] = '';
+$url = \yii\helpers\Url::home(true);
 ?>
-
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+        <?= \yii\helpers\Html::a('New Overtime Request',['create'],['class' => 'btn btn-info push-right', 'data' => [
+            'confirm' => 'Are you sure you want to create a new Overtime Request?',
+            'method' => 'get',
+        ],]) ?>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <?php
@@ -36,9 +48,9 @@ if(Yii::$app->session->hasFlash('success')){
 ?>
 <div class="row">
     <div class="col-md-12">
-        <div class="card">
+        <div class="card card-info">
             <div class="card-header">
-                <h3 class="card-title">Staff on Leave List</h3>
+                <h3 class="card-title">Overtime List</h3>
 
 
 
@@ -47,14 +59,14 @@ if(Yii::$app->session->hasFlash('success')){
 
             </div>
             <div class="card-body">
-                <table class="table table-bordered dt-responsive table-hover" id="leaves">
+                <table class="table table-bordered dt-responsive table-hover" id="table">
                 </table>
             </div>
         </div>
     </div>
 </div>
 
-
+    <input type="hidden" value="<?= $url ?>" id="url" />
 <?php
 
 $script = <<<JS
@@ -62,39 +74,42 @@ $script = <<<JS
     $(function(){
          /*Data Tables*/
          
-         //$.fn.dataTable.ext.errMode = 'throw';
-        
+          $.fn.dataTable.ext.errMode = 'throw';
+        const url = $('#url').val();
     
-          $('#leaves').DataTable({
+          $('#table').DataTable({
            
             //serverSide: true,  
-            ajax: './getactiveleaves',
+            ajax: url+'overtime/overtime-list',
             paging: true,
             columns: [
-                { title: 'Leave No.' ,data: 'Application Code'},
+                { title: 'No' ,data: 'No'},
+                { title: 'Employee No' ,data: 'Employee_No'},
                 { title: 'Employee Name' ,data: 'Employee_Name'},
-                { title: 'Days Applied' ,data: 'Days_Applied'},
-                { title: 'Start_Date' ,data: 'Start_Date'},
-                { title: 'Return_Date' ,data: 'Return_Date'},
-                { title: 'End_Date' ,data: 'End_Date'},
-                { title: 'Status', data: 'Status' },
+                { title: 'Start Time' ,data: 'Start_Time'},
+                { title: 'End Time' ,data: 'End_Time'},
+                { title: 'Date' ,data: 'Date'},
+                { title: 'Status' ,data: 'Status'},
+                { title: 'Action', data: 'Action' },
+                { title: 'Update Action', data: 'Update_Action' },
+                { title: 'Details', data: 'view' },
                
             ] ,                              
            language: {
-                "zeroRecords": "No Active Leaves to display"
+                "zeroRecords": "No Overtimes to display"
             },
             
-            //order : [[ 2, "desc" ]]
+            order : [[ 0, "desc" ]]
             
            
        });
         
        //Hidding some 
-       var table = $('#leaves').DataTable();
+       var table = $('#table').DataTable();
       // table.columns([0,6]).visible(false);
     
     /*End Data tables*/
-        $('#leaves').on('click','tr', function(){
+        $('#table').on('click','tr', function(){
             
         });
     });
@@ -104,20 +119,14 @@ JS;
 $this->registerJs($script);
 
 $style = <<<CSS
-tr > td:nth-child(4), th:nth-child(4){
-    color: red!important;
-}
-
-tr > td:nth-child(5), th:nth-child(5){
-    color: lightgreen!important;
-}
-
-tr > td:nth-child(6), th:nth-child(6){
-    color: #0056b3!important;
-}
+    table td:nth-child(7), td:nth-child(8), td:nth-child(9) {
+        text-align: center;
+    }
 CSS;
 
 $this->registerCss($style);
+
+
 
 
 

@@ -12,7 +12,7 @@ use Yii;
 use yii\base\Model;
 
 
-class Leave extends Model
+class Medicalcover extends Model
 {
 
 public $Key;
@@ -23,30 +23,19 @@ public $Global_Dimension_2_Code;
 public $Application_No;
 public $Application_Date;
 public $User_ID;
-public $Leave_Code;
-public $Leave_Type_Decription;
-public $Start_Date;
-public $Days_To_Go_on_Leave;
-public $End_Date;
-public $Total_No_Of_Days;
-public $Leave_balance;
-public $Half_Day_on_Start_Date;
-public $Half_Day_on_End_Date;
-public $Holidays;
-public $Weekend_Days;
-public $Days;
-public $Balance_After;
-public $Return_Date;
-public $Reporting_Date;
-public $Comments;
-public $Reliever;
-public $Reliever_Name;
-public $Appointment_Date;
-public $Phone_No;
-public $E_Mail_Address;
-public $Grade;
+public $Cover_Type;
 public $Status;
 public $Approval_Entries;
+public $Limit_Amount;
+public $Used_Amount;
+public $Balance_Before;
+public $Receipt_Amount;
+public $Balance_After;
+public $Receipt_No;
+public $Phone_No;
+public $E_Mail_Address;
+public $Comments;
+public $Exceed_Balance;
 public $isNewRecord;
 
     /*public function __construct(array $config = [])
@@ -57,8 +46,8 @@ public $isNewRecord;
     public function rules()
     {
         return [
-            [['Leave_Code','Start_Date','Days_To_Go_on_Leave','Reliever'], 'required'],
-            ['Days_To_Go_on_Leave','integer','min'=> 1]
+            [['Amount_Requested','Loan_Type','Purpose'], 'required'],
+            ['Amount_Requested','integer','min'=> 1]
         ];
     }
 

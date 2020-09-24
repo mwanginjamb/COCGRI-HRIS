@@ -14,7 +14,6 @@ use frontend\models\Imprestcard;
 use frontend\models\Imprestline;
 use frontend\models\Imprestsurrendercard;
 use frontend\models\Leaveplancard;
-use frontend\models\Leave;
 use frontend\models\Salaryadvance;
 use frontend\models\Trainingplan;
 use Yii;
@@ -26,10 +25,11 @@ use yii\helpers\Html;
 use yii\web\Controller;
 use yii\web\BadRequestHttpException;
 
+use frontend\models\Leave;
 use yii\web\Response;
 use kartik\mpdf\Pdf;
 
-class LeaveController extends Controller
+class SalaryadvanceController extends Controller
 {
     public function behaviors()
     {
@@ -58,7 +58,7 @@ class LeaveController extends Controller
             ],
             'contentNegotiator' =>[
                 'class' => ContentNegotiator::class,
-                'only' => ['list'],
+                'only' => ['advance-list'],
                 'formatParam' => '_format',
                 'formats' => [
                     'application/json' => Response::FORMAT_JSON,
@@ -77,29 +77,22 @@ class LeaveController extends Controller
 
     public function actionCreate(){
 
-        $model = new Leave();
-        $service = Yii::$app->params['ServiceName']['LeaveCard'];
+        $model = new Salaryadvance();
+        $service = Yii::$app->params['ServiceName']['SalaryAdvanceCard'];
 
         /*Do initial request */
-        if(!isset(Yii::$app->request->post()['Leave'])){
-
-            $now = date('Y-m-d');
-            $model->Start_Date = date('Y-m-d', strtotime($now.' + 2 days'));
-            $request = Yii::$app->navhelper->postData($service,$model);
-            //Yii::$app->recruitment->printrr($request);
+        if(!isset(Yii::$app->request->post()['Salaryadvance'])){
+            $request = Yii::$app->navhelper->postData($service,[]);
             if(is_object($request) )
             {
                 Yii::$app->navhelper->loadmodel($request,$model);
-            }else{
-                Yii::$app->session->setFlash('error', 'Error : ' . $request, true);
-                return $this->redirect(['index']);
             }
         }
 
-        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Leave'],$model) ){
+        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Salaryadvance'],$model) ){
 
             $filter = [
-                'Application_No' => $model->Application_No,
+                'No' => $model->No,
             ];
             /*Read the card again to refresh Key in case it changed*/
             $refresh = Yii::$app->navhelper->getData($service,$filter);
@@ -107,11 +100,11 @@ class LeaveController extends Controller
             $result = Yii::$app->navhelper->updateData($service,$model);
             if(!is_string($result)){
 
-                Yii::$app->session->setFlash('success','Medical Cover Claim Created Successfully.' );
-                return $this->redirect(['view','No' => $result->Application_No]);
+                Yii::$app->session->setFlash('success','Salary Advance Request Created Successfully.' );
+                return $this->redirect(['view','No' => $result->No]);
 
             }else{
-                Yii::$app->session->setFlash('error','Error Creating Medical Cover Claim '.$result );
+                Yii::$app->session->setFlash('error','Error Creating Salary Advance Request '.$result );
                 return $this->redirect(['index']);
 
             }
@@ -123,21 +116,92 @@ class LeaveController extends Controller
 
         return $this->render('create',[
             'model' => $model,
-            'leavetypes' => $this->getLeaveTypes(),
             'employees' => $this->getEmployees(),
+            'programs' => $this->getPrograms(),
+            'departments' => $this->getDepartments(),
+            'currencies' => $this->getCurrencies(),
+            'loans' => $this->getLoans(),
         ]);
     }
 
 
+    public function actionCreateSurrender(){
+        // Yii::$app->recruitment->printrr(Yii::$app->request->get('requestfor'));
+        $model = new Imprestsurrendercard();
+        $service = Yii::$app->params['ServiceName']['ImprestSurrenderCardPortal'];
+
+        /*Do initial request */
+        $request = Yii::$app->navhelper->postData($service,[]);
+
+        if(is_object($request) )
+        {
+            Yii::$app->navhelper->loadmodel($request,$model);
+
+            // Update Request for
+            $model->Request_For = Yii::$app->request->get('requestfor');
+            $model->Key = $request->Key;
+            $request = Yii::$app->navhelper->updateData($service, $model);
+
+            if(is_string($request)){
+                Yii::$app->recruitment->printrr($request);
+            }
+
+
+        }
+
+        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Imprestsurrendercard'],$model) ){
+
+            $filter = [
+                'No' => $model->No,
+            ];
+
+            $refresh = Yii::$app->navhelper->getData($service,$filter);
+            Yii::$app->navhelper->loadmodel($refresh[0],$model);
+
+            $result = Yii::$app->navhelper->updateData($service,$model);
+
+
+            if(!is_string($result)){
+                //Yii::$app->recruitment->printrr($result);
+                Yii::$app->session->setFlash('success','Imprest Request Created Successfully.' );
+
+                return $this->redirect(['view','No' => $result->No]);
+
+            }else{
+                Yii::$app->session->setFlash('success','Error Creating Imprest Request '.$result );
+                return $this->render('createsurrender',[
+                    'model' => $model,
+                    'employees' => $this->getEmployees(),
+                    'programs' => $this->getPrograms(),
+                    'departments' => $this->getDepartments(),
+                    'currencies' => $this->getCurrencies(),
+                    'imprests' => $this->getmyimprests(),
+                    'receipts' => $this->getimprestreceipts($model->No)
+                ]);
+
+            }
+
+        }
+
+        return $this->render('createsurrender',[
+            'model' => $model,
+            'employees' => $this->getEmployees(),
+            'programs' => $this->getPrograms(),
+            'departments' => $this->getDepartments(),
+            'currencies' => $this->getCurrencies(),
+            'imprests' => $this->getmyimprests(),
+            'receipts' => $this->getimprestreceipts($model->No)
+        ]);
+    }
 
 
     public function actionUpdate(){
-        $model = new Leave();
-        $service = Yii::$app->params['ServiceName']['LeaveCard'];
+        $model = new Salaryadvance();
+        $service = Yii::$app->params['ServiceName']['SalaryAdvanceCard'];
         $model->isNewRecord = false;
 
         $filter = [
-            'Application_No' => Yii::$app->request->get('No'),
+            'No' => Yii::$app->request->get('No'),
         ];
         $result = Yii::$app->navhelper->getData($service,$filter);
 
@@ -149,9 +213,9 @@ class LeaveController extends Controller
         }
 
 
-        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Leave'],$model) ){
+        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Salaryadvance'],$model) ){
             $filter = [
-                'Application_No' => $model->Application_No,
+                'No' => $model->No,
             ];
             /*Read the card again to refresh Key in case it changed*/
             $refresh = Yii::$app->navhelper->getData($service,$filter);
@@ -161,14 +225,19 @@ class LeaveController extends Controller
 
             if(!is_string($result)){
 
-                Yii::$app->session->setFlash('success','Medical Cover Claim Updated Successfully.' );
+                Yii::$app->session->setFlash('success','Salary Advance Request Updated Successfully.' );
 
-                return $this->redirect(['view','No' => $result->Application_No]);
+                return $this->redirect(['view','No' => $result->No]);
 
             }else{
-                Yii::$app->session->setFlash('success','Error Updating Medical Cover Claim '.$result );
+                Yii::$app->session->setFlash('success','Error Updating Salary Advance Request '.$result );
                 return $this->render('update',[
                     'model' => $model,
+                    'employees' => $this->getEmployees(),
+                    'programs' => $this->getPrograms(),
+                    'departments' => $this->getDepartments(),
+                    'currencies' => $this->getCurrencies(),
+                    'loans' => $this->getLoans(),
                 ]);
 
             }
@@ -180,23 +249,27 @@ class LeaveController extends Controller
         if(Yii::$app->request->isAjax){
             return $this->renderAjax('update', [
                 'model' => $model,
-                'leavetypes' => $this->getLeaveTypes(),
                 'employees' => $this->getEmployees(),
-
+                'programs' => $this->getPrograms(),
+                'departments' => $this->getDepartments(),
+                'currencies' => $this->getCurrencies(),
+                'loans' => $this->getLoans(),
 
             ]);
         }
 
         return $this->render('update',[
             'model' => $model,
-            'leavetypes' => $this->getLeaveTypes(),
             'employees' => $this->getEmployees(),
-
+            'programs' => $this->getPrograms(),
+            'departments' => $this->getDepartments(),
+            'currencies' => $this->getCurrencies(),
+            'loans' => $this->getLoans(),
         ]);
     }
 
     public function actionDelete(){
-        $service = Yii::$app->params['ServiceName']['LeaveCard'];
+        $service = Yii::$app->params['ServiceName']['CareerDevStrengths'];
         $result = Yii::$app->navhelper->deleteData($service,Yii::$app->request->get('Key'));
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         if(!is_string($result)){
@@ -208,11 +281,11 @@ class LeaveController extends Controller
     }
 
     public function actionView($No){
-        $model = new Leave();
-        $service = Yii::$app->params['ServiceName']['LeaveCard'];
+        $model = new Salaryadvance();
+        $service = Yii::$app->params['ServiceName']['SalaryAdvanceCard'];
 
         $filter = [
-            'Application_No' => $No
+            'No' => $No
         ];
 
         $result = Yii::$app->navhelper->getData($service, $filter);
@@ -227,12 +300,32 @@ class LeaveController extends Controller
         ]);
     }
 
+    /*Imprest surrender card view*/
 
+    public function actionViewSurrender($No){
+        $service = Yii::$app->params['ServiceName']['ImprestSurrenderCard'];
+
+        $filter = [
+            'No' => $No
+        ];
+
+        $result = Yii::$app->navhelper->getData($service, $filter);
+        //load nav result to model
+        $model = $this->loadtomodel($result[0], new Imprestsurrendercard());
+
+        return $this->render('viewsurrender',[
+            'model' => $model,
+            'employees' => $this->getEmployees(),
+            'programs' => $this->getPrograms(),
+            'departments' => $this->getDepartments(),
+            'currencies' => $this->getCurrencies()
+        ]);
+    }
 
     // Get imprest list
 
-    public function actionList(){
-        $service = Yii::$app->params['ServiceName']['LeaveList'];
+    public function actionAdvanceList(){
+        $service = Yii::$app->params['ServiceName']['SalaryAdvanceList'];
         $filter = [
             'Employee_No' => Yii::$app->user->identity->Employee[0]->No,
         ];
@@ -241,21 +334,21 @@ class LeaveController extends Controller
         $result = [];
         foreach($results as $item){
             $link = $updateLink = $deleteLink =  '';
-            $Viewlink = Html::a('<i class="fas fa-eye"></i>',['view','No'=> $item->Application_No ],['class'=>'btn btn-outline-primary btn-xs']);
+            $Viewlink = Html::a('<i class="fas fa-eye"></i>',['view','No'=> $item->No ],['class'=>'btn btn-outline-primary btn-xs']);
             if($item->Status == 'New'){
-                $link = Html::a('<i class="fas fa-paper-plane"></i>',['send-for-approval','No'=> $item->Application_No ],['title'=>'Send Approval Request','class'=>'btn btn-primary btn-xs']);
-                $updateLink = Html::a('<i class="far fa-edit"></i>',['update','No'=> $item->Application_No],['class'=>'btn btn-info btn-xs']);
+                $link = Html::a('<i class="fas fa-paper-plane"></i>',['send-for-approval','No'=> $item->No ],['title'=>'Send Approval Request','class'=>'btn btn-primary btn-xs']);
+                $updateLink = Html::a('<i class="far fa-edit"></i>',['update','No'=> $item->No ],['class'=>'btn btn-info btn-xs']);
             }else if($item->Status == 'Pending_Approval'){
-                $link = Html::a('<i class="fas fa-times"></i>',['cancel-request','No'=> $item->Application_No ],['title'=>'Cancel Approval Request','class'=>'btn btn-warning btn-xs']);
+                $link = Html::a('<i class="fas fa-times"></i>',['cancel-request','No'=> $item->No ],['title'=>'Cancel Approval Request','class'=>'btn btn-warning btn-xs']);
             }
 
             $result['data'][] = [
                 'Key' => $item->Key,
-                'No' => $item->Application_No,
+                'No' => $item->No,
                 'Employee_No' => !empty($item->Employee_No)?$item->Employee_No:'',
                 'Employee_Name' => !empty($item->Employee_Name)?$item->Employee_Name:'',
-                'Application_Date' => !empty($item->Application_Date)?$item->Application_Date:'',
-                'Receipt_Amount' => !empty($item->Receipt_Amount)?$item->Receipt_Amount:'',
+                'Purpose' => !empty($item->Purpose)?$item->Purpose:'',
+                'Amount_Requested' => !empty($item->Amount_Requested)?$item->Amount_Requested:'',
                 'Status' => $item->Status,
                 'Action' => $link,
                 'Update_Action' => $updateLink,
@@ -305,25 +398,11 @@ class LeaveController extends Controller
     }
 
 
-    public function getCovertypes(){
-        $service = Yii::$app->params['ServiceName']['MedicalCoverTypes'];
+    public function getEmployees(){
+        $service = Yii::$app->params['ServiceName']['Employees'];
 
-        $results = \Yii::$app->navhelper->getData($service);
-        $result = [];
-        $i = 0;
-        if(is_array($results)){
-            foreach($results as $res){
-                if(!empty($res->Code) && !empty($res->Description)){
-                    $result[$i] =[
-                        'Code' => $res->Code,
-                        'Description' => $res->Description
-                    ];
-                    $i++;
-                }
-
-            }
-        }
-        return ArrayHelper::map($result,'Code','Description');
+        $employees = \Yii::$app->navhelper->getData($service);
+        return ArrayHelper::map($employees,'No','FullName');
     }
 
     /* My Imprests*/
@@ -387,59 +466,54 @@ class LeaveController extends Controller
         return ArrayHelper::map($result,'No','detail');
     }
 
-    public function getLeaveTypes($gender = ''){
-        $service = Yii::$app->params['ServiceName']['LeaveTypesSetup']; //['leaveTypes'];
+    /*Get Programs */
+
+    public function getPrograms(){
+        $service = Yii::$app->params['ServiceName']['DimensionValueList'];
+
         $filter = [
-            // 'Gender' => $gender,
-            //'Gender' => !empty(Yii::$app->user->identity->Employee[0]->Gender)?Yii::$app->user->identity->Employee[0]->Gender:'Both'
+            'Global_Dimension_No' => 1
         ];
 
-        $result = \Yii::$app->navhelper->getData($service,$filter);
+        $result = \Yii::$app->navhelper->getData($service, $filter);
+        return ArrayHelper::map($result,'Code','Name');
+    }
+
+    /* Get Department*/
+
+    public function getDepartments(){
+        $service = Yii::$app->params['ServiceName']['DimensionValueList'];
+
+        $filter = [
+            'Global_Dimension_No' => 2
+        ];
+        $result = \Yii::$app->navhelper->getData($service, $filter);
+        return ArrayHelper::map($result,'Code','Name');
+    }
+
+
+    // Get Currencies
+
+    public function getCurrencies(){
+        $service = Yii::$app->params['ServiceName']['Currencies'];
+
+        $result = \Yii::$app->navhelper->getData($service, []);
         return ArrayHelper::map($result,'Code','Description');
     }
 
-    public function getEmployees(){
-        $service = Yii::$app->params['ServiceName']['Employees'];
-
-        $employees = \Yii::$app->navhelper->getData($service);
-        $data = [];
-        $i = 0;
-        if(is_array($employees)){
-
-            foreach($employees as  $emp){
-                $i++;
-                if(!empty($emp->Full_Name) && !empty($emp->No)){
-                    $data[$i] = [
-                        'No' => $emp->No,
-                        'Full_Name' => $emp->Full_Name
-                    ];
-                }
-
-            }
-
-
-
-        }
-
-        return ArrayHelper::map($data,'No','Full_Name');
-    }
-
-
-
-
-    public function actionSetleavetype(){
-        $model = new Leave();
-        $service = Yii::$app->params['ServiceName']['LeaveCard'];
+    public function actionSetloantype(){
+        $model = new Salaryadvance();
+        $service = Yii::$app->params['ServiceName']['SalaryAdvanceCard'];
 
         $filter = [
-            'Application_No' => Yii::$app->request->post('No')
+            'No' => Yii::$app->request->post('No')
         ];
         $request = Yii::$app->navhelper->getData($service, $filter);
 
         if(is_array($request)){
             Yii::$app->navhelper->loadmodel($request[0],$model);
             $model->Key = $request[0]->Key;
-            $model->Leave_Code = Yii::$app->request->post('Leave_Code');
+            $model->Loan_Type = Yii::$app->request->post('loan');
         }
 
 
@@ -451,45 +525,21 @@ class LeaveController extends Controller
 
     }
 
-    /*Set Receipt Amount */
-    public function actionSetdays(){
-        $model = new Leave();
-        $service = Yii::$app->params['ServiceName']['LeaveCard'];
+    public function actionSetamount(){
+        $model = new Salaryadvance();
+        $service = Yii::$app->params['ServiceName']['SalaryAdvanceCard'];
 
         $filter = [
-            'Application_No' => Yii::$app->request->post('No')
+            'No' => Yii::$app->request->post('No')
         ];
         $request = Yii::$app->navhelper->getData($service, $filter);
 
         if(is_array($request)){
             Yii::$app->navhelper->loadmodel($request[0],$model);
             $model->Key = $request[0]->Key;
-            $model->Days_To_Go_on_Leave = Yii::$app->request->post('Days_To_Go_on_Leave');
+            $model->Amount_Requested = Yii::$app->request->post('amount');
         }
 
-        $result = Yii::$app->navhelper->updateData($service,$model);
-
-        Yii::$app->response->format = \yii\web\response::FORMAT_JSON;
-
-        return $result;
-
-    }
-
-    /*Set Start Date */
-    public function actionSetstartdate(){
-        $model = new Leave();
-        $service = Yii::$app->params['ServiceName']['LeaveCard'];
-
-        $filter = [
-            'Application_No' => Yii::$app->request->post('No')
-        ];
-        $request = Yii::$app->navhelper->getData($service, $filter);
-
-        if(is_array($request)){
-            Yii::$app->navhelper->loadmodel($request[0],$model);
-            $model->Key = $request[0]->Key;
-            $model->Start_Date = Yii::$app->request->post('Start_Date');
-        }
 
         $result = Yii::$app->navhelper->updateData($service,$model);
 

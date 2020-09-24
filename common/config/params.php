@@ -51,6 +51,7 @@ return [
     ],
     'ServiceName'=>[
 
+        /**************************IMPREST*************************************/
         'ImprestRequestList' => 'ImprestRequestList', //64020 (Page)
         'ImprestRequestCard' => 'ImprestRequestCard', //64021 (Page)
         'ImprestRequestLine' => 'ImprestRequestLine', //64022 (Page)
@@ -65,6 +66,24 @@ return [
         'PostedImprestRequest' => 'PostedImprestRequest', //64026 (Page)
         'PostedReceiptsList' => 'PostedReceiptsList',//64056 (Page)
 
+
+        /**************************FUND REQUISITION*************************************/
+
+
+        /**************************Leave Plan*************************************/
+
+        'LeavePlanList' => 'LeavePlanList', //50025
+        'LeavePlanCard' => 'LeavePlanCard', //50028
+        'LeavePlanLine' => 'LeavePlanLine', //50029
+
+        /**************************Leave *************************************/
+
+        'LeaveCard' => 'LeaveCard', //50011
+        'LeaveList' => 'LeaveList', //50013
+        'LeaveTypesSetup' => 'LeaveTypesSetup', // 50024
+        'LeaveBalances' => 'LeaveBalances',//50041
+
+
         'AllowanceRequestList' => 'AllowanceRequestList', //64093(Page)
         'AllowanceRequestCard' => 'AllowanceRequestCard', // 64094(Page)
         'AllowanceRequestLine' => 'AllowanceRequestLine', //64095 (Page)
@@ -75,8 +94,27 @@ return [
         'RequisitionRates' => 'RequisitionRates', //65019 (Page)
 
 
-        'Currencies' => 'Currencies', // Page 5
 
+        /**************************SALARY ADVANCE*************************************/
+
+        'SalaryAdvanceList' => 'SalaryAdvanceList', //58027
+        'SalaryAdvanceCard' => 'SalaryAdvanceCard', //58028
+        'StaffLoans' => 'StaffLoans', //58031
+
+
+
+        /**************************Overtime*************************************/
+
+        'OvertimeList' => 'OvertimeList', //50037
+        'OvertimeCard' => 'OvertimeCard', //50038
+
+        /**************************Medical Cover *************************************/
+
+        'MedicalCoverList' => 'MedicalCoverList', //58022
+        'MedicalCoverCard' => 'MedicalCoverCard', //58021
+        'MedicalCoverTypes' => 'MedicalCoverTypes', //50049
+
+        'Currencies' => 'Currencies', // Page 5
         'purchaseDocumentLines'=>'purchaseDocumentLines',//6405
         'UserSetup' => 'UserSetup', //119
 
@@ -88,7 +126,7 @@ return [
 
         'leaveApplicationList' => 'leaveApplicationList', // 71053
         'leaveApplicationCard' => 'leaveApplicationCard', //71075
-        'leaveBalance' => 'leaveBalance',//71153
+        //'leaveBalance' => 'leaveBalance',//71153
         'leaveTypes' => 'leaveTypes', //70045
         'leaveRecallCard' => 'leaveRecallCard',//71076
         'leaveRecallList' => 'leaveRecallList',//71077
@@ -163,7 +201,7 @@ return [
 
 
         //Payslip report
-        'PortalReports' => 'PortalReports',//50021
+        'PortalReports' => 'PortalReports',//50064
         'Payrollperiods' => 'Payrollperiods', //70255
 
         //P9 report
