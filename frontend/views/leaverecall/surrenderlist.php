@@ -11,16 +11,18 @@
 /* @var $this yii\web\View */
 
 $this->title = Yii::$app->params['generalTitle'];
-$this->params['breadcrumbs'][] = ['label' => 'Leave Application List', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Imprest Surrender List', 'url' => ['index']];
 $this->params['breadcrumbs'][] = '';
+
 $url = \yii\helpers\Url::home(true);
 ?>
 <div class="row">
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-        <?= \yii\helpers\Html::a('New Leave Application Request',['create'],['class' => 'btn btn-info push-right', 'data' => [
-            'confirm' => 'Are you sure you want to create a new Leave Application Request?',
+        <?= \yii\helpers\Html::a('New Imprest Surrender',['create-surrender'],['class' => 'btn btn-info push-right', 'data' => [
+            'confirm' => 'Are you sure you want to create a new Imprest Surrender?',
+            'params' => ['requestfor' => 'self'],
             'method' => 'get',
         ],]) ?>
             </div>
@@ -50,7 +52,7 @@ if(Yii::$app->session->hasFlash('success')){
     <div class="col-md-12">
         <div class="card card-info">
             <div class="card-header">
-                <h3 class="card-title">Leave Application List</h3>
+                <h3 class="card-title">Imprest Surrenders List</h3>
 
 
 
@@ -66,7 +68,7 @@ if(Yii::$app->session->hasFlash('success')){
     </div>
 </div>
 
-    <input type="hidden" value="<?= $url ?>" id="url" />
+<input type="hidden" value="<?= $url ?>" id="url" />
 <?php
 
 $script = <<<JS
@@ -80,14 +82,14 @@ $script = <<<JS
           $('#table').DataTable({
            
             //serverSide: true,  
-            ajax: url+'leave/list',
+            ajax: url+'imprest/getimprestsurrenders',
             paging: true,
             columns: [
                 { title: 'No' ,data: 'No'},
                 { title: 'Employee No' ,data: 'Employee_No'},
                 { title: 'Employee Name' ,data: 'Employee_Name'},
-                { title: 'Application Date' ,data: 'Application_Date'},
-                { title: 'Receipt Amount' ,data: 'Receipt_Amount'},
+                { title: 'Purpose' ,data: 'Purpose'},
+                { title: 'Imprest_Amount' ,data: 'Imprest_Amount'},
                 
                 { title: 'Status' ,data: 'Status'},
                 { title: 'Action', data: 'Action' },
@@ -96,7 +98,7 @@ $script = <<<JS
                
             ] ,                              
            language: {
-                "zeroRecords": "No Leave Applications to display"
+                "zeroRecords": "No Imprest Surrenders to Display"
             },
             
             order : [[ 0, "desc" ]]

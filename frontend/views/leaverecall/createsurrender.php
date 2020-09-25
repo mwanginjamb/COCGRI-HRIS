@@ -11,22 +11,24 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\AgendaDocument */
 
-$this->title = 'Leave Application';
-$this->params['breadcrumbs'][] = ['label' => 'Leaves', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => 'New Request', 'url' => ['create']];
-//$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Imprest Surrender Request ';
+$this->params['breadcrumbs'][] = ['label' => 'imprest', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 
 $model->isNewRecord = true;
-
 ?>
 <div class="leave-document-create">
 
     <!--<h1><?= Html::encode($this->title) ?></h1>-->
 
-    <?= $this->render('_form', [
+    <?= $this->render('_surrenderform', [
         'model' => $model,
-        'leavetypes' => $leavetypes,
         'employees' => $employees,
+        'programs' => $programs,
+        'departments' => $departments,
+        'currencies' => $currencies,
+        'imprests' => $imprests,
+        'receipts' => $receipts,
     ]) ?>
 
 </div>

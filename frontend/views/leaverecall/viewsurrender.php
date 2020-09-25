@@ -9,9 +9,9 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-$this->title = 'Leave - '.$model->Application_No;
-$this->params['breadcrumbs'][] = ['label' => 'imprests', 'url' => ['/salaryadvance']];
-$this->params['breadcrumbs'][] = ['label' => 'Leave Card', 'url' => ['view','No'=> $model->Application_No]];
+$this->title = 'Imprest - '.$model->No;
+$this->params['breadcrumbs'][] = ['label' => 'imprest Surrenders', 'url' => ['surrenderlist']];
+$this->params['breadcrumbs'][] = ['label' => 'Imprest Surrender Card', 'url' => ['view-surrender','No'=> $model->No]];
 /** Status Sessions */
 
 
@@ -23,16 +23,16 @@ Yii::$app->session->set('isSupervisor',false);*/
 <div class="row">
     <div class="col-md-4">
 
-        <?= ($model->Status == 'New')?Html::a('<i class="fas fa-paper-plane"></i> Send Approval Req',['send-for-approval'],['class' => 'btn btn-app submitforapproval',
+        <?= ($model->Status == 'New')?Html::a('<i class="fas fa-paper-plane"></i> Send Approval Req',['send-for-approval','employeeNo' => Yii::$app->user->identity->{'Employee No_'}],['class' => 'btn btn-app submitforapproval',
             'data' => [
-                'confirm' => 'Are you sure you want to send this document for approval?',
+                'confirm' => 'Are you sure you want to send imprest request for approval?',
                 'params'=>[
                     'No'=> $_GET['No'],
                     'employeeNo' => Yii::$app->user->identity->{'Employee No_'},
                 ],
                 'method' => 'get',
         ],
-            'title' => 'Submit Leave Approval'
+            'title' => 'Submit Imprest Approval'
 
         ]):'' ?>
 
@@ -45,7 +45,7 @@ Yii::$app->session->set('isSupervisor',false);*/
             ],
             'method' => 'get',
         ],
-            'title' => 'Cancel Leave Approval Request'
+            'title' => 'Cancel Imprest Approval Request'
 
         ]):'' ?>
     </div>
@@ -55,7 +55,7 @@ Yii::$app->session->set('isSupervisor',false);*/
         <div class="col-md-12">
             <div class="card-info">
                 <div class="card-header">
-                    <h3>Leave Application Card </h3>
+                    <h3>Imprest Surrender Card </h3>
                 </div>
 
 
@@ -72,7 +72,7 @@ Yii::$app->session->set('isSupervisor',false);*/
 
 
 
-                    <h3 class="card-title">Leave Application : <?= $model->Application_No?></h3>
+                    <h3 class="card-title">Imprest No : <?= $model->No?></h3>
 
 
 
@@ -99,37 +99,38 @@ Yii::$app->session->set('isSupervisor',false);*/
                     <div class="row">
                         <div class=" row col-md-12">
                             <div class="col-md-6">
-                                <?= '<p><span>Employee No</span> '.Html::a($model->Employee_No,'#'); '</p>' ?>
-                                <?= '<p><span>Employee Name</span> '.Html::a($model->Employee_Name,'#'); '</p>' ?>
-                                <?= '<p><span>Program Code</span> '.Html::a($model->_x003C_Global_Dimension_1_Code_x003E_,'#'); '</p>' ?>
-                                <?= '<p><span>Department Code </span> '.Html::a($model->Global_Dimension_2_Code,'#'); '</p>' ?>
-                                <?= $form->field($model, 'Application_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                <?= $form->field($model, 'Application_Date')->textInput(['required' => true, 'disabled'=>true]) ?>
-                                <?= $form->field($model, 'User_ID')->textInput(['required' => true, 'disabled'=>true]) ?>
-                                <?= $form->field($model, 'Leave_Code')->textInput(['readonly' => true]) ?>
-                                <?= $form->field($model, 'Start_Date')->textInput(['type' => 'date','required' => true]) ?>
-                                <?= $form->field($model, 'Days_To_Go_on_Leave')->textInput(['type' => 'number','required' =>  true,'min'=> 1]) ?>
-                                <?= $form->field($model, 'End_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                <?= $form->field($model, 'Total_No_Of_Days')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                <?= $form->field($model, 'Leave_balance')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+
+                                <?= $form->field($model, 'No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                                <?= $form->field($model, 'Employee_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                                <?= $form->field($model, 'Employee_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                                <?= $form->field($model, 'Imprest_No')->textInput(['readonly' => true]) ?>
+                                <?= $form->field($model, 'Purpose')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                                <?= '<p><span>Employee Balance</span> '.Html::a($model->Employee_Balance,'#'); '</p>' ?>
+                                <?= '<p><span>Imprest Amount</span> '.Html::a($model->Surrender_Amount,'#'); '</p>'?>
+                                <?= '<p><span> Amount LCY</span> '.Html::a($model->Claim_Amount,'#'); '</p>'?>
 
 
 
+                               <!-- <p class="parent"><span>+</span>-->
+
+
+
+
+                                </p>
 
 
                             </div>
                             <div class="col-md-6">
-                                <?= $form->field($model, 'Holidays')->textInput(['readonly'=> true,'disabled'=>true]) ?>
-                                <?= $form->field($model, 'Weekend_Days')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                <?= $form->field($model, 'Balance_After')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                <?= $form->field($model, 'Reporting_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                <?= $form->field($model, 'Comments')->textarea(['rows'=> 2,'maxlength' => 250,'readonly' => true]) ?>
-                                <?= $form->field($model, 'Reliever')->textInput(['readonly' => true]) ?>
 
-                                <?= $form->field($model, 'Reliever_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                 <?= $form->field($model, 'Status')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                <?= '<p><span>Approval_Entries</span> '.Html::a($model->Approval_Entries,'#'); '</p>' ?>
+                                <?= $form->field($model, 'Global_Dimension_1_Code')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                                <?= $form->field($model, 'Global_Dimension_2_Code')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                                <?= $form->field($model, 'Posting_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                                <?= $form->field($model, 'Receipt_No')->dropDownList([],['prompt' => 'Select ... ']) ?>
+                                <?= $form->field($model, 'Receipt_Amount')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                                <?= '<p><span> Approval Entries </span> '.Html::a($model->Approval_Entries,'#'); '</p>'?>
 
+                               <!-- <p class="parent"><span>+</span></p>-->
 
 
 
@@ -151,7 +152,98 @@ Yii::$app->session->set('isSupervisor',false);*/
             <!--Objectives card -->
 
 
+            <?php
 
+            Html::a('<i class="fas fa-paper-plane"></i> Send Approval Req',['send-for-approval','employeeNo' => Yii::$app->user->identity->{'Employee No_'}],['class' => 'btn btn-app submitforapproval',
+                'data' => [
+                    'confirm' => 'Are you sure you want to send imprest request for approval?',
+                    'params'=>[
+                        'No'=> $_GET['No'],
+                        'employeeNo' => Yii::$app->user->identity->{'Employee No_'},
+                    ],
+                    'method' => 'get',
+                ],
+                'title' => 'Submit Imprest Approval'
+
+            ])
+            ?>
+
+
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"> Imprest Lines  </div>
+                </div>
+
+
+
+                <div class="card-body">
+
+
+
+
+
+                    <?php
+                    if($model->Imprest_No && is_array($model->getLines($model->Imprest_No))){ //show Lines ?>
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <td><b>Transaction Type</b></td>
+                                <td><b>Account No</b></td>
+                                <td><b>Account Name</b></td>
+                                <td><b>Description</b></td>
+                                <td><b>Amount</b></td>
+                                <td><b>Amount LCY</b></td>
+                                <td><b>Budgeted Amount</b></td>
+                                <td><b>Commited Amount</b></td>
+                                <td><b>Total_Expenditure</b></td>
+                                <td><b>Available Amount</b></td>
+                                <td><b>Unbudgeted?</b></td>
+                                <!--<td><b>Actions</b></td>-->
+
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                            // print '<pre>'; print_r($model->getObjectives()); exit;
+
+                            foreach($model->getLines($model->No) as $obj):
+                              //  $updateLink = Html::a('<i class="fa fa-edit"></i>',['imprestline/update','Line_No'=> $obj->Line_No],['class' => 'update-objective btn btn-outline-info btn-xs']);
+                                // $deleteLink = Html::a('<i class="fa fa-trash"></i>',['imprestline/delete','Key'=> $obj->Key ],['class'=>'delete btn btn-outline-danger btn-xs']);
+                                ?>
+                                <tr>
+
+                                    <td><?= !empty($obj->Transaction_Type)?$obj->Transaction_Type:'Not Set' ?></td>
+                                    <td><?= !empty($obj->Account_No)?$obj->Account_No:'Not Set' ?></td>
+                                    <td><?= !empty($obj->Account_Name)?$obj->Account_Name:'Not Set' ?></td>
+                                    <td><?= !empty($obj->Description)?$obj->Description:'Not Set' ?></td>
+                                    <td><?= !empty($obj->Amount)?$obj->Amount:'Not Set' ?></td>
+                                    <td><?= !empty($obj->Amount_LCY)?$obj->Amount_LCY:'Not Set' ?></td>
+                                    <td><?= !empty($obj->Budgeted_Amount)?$obj->Budgeted_Amount:'Not Set' ?></td>
+                                    <td><?= !empty($obj->Commited_Amount)?$obj->Commited_Amount:'Not Set' ?></td>
+                                    <td><?= !empty($obj->Total_Expenditure)?$obj->Total_Expenditure:'Not Set' ?></td>
+                                    <td><?= !empty($obj->Available_Amount)?$obj->Available_Amount:'Not Set' ?></td>
+                                    <td><?= Html::checkbox('Unbudgeted',$obj->Unbudgeted) ?></td>
+                                    <!--<td><?/*= $updateLink.'|'.$deleteLink */?></td>-->
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    <?php } ?>
+                </div>
+            </div>
+
+            <!--objectives card -->
+
+
+
+
+
+
+
+
+        </>
     </div>
 
     <!--My Bs Modal template  --->

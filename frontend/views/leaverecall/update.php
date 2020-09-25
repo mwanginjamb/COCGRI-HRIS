@@ -11,20 +11,22 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\AgendaDocument */
+$this->title = 'Update Leave Application';
+$this->params['breadcrumbs'][] = ['label' => 'Leaves', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Update Request', 'url' => ['update']];
 
-$this->title = 'Update Leave: ' . $model->Application_No;
-$this->params['breadcrumbs'][] = ['label' => 'Update Leave', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->Application_No, 'url' => ['view', 'id' => $model->Application_No]];
-$this->params['breadcrumbs'][] = 'Update';
+$model->isNewRecord = false;
+/*$now = date('m-d-Y');
+$model->Start_Date = date('m-d-Y', strtotime($now.' + 2 days'));*/
 ?>
 <div class="agenda-document-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <!--<h1><?= Html::encode($this->title) ?></h1>-->
 
-    <?= $this->render('_form', [
+    <?= $this->render('_form',[
         'model' => $model,
-        'leaveTypes' => $leaveTypes,
-        'relievers' => $relievers
+        'leavetypes' => $leavetypes,
+        'employees' => $employees,
     ]) ?>
 
 </div>

@@ -83,6 +83,10 @@ return [
         'LeaveList' => 'LeaveList', //50013
         'LeaveTypesSetup' => 'LeaveTypesSetup', // 50024
         'LeaveBalances' => 'LeaveBalances',//50041
+        'LeaveRecallList' => 'LeaveRecallList', // 50065
+        'LeaveRecallCard' => 'LeaveRecallCard', // 50064
+
+
 
 
         'AllowanceRequestList' => 'AllowanceRequestList', //64093(Page)
