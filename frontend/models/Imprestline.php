@@ -28,6 +28,8 @@ public $Total_Expenditure;
 public $Available_Amount;
 public $Unbudgeted;
 public $Employee_No;
+public $Balance_Less_Entry;
+public $Balance_Before_Entry;
 public $isNewRecord;
 
     public function rules()

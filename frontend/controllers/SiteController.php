@@ -316,7 +316,7 @@ class SiteController extends Controller
     }
 
     public function Getleavebalance(){
-        $service = Yii::$app->params['ServiceName']['leaveBalance'];
+        $service = Yii::$app->params['ServiceName']['LeaveBalances'];
         $filter = [
             'No' => Yii::$app->user->identity->{'Employee No_'},
         ];
@@ -330,12 +330,12 @@ class SiteController extends Controller
         foreach($balances as $b){
             $result = [
                 'Key' => $b->Key,
-                'Annual_Leave_Bal' => $b->Annual_Leave_Bal,
-                'Maternity_Leave_Bal' => $b->Maternity_Leave_Bal,
-                'Paternity' => $b->Paternity,
-                'Study_Leave_Bal' => $b->Study_Leave_Bal,
-                'Compasionate_Leave_Bal' => $b->Compasionate_Leave_Bal,
-                'Sick_Leave_Bal' => $b->Sick_Leave_Bal
+                'Annual_Leave_Bal' => $b->Annual_Leave_Balance,
+                'Maternity_Leave_Bal' => $b->Martenity_Leave_Balance,
+                'Paternity' => $b->Partenity_Leave_Balance,
+                'Study_Leave_Bal' => $b->Study_Leave_Balance,
+                'Compasionate_Leave_Bal' => $b->Compasionate_Leave_Balance,
+                'Sick_Leave_Bal' => !empty($b->Sick_Leave_Bal)?$b->Sick_Leave_Bal:'Not Set'
             ];
         }
 

@@ -66,7 +66,7 @@ public $isNewRecord;
     }
 
     public function getLines($No){
-        $service = Yii::$app->params['ServiceName']['ImprestRequestLine'];
+        $service = Yii::$app->params['ServiceName']['ImprestRequestSubformPortal'];
         $filter = [
             'Request_No' => $No,
         ];

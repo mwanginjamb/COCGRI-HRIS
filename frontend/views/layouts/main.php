@@ -251,7 +251,7 @@ $employee = (!Yii::$app->user->isGuest)?Yii::$app->user->identity->employee[0]:[
 <!--end Aprroval Management-->
 
 
-                        <li class="nav-item has-treeview  <?= Yii::$app->recruitment->currentCtrl('leave')?'menu-open':'' ?>">
+                        <li class="nav-item has-treeview  <?= Yii::$app->recruitment->currentCtrl(['leave','leavestatement'])?'menu-open':'' ?>">
                             <a href="#" class="nav-link <?= Yii::$app->recruitment->currentCtrl('leave')?'active':'' ?>">
                                 <i class="nav-icon fas fa-paper-plane"></i>
                                 <p>
@@ -281,10 +281,17 @@ $employee = (!Yii::$app->user->isGuest)?Yii::$app->user->identity->employee[0]:[
                                     </a>
                                 </li>-->
 
-                                <li class="nav-item">
+                                <!--<li class="nav-item">
                                     <a href="<?= $absoluteUrl ?>leave/reportview" class="nav-link <?= Yii::$app->recruitment->currentaction('leave','reportview')?'active':'' ?>">
                                         <i class="fa fa-file-pdf nav-icon"></i>
                                         <p>Leave History Report</p>
+                                    </a>
+                                </li>-->
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>leavestatement/index" class="nav-link <?= Yii::$app->recruitment->currentaction('leavestatement','index')?'active':'' ?>">
+                                        <i class="fa fa-file-pdf nav-icon"></i>
+                                        <p>Leave Statement  Report</p>
                                     </a>
                                 </li>
 

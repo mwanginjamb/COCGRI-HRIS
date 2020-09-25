@@ -13,7 +13,8 @@ use yii\helpers\Html;
 
 $this->title = 'Imprest Request ';
 $this->params['breadcrumbs'][] = ['label' => 'imprest', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => 'New Imprest Request', 'url' => ['create']];
+
 
 $model->isNewRecord = true;
 ?>

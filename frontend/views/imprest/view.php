@@ -195,9 +195,9 @@ Yii::$app->session->set('isSupervisor',false);*/
                                 <td><b>Amount</b></td>
                                 <td><b>Amount LCY</b></td>
                                 <td><b>Budgeted Amount</b></td>
-                                <td><b>Commited Amount</b></td>
-                                <td><b>Total_Expenditure</b></td>
-                                <td><b>Available Amount</b></td>
+                                <td><b>Balance Before Entry</b></td>
+                                <td><b>Total Expenditure</b></td>
+                                <td><b>Balance Less Entry</b></td>
                                 <td><b>Unbudgeted?</b></td>
                                 <td><b>Actions</b></td>
 
@@ -221,9 +221,9 @@ Yii::$app->session->set('isSupervisor',false);*/
                                     <td><?= !empty($obj->Amount)?$obj->Amount:'Not Set' ?></td>
                                     <td><?= !empty($obj->Amount_LCY)?$obj->Amount_LCY:'Not Set' ?></td>
                                     <td><?= !empty($obj->Budgeted_Amount)?$obj->Budgeted_Amount:'Not Set' ?></td>
-                                    <td><?= !empty($obj->Commited_Amount)?$obj->Commited_Amount:'Not Set' ?></td>
+                                    <td><?= !empty($obj->Balance_Before_Entry)?$obj->Balance_Before_Entry:'Not Set' ?></td>
                                     <td><?= !empty($obj->Total_Expenditure)?$obj->Total_Expenditure:'Not Set' ?></td>
-                                    <td><?= !empty($obj->Available_Amount)?$obj->Available_Amount:'Not Set' ?></td>
+                                    <td><?= !empty($obj->Balance_Less_Entry)?$obj->Balance_Less_Entry:'Not Set' ?></td>
                                     <td><?= Html::checkbox('Unbudgeted',$obj->Unbudgeted) ?></td>
                                     <td><?= $updateLink.'|'.$deleteLink ?></td>
                                 </tr>

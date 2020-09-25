@@ -71,22 +71,13 @@ class ImprestlineController extends Controller
     }
 
     public function actionCreate($Request_No){
-       $service = Yii::$app->params['ServiceName']['ImprestRequestLine'];
+       $service = Yii::$app->params['ServiceName']['ImprestRequestSubformPortal'];
        $model = new Imprestline() ;
 
 
-        if($Request_No && !Yii::$app->request->post()){
-                $model = new Imprestline() ;
-                $model->Request_No = $Request_No;
-                $model->Employee_No = Yii::$app->user->identity->{'Employee No_'};
-                $res = Yii::$app->navhelper->postData($service, $model);
+        if($Request_No && !isset(Yii::$app->request->post()['Imprestline'])){
 
-                /*if(is_string($res)){
-                    Yii::$app->recruitment->printrr($res);
-                }*/
-
-                Yii::$app->navhelper->loadmodel($res, $model);
-                // Yii::$app->recruitment->printrr($res);
+               $model->Request_No = $Request_No;
 
             return $this->renderAjax('create', [
                 'model' => $model,
@@ -96,26 +87,17 @@ class ImprestlineController extends Controller
         }
         
 
-        if(Yii::$app->request->post() && Yii::$app->request->post()['Imprestline'] ){
+        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Imprestline'],$model) ){
 
 
             $refresh = Yii::$app->navhelper->getData($service,['Line_No' => Yii::$app->request->post()['Imprestline']['Line_No']]);
-            /*if(($refresh)){
-                Yii::$app->recruitment->printrr($refresh);
-            }*/
-            $data = [
-                'Key' => $refresh[0]->Key,
-                'Transaction_Type' => Yii::$app->request->post()['Imprestline']['Transaction_Type'],
-                'Description' => Yii::$app->request->post()['Imprestline']['Description'],
-                'Amount' => Yii::$app->request->post()['Imprestline']['Amount'],
-
-            ];
-
-            $result = Yii::$app->navhelper->updateData($service,$data);
+            $model->Key = $refresh[0]->Key;
+            $result = Yii::$app->navhelper->updateData($service,$model);
 
             Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+           // Yii::$app->recruitment->printrr($refresh);
             // return $model;
-            if(!is_string($result)){
+            if(is_object($result)){
 
                 return ['note' => '<div class="alert alert-success">Imprest Line Created Successfully. </div>' ];
             }else{
@@ -195,28 +177,18 @@ class ImprestlineController extends Controller
         }
     }
 
-    public function actionSetstartdate(){
+    public function actionSettransactiontype(){
         $model = new Imprestline();
-        $service = Yii::$app->params['ServiceName']['Leave__Plan__Line'];
+        $service = Yii::$app->params['ServiceName']['ImprestRequestSubformPortal'];
 
-        $filter = [
-            'Line_No' => Yii::$app->request->post('Line_No')
-        ];
-        $line = Yii::$app->navhelper->getData($service, $filter);
+           $model->Transaction_Type = Yii::$app->request->post('Transaction_Type');
+           $model->Request_No = Yii::$app->request->post('Request_No');
+           $model->Employee_No = Yii::$app->user->identity->{'Employee No_'};
+           $model->Line_No = time();
 
-        if(is_array($line)){
-            Yii::$app->navhelper->loadmodel($line[0],$model);
-            $model->Key = $line[0]->Key;
-            $model->Start_Date = date('Y-m-d',strtotime(Yii::$app->request->post('Start_Date')));
-
-        }
-
-
-        $result = Yii::$app->navhelper->updateData($service,$model);
-
+        $line = Yii::$app->navhelper->postData($service, $model);
         Yii::$app->response->format = \yii\web\response::FORMAT_JSON;
-
-        return $result;
+        return $line;
 
     }
 

@@ -55,6 +55,7 @@ return [
         'ImprestRequestList' => 'ImprestRequestList', //64020 (Page)
         'ImprestRequestCard' => 'ImprestRequestCard', //64021 (Page)
         'ImprestRequestLine' => 'ImprestRequestLine', //64022 (Page)
+        'ImprestRequestSubformPortal' => 'ImprestRequestSubformPortal', //64039
 
 
         'ImprestRequestListPortal' => 'ImprestRequestListPortal', //64028 (Page)
@@ -200,21 +201,11 @@ return [
         'LearningAssessmentCompetence' => 'LearningAssessmentCompetence', //60035
 
 
-        //Payslip report
-        'PortalReports' => 'PortalReports',//50064
         'Payrollperiods' => 'Payrollperiods', //70255
 
         //P9 report
 
         'P9YEARS' => 'P9YEARS', //70286
-
-
-
-        //Approval code unit
-        'Portal_Workflows' => 'Portal_Workflows', //50019
-
-        //Job Application Code Unit
-        'JobApplication' => 'JobApplication', //50023
 
         /* Request to Approve */
         'RequeststoApprove' => 'RequeststoApprove', //654
@@ -231,8 +222,13 @@ return [
         'ContractRenewalCard' => 'ContractRenewalCard', // 55082
 
         'ContractRenewalStatusChange' => 'ContractRenewalStatusChange', // Code Unit 50024
+
+        /********************CODE UNITS SERVICES***************************************/
         'PortalFactory' => 'PortalFactory', //Code Unit 50062
         'ImprestManagement' => 'ImprestManagement', // 50017
+        'Portal_Workflows' => 'Portal_Workflows', //50019 Approval code unit
+        'JobApplication' => 'JobApplication', //50002 Job Aplication Management Code Unit
+        'PortalReports' => 'PortalReports',//50064
 
 
 

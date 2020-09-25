@@ -79,7 +79,8 @@ class FundsrequisitionlineController extends Controller
 
         if($Request_No && !Yii::$app->request->post()){
                 $model->Request_No = $Request_No;
-                $res = Yii::$app->navhelper->postData($service, []);
+                $model->Line_No = time();
+                $res = Yii::$app->navhelper->postData($service, $model);
                 if(!is_string($res)){
                     Yii::$app->navhelper->loadmodel($res, $model);
                     $model->Request_No = $Request_No;

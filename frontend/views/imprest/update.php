@@ -12,7 +12,9 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\AgendaDocument */
 
-$this->title = 'Update Career Development Strength Line.';
+$this->title = 'Update Imprest Document.';
+$this->params['breadcrumbs'][] = ['label' => 'imprest', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Update Imprest Request', 'url' => ['update','No' => $model->No]];
 
 ?>
 <div class="agenda-document-update">

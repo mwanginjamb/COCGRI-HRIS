@@ -83,58 +83,49 @@ class ImprestController extends Controller
 
         $model = new Imprestcard() ;
         $service = Yii::$app->params['ServiceName']['ImprestRequestCardPortal'];
-        $Cunitservice = Yii::$app->params['ServiceName']['ImprestManagement'];
         $request = '';
         /*Do initial request */
+        if(!isset(Yii::$app->request->post()['Imprestcard'])){
+            $request = Yii::$app->navhelper->postData($service,$model);
+            $filter = [];
+            if(is_object($request) )
+            {
+                Yii::$app->navhelper->loadmodel($request,$model);
 
-        $request = Yii::$app->navhelper->postData($service,[]);
+                // Update Request for
+                $model->Request_For = $requestfor;
+                $model->Key = $request->Key;
+                $model->Imprest_Type = 'Local';
+                $request = Yii::$app->navhelper->updateData($service, $model);
 
+                $model = Yii::$app->navhelper->loadmodel($request,$model);
+                if(is_string($request)){
+                    Yii::$app->recruitment->printrr($request);
+                }
 
-        //Yii::$app->recruitment->printrr($model);
-
-
-        $filter = [];
-        if(is_object($request) )
-        {
-
-            Yii::$app->navhelper->loadmodel($request,$model);
-            /*Reset Lines*/
-            $data = [
-                'docNo' => $request->No,
-            ];
-            Yii::$app->navhelper->Imprest($Cunitservice,$data,'IanDeleteImprestLines');
-
-
-           // Update Request for
-            $model->Request_For = $requestfor;
-            $model->Key = $request->Key;
-            $model->Imprest_Type = 'Local';
-            $request = Yii::$app->navhelper->updateData($service, $model);
-
-            if(is_string($request)){
-                Yii::$app->recruitment->printrr($request);
             }
-
-
         }
+
+
+
+
 
 
         //Yii::$app->recruitment->printrr($request);
         if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Imprestcard'],$model) ){
-
+            //Yii::$app->recruitment->printrr(Yii::$app->request->post()['Imprestcard']);
             $filter = [
                 'No' => $model->No,
             ];
 
             $refresh = Yii::$app->navhelper->getData($service,$filter);
-            Yii::$app->navhelper->loadmodel($refresh[0],$model);
+            $model->Key = $refresh[0]->Key;
+            //Yii::$app->navhelper->loadmodel($refresh[0],$model);
 
             $result = Yii::$app->navhelper->updateData($service,$model);
 
 
-            if(!empty($result)){
-
-                // return ['note' => '<div class="alert alert-success">Imprest Request Created Successfully.</div>'];
+            if(!is_string($result)){
 
                 Yii::$app->session->setFlash('success','Imprest Request Created Successfully.' );
 
@@ -143,13 +134,7 @@ class ImprestController extends Controller
 
             }else{
                 Yii::$app->session->setFlash('success','Error Creating Imprest Request '.$result );
-                return $this->render('create',[
-                    'model' => $model,
-                    'employees' => $this->getEmployees(),
-                    'programs' => $this->getPrograms(),
-                    'departments' => $this->getDepartments(),
-                    'currencies' => $this->getCurrencies()
-                ]);
+                return $this->redirect(['index']);
 
             }
 
@@ -158,7 +143,7 @@ class ImprestController extends Controller
 
         //Yii::$app->recruitment->printrr($model);
 
-        return $this->render('update',[
+        return $this->render('create',[
             'model' => $model,
             'employees' => $this->getEmployees(),
             'programs' => $this->getPrograms(),

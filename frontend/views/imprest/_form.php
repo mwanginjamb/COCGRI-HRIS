@@ -30,7 +30,8 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
                         <div class="col-md-6">
 
-                            <?= $form->field($model, 'No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'No')->textInput(['readonly'=> true]) ?>
+                            <?= $form->field($model, 'Key')->hiddenInput()->label(false) ?>
 
                             <?php if($model->Request_For == 'Self'): ?>
                                 <?= $form->field($model, 'Employee_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
@@ -119,7 +120,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
 
 
-                <?php if(is_array($model->Imprest_Request_Line)){ //show Lines ?>
+                <?php if(is_array($model->getLines($model->No))){ //show Lines ?>
                     <table class="table table-bordered">
                         <thead>
                         <tr>
@@ -143,7 +144,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                         <?php
                         // print '<pre>'; print_r($model->getObjectives()); exit;
 
-                        foreach($model->Imprest_Request_Line as $obj):
+                        foreach($model->getLines($model->No) as $obj):
                             $updateLink = Html::a('<i class="fa fa-edit"></i>',['imprestline/update','Line_No'=> $obj->Line_No],['class' => 'update-objective btn btn-outline-info btn-xs']);
                             $deleteLink = Html::a('<i class="fa fa-trash"></i>',['imprestline/delete','Key'=> $obj->Key ],['class'=>'delete btn btn-outline-danger btn-xs']);
                             ?>
@@ -333,7 +334,7 @@ $script = <<<JS
      
      
      /* Add Line */
-     $('.add-line').on('click', function(e){
+     $('.add-line, .update-objective').on('click', function(e){
              e.preventDefault();
             var url = $(this).attr('href');
             console.log(url);
