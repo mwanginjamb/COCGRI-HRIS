@@ -11,7 +11,7 @@
 /* @var $this yii\web\View */
 
 $this->title = Yii::$app->params['generalTitle'];
-$this->params['breadcrumbs'][] = ['label' => 'Leave Application List', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Leave Recall List', 'url' => ['index']];
 $this->params['breadcrumbs'][] = '';
 $url = \yii\helpers\Url::home(true);
 ?>
@@ -19,8 +19,8 @@ $url = \yii\helpers\Url::home(true);
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-        <?= \yii\helpers\Html::a('New Leave Application Request',['create'],['class' => 'btn btn-info push-right', 'data' => [
-            'confirm' => 'Are you sure you want to create a new Leave Application Request?',
+        <?= \yii\helpers\Html::a('New Leave Recall',['create'],['class' => 'btn btn-info push-right', 'data' => [
+            'confirm' => 'Are you sure you want to create a new Leave Recall Application Request?',
             'method' => 'get',
         ],]) ?>
             </div>
@@ -50,13 +50,7 @@ if(Yii::$app->session->hasFlash('success')){
     <div class="col-md-12">
         <div class="card card-info">
             <div class="card-header">
-                <h3 class="card-title">Leave Application List</h3>
-
-
-
-
-
-
+                <h3 class="card-title">Leave Recall Application List</h3>
             </div>
             <div class="card-body">
                 <table class="table table-bordered dt-responsive table-hover" id="table">
@@ -80,15 +74,14 @@ $script = <<<JS
           $('#table').DataTable({
            
             //serverSide: true,  
-            ajax: url+'leave/list',
+            ajax: url+'leaverecall/list',
             paging: true,
             columns: [
-                { title: 'No' ,data: 'No'},
+                { title: 'Recall No' ,data: 'No'},
                 { title: 'Employee No' ,data: 'Employee_No'},
                 { title: 'Employee Name' ,data: 'Employee_Name'},
-                { title: 'Application Date' ,data: 'Application_Date'},
-                { title: 'Receipt Amount' ,data: 'Receipt_Amount'},
-                
+                { title: 'Days_Applied' ,data: 'Days_Applied'},
+                { title: 'Days_Recalled' ,data: 'Days_Recalled'},
                 { title: 'Status' ,data: 'Status'},
                 { title: 'Action', data: 'Action' },
                 { title: 'Update Action', data: 'Update_Action' },
@@ -96,7 +89,7 @@ $script = <<<JS
                
             ] ,                              
            language: {
-                "zeroRecords": "No Leave Applications to display"
+                "zeroRecords": "No Leave Recall Applications to display"
             },
             
             order : [[ 0, "desc" ]]

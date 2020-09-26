@@ -170,18 +170,18 @@ return [
         'AppraisalCard' => 'AppraisalCard',//60008
         'EmployeeAppraisalKPI' => 'EmployeeAppraisalKPI', //60010 --->Employee objectives
         'SubmittedAppraisals' => 'SubmittedAppraisals', //60012
-        'ApprovedAppraisals' => 'ApprovedAppraisals', //60013
+        'ApprovedAppraisals' => 'ApprovedAppraisals', //60013 NF
         'MYAppraiseeList' => 'MYAppraiseeList',//60014
         'MYSupervisorList' => 'MYSupervisorList',//60015
         'MYApprovedList' => 'MYApprovedList',//60016
-        'EYAppraiseeList' => 'EYAppraiseeList',//60017
+        'EYAppraiseeList' => 'EYAppraiseeList',//60017 NF
         'EYSupervisorList' => 'EYSupervisorList',//60018
         'EYPeer1List' => 'EYPeer1List',//60019
         'EYPeer2List' => 'EYPeer2List',//60020
         'EYAgreementList' => 'EYAgreementList',//60021
         'ClosedAppraisalsList' => 'ClosedAppraisalsList',//60022
 
-        'CareerDevelopmentPlan' => 'CareerDevelopmentPlan', //60038 -->Not Taken to live server
+        'CareerDevelopmentPlan' => 'CareerDevelopmentPlan', //60038 -->Not Taken to live server NF
         'CareerDevStrengths' => 'CareerDevStrengths', //60039 -->Not Taken to live server
         'FurtherDevAreas' => 'FurtherDevAreas', //60040 -->Not Taken to live server
         'WeeknessDevPlan' => 'WeeknessDevPlan', //60041 -->Not Taken to live server

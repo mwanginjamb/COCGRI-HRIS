@@ -30,14 +30,14 @@ use yii\web\BadRequestHttpException;
 use yii\web\Response;
 use kartik\mpdf\Pdf;
 
-class LeaveController extends Controller
+class LeaverecallController extends Controller
 {
     public function behaviors()
     {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout','signup','index','advance-list','create','update','delete','view'],
+                'only' => ['logout','signup','index','list','create','update','delete','view'],
                 'rules' => [
                     [
                         'actions' => ['signup'],
@@ -45,7 +45,7 @@ class LeaveController extends Controller
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout','index','advance-list','create','update','delete','view'],
+                        'actions' => ['logout','index','list','create','update','delete','view'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -107,7 +107,7 @@ class LeaveController extends Controller
             if(!is_string($result)){
 
                 Yii::$app->session->setFlash('success','Leave Recall Created Successfully.' );
-                return $this->redirect(['view','No' => $result->Application_No]);
+                return $this->redirect(['view','No' => $result->Recall_No]);
 
             }else{
                 Yii::$app->session->setFlash('error','Error Creating Leave Recall '.$result );
@@ -122,8 +122,8 @@ class LeaveController extends Controller
 
         return $this->render('create',[
             'model' => $model,
-            'leavetypes' => $this->getLeaveTypes(),
-            'employees' => $this->getEmployees(),
+            'leaves' => $model->leaves,
+
         ]);
     }
 
@@ -134,23 +134,26 @@ class LeaveController extends Controller
         $model = new Leaverecall();
         $service = Yii::$app->params['ServiceName']['LeaveRecallCard'];
         $model->isNewRecord = false;
+        if(!isset(Yii::$app->request->post()['Leaverecall']))
+        {
+            $filter = [
+                'Recall_No' => Yii::$app->request->get('Recall_No'),
+            ];
+            $result = Yii::$app->navhelper->getData($service,$filter);
 
-        $filter = [
-            'Recall_No' => Yii::$app->request->get('Recall_No'),
-        ];
-        $result = Yii::$app->navhelper->getData($service,$filter);
-
-        if(is_array($result)){
-            //load nav result to model
-            $model = Yii::$app->navhelper->loadmodel($result[0],$model) ;//$this->loadtomodeEmployee_Nol($result[0],$Expmodel);
-        }else{
-            Yii::$app->recruitment->printrr($result);
+            if(is_array($result)){
+                //load nav result to model
+                $model = Yii::$app->navhelper->loadmodel($result[0],$model) ;//$this->loadtomodeEmployee_Nol($result[0],$Expmodel);
+            }else{
+                Yii::$app->recruitment->printrr($result);
+            }
         }
 
 
-        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['LeaveRecallCard'],$model) ){
+
+        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Leaverecall'],$model) ){
             $filter = [
-                'Application_No' => $model->Application_No,
+                'Recall_No' => $model->Recall_No,
             ];
             /*Read the card again to refresh Key in case it changed*/
             $refresh = Yii::$app->navhelper->getData($service,$filter);
@@ -162,13 +165,11 @@ class LeaveController extends Controller
 
                 Yii::$app->session->setFlash('success','Leave Recall Request Updated Successfully.' );
 
-                return $this->redirect(['view','No' => $result->Application_No]);
+                return $this->redirect(['view','No' => $result->Recall_No]);
 
             }else{
                 Yii::$app->session->setFlash('success','Error Updating Leave Recall Request '.$result );
-                return $this->render('update',[
-                    'model' => $model,
-                ]);
+                return $this->redirect(['index']);
 
             }
 
@@ -179,17 +180,13 @@ class LeaveController extends Controller
         if(Yii::$app->request->isAjax){
             return $this->renderAjax('update', [
                 'model' => $model,
-                'leavetypes' => $this->getLeaveTypes(),
-                'employees' => $this->getEmployees(),
-
-
+                'leaves' => $model->leaves,
             ]);
         }
 
         return $this->render('update',[
             'model' => $model,
-            'leavetypes' => $this->getLeaveTypes(),
-            'employees' => $this->getEmployees(),
+            'leaves' => $model->leaves,
 
         ]);
     }
@@ -207,11 +204,11 @@ class LeaveController extends Controller
     }
 
     public function actionView($No){
-        $model = new Leave();
-        $service = Yii::$app->params['ServiceName']['LeaveCard'];
+        $model = new Leaverecall();
+        $service = Yii::$app->params['ServiceName']['LeaveRecallCard'];
 
         $filter = [
-            'Application_No' => $No
+            'Recall_No' => $No
         ];
 
         $result = Yii::$app->navhelper->getData($service, $filter);
@@ -250,11 +247,11 @@ class LeaveController extends Controller
 
             $result['data'][] = [
                 'Key' => $item->Key,
-                'No' => $item->Application_No,
+                'No' => $item->Recall_No,
                 'Employee_No' => !empty($item->Employee_No)?$item->Employee_No:'',
                 'Employee_Name' => !empty($item->Employee_Name)?$item->Employee_Name:'',
-                'Application_Date' => !empty($item->Application_Date)?$item->Application_Date:'',
-                'Receipt_Amount' => !empty($item->Receipt_Amount)?$item->Receipt_Amount:'',
+                'Days_Applied' => !empty($item->Days_Applied)?$item->Days_Applied:'',
+                'Days_Recalled' => !empty($item->Days_To_Recall)?$item->Days_To_Recall:'',
                 'Status' => $item->Status,
                 'Action' => $link,
                 'Update_Action' => $updateLink,
@@ -299,16 +296,7 @@ class LeaveController extends Controller
 
 
 
-    public function getLeaveTypes($gender = ''){
-        $service = Yii::$app->params['ServiceName']['LeaveTypesSetup']; //['leaveTypes'];
-        $filter = [
-            // 'Gender' => $gender,
-            //'Gender' => !empty(Yii::$app->user->identity->Employee[0]->Gender)?Yii::$app->user->identity->Employee[0]->Gender:'Both'
-        ];
 
-        $result = \Yii::$app->navhelper->getData($service,$filter);
-        return ArrayHelper::map($result,'Code','Description');
-    }
 
     public function getEmployees(){
         $service = Yii::$app->params['ServiceName']['Employees'];

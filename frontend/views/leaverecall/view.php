@@ -9,9 +9,9 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-$this->title = 'Leave - '.$model->Application_No;
-$this->params['breadcrumbs'][] = ['label' => 'imprests', 'url' => ['/salaryadvance']];
-$this->params['breadcrumbs'][] = ['label' => 'Leave Card', 'url' => ['view','No'=> $model->Application_No]];
+$this->title = 'Leave Recall - '.$model->Recall_No;
+$this->params['breadcrumbs'][] = ['label' => 'imprests', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Leave Recall Card', 'url' => ['view','No'=> $model->Recall_No]];
 /** Status Sessions */
 
 
@@ -27,8 +27,8 @@ Yii::$app->session->set('isSupervisor',false);*/
             'data' => [
                 'confirm' => 'Are you sure you want to send this document for approval?',
                 'params'=>[
-                    'No'=> $_GET['No'],
-                    'employeeNo' => Yii::$app->user->identity->{'Employee No_'},
+                    'No'=> $model->Recall_No,
+                    'employeeNo' => $model->Employee_No,
                 ],
                 'method' => 'get',
         ],
@@ -41,7 +41,7 @@ Yii::$app->session->set('isSupervisor',false);*/
             'data' => [
             'confirm' => 'Are you sure you want to cancel imprest approval request?',
             'params'=>[
-                'No'=> $_GET['No'],
+                'No'=> $model->Recall_No,
             ],
             'method' => 'get',
         ],
@@ -55,7 +55,7 @@ Yii::$app->session->set('isSupervisor',false);*/
         <div class="col-md-12">
             <div class="card-info">
                 <div class="card-header">
-                    <h3>Leave Application Card </h3>
+                    <h3>Leave Recall Application Card </h3>
                 </div>
 
 
@@ -72,7 +72,7 @@ Yii::$app->session->set('isSupervisor',false);*/
 
 
 
-                    <h3 class="card-title">Leave Application : <?= $model->Application_No?></h3>
+                    <h3 class="card-title">Leave Recall Document : <?= $model->Recall_No?></h3>
 
 
 
@@ -99,36 +99,41 @@ Yii::$app->session->set('isSupervisor',false);*/
                     <div class="row">
                         <div class=" row col-md-12">
                             <div class="col-md-6">
+                                <?= $form->field($model, 'Recall_No')->hiddenInput()->label(false) ?>
+                                <?= $form->field($model, 'Key')->hiddenInput()->label(false) ?>
+                                <?= $form->field($model, 'Recall_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                 <?= '<p><span>Employee No</span> '.Html::a($model->Employee_No,'#'); '</p>' ?>
+                                <?= $form->field($model, 'Leave_No_To_Recall')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                 <?= '<p><span>Employee Name</span> '.Html::a($model->Employee_Name,'#'); '</p>' ?>
-                                <?= '<p><span>Program Code</span> '.Html::a($model->_x003C_Global_Dimension_1_Code_x003E_,'#'); '</p>' ?>
-                                <?= '<p><span>Department Code </span> '.Html::a($model->Global_Dimension_2_Code,'#'); '</p>' ?>
-                                <?= $form->field($model, 'Application_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                                <?= '<p><span>Program Code</span> '.Html::a($model->Global_Dimension_1_Code,'#'); '</p>' ?>
+
+
                                 <?= $form->field($model, 'Application_Date')->textInput(['required' => true, 'disabled'=>true]) ?>
                                 <?= $form->field($model, 'User_ID')->textInput(['required' => true, 'disabled'=>true]) ?>
-                                <?= $form->field($model, 'Leave_Code')->textInput(['readonly' => true]) ?>
-                                <?= $form->field($model, 'Start_Date')->textInput(['type' => 'date','required' => true]) ?>
-                                <?= $form->field($model, 'Days_To_Go_on_Leave')->textInput(['type' => 'number','required' =>  true,'min'=> 1]) ?>
-                                <?= $form->field($model, 'End_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                <?= $form->field($model, 'Total_No_Of_Days')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                                <?= '<p><span>Program Code</span> '.Html::a($model->Leave_Code,'#'); '</p>' ?>
+                                <?= $form->field($model, 'Start_Date')->textInput(['type' => 'date','required' => true,'readonly'=> true, 'disabled'=>true]) ?>
+                                <?= $form->field($model, 'End_Date')->textInput(['type' => 'date','required' => true,'readonly'=> true, 'disabled'=>true]) ?>
+                                <?= $form->field($model, 'Days_Applied')->textInput(['type' => 'number','required' =>  true,'min'=> 1,'readonly'=> true, 'disabled'=>true]) ?>
+
+                                <?= $form->field($model, 'Days_To_Recall')->textInput(['required'=> true, 'type'=> 'number','readonly'=> true, 'disabled'=>true]) ?>
                                 <?= $form->field($model, 'Leave_balance')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-
-
-
-
 
                             </div>
                             <div class="col-md-6">
+                                <?= $form->field($model, 'Total_No_Of_Days')->textInput(['readonly'=> true,'disabled'=>true]) ?>
                                 <?= $form->field($model, 'Holidays')->textInput(['readonly'=> true,'disabled'=>true]) ?>
                                 <?= $form->field($model, 'Weekend_Days')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                 <?= $form->field($model, 'Balance_After')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                 <?= $form->field($model, 'Reporting_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                <?= $form->field($model, 'Comments')->textarea(['rows'=> 2,'maxlength' => 250,'readonly' => true]) ?>
-                                <?= $form->field($model, 'Reliever')->textInput(['readonly' => true]) ?>
+                                <?= $form->field($model, 'Leave_Status')->textInput(['rows'=> 2,'readonly'=> true, 'disabled'=>true]) ?>
+                                <?= $form->field($model, 'Comments')->textarea(['rows'=> 2,'maxlength' => 250,'readonly'=> true, 'disabled'=>true]) ?>
+                                <?= $form->field($model, 'Supervisor_Code')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+
+                                <?= '<p><span>Program Code</span> '.Html::a($model->Reliever,'#'); '</p>' ?>
 
                                 <?= $form->field($model, 'Reliever_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                 <?= $form->field($model, 'Status')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                <?= '<p><span>Approval_Entries</span> '.Html::a($model->Approval_Entries,'#'); '</p>' ?>
+                                <?= '<p><span>Posted</span> '.Html::checkbox('Posted',[$model->Posted]).'</p>' ?>
 
 
 

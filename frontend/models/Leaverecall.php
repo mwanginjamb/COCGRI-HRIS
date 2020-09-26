@@ -9,6 +9,8 @@
 namespace frontend\models;
 
 use yii\base\Model;
+use Yii;
+use yii\helpers\ArrayHelper;
 
 class Leaverecall extends Model
 {
@@ -58,6 +60,32 @@ class Leaverecall extends Model
         return [
             'Global_Dimension_1_Code' => 'Program'
         ];
+    }
+
+    public function getLeaves()
+    {
+        $service = Yii::$app->params['ServiceName']['LeaveList'];
+        $filter = [
+            'Status' => 'Approved',
+            'Employee_No' => $this->Employee_No,
+            //'Posted' => true
+        ];
+        $leaves = \Yii::$app->navhelper->getData($service,$filter);
+
+        $result = [];
+
+
+        foreach($leaves as $leave){
+            if(isset($leave->Days_Applied) && $leave->Days_Applied > 0) {
+                $result[] = [
+                    'No' => $leave->Application_No,
+                    'Description' => $leave->Application_No . ' | ' . $leave->Start_Date . ' | ' . $leave->End_Date . ' | ' . $leave->Days_Applied.' | '. $leave->Leave_Code,
+                ];
+                krsort($result);
+            }
+        }
+
+        return ArrayHelper::map($result,'No','Description');
     }
 
 }
