@@ -42,8 +42,8 @@ return [
     ],
     'codeUnits' => [
         'Portal_Workflows', //50019
-        'JobApplication', //50023
-        'AppraisalWorkflow' => 'AppraisalWorkflow', //50020 np  not taken to live
+        'JobApplication', //50002
+        'AppraisalWorkflow' => 'AppraisalWorkflow', //50228
         'PortalReports', //50021
         'ContractRenewalStatusChange', // 50024
         'PortalFactory', // 50062
@@ -170,11 +170,11 @@ return [
         'AppraisalCard' => 'AppraisalCard',//60008
         'EmployeeAppraisalKPI' => 'EmployeeAppraisalKPI', //60010 --->Employee objectives
         'SubmittedAppraisals' => 'SubmittedAppraisals', //60012
-        'ApprovedAppraisals' => 'ApprovedAppraisals', //60013 NF
+        'ApprovedAppraisals' => 'ApprovedAppraisals', //60013
         'MYAppraiseeList' => 'MYAppraiseeList',//60014
         'MYSupervisorList' => 'MYSupervisorList',//60015
         'MYApprovedList' => 'MYApprovedList',//60016
-        'EYAppraiseeList' => 'EYAppraiseeList',//60017 NF
+        'EYAppraiseeList' => 'EYAppraiseeList',//60017
         'EYSupervisorList' => 'EYSupervisorList',//60018
         'EYPeer1List' => 'EYPeer1List',//60019
         'EYPeer2List' => 'EYPeer2List',//60020
@@ -195,7 +195,7 @@ return [
         'closedprobationappraisals' => 'closedprobationappraisals', //60046
         'NewEmpObjectives' => 'NewEmpObjectives', //60047
 
-        'AppraisalWorkflow' => 'AppraisalWorkflow', // 50020 ---> Code Unit
+        'AppraisalWorkflow' => 'AppraisalWorkflow', // 50228 ---> Code Unit
         'PerformanceLevel' => 'PerformanceLevel',//60037 page
 
         'EmployeeAppraisalKRA' => 'EmployeeAppraisalKRA',//60009
