@@ -2,7 +2,7 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'HRMIS - COGRI';
+$this->title = Yii::$app->params['generalTitle'];
 $this->params['breadcrumbs'][] = ['label' => 'Dashboard', 'url' => ['index']];
 $this->params['breadcrumbs'][] = '';
 
@@ -41,13 +41,13 @@ exit;*/
 
                         <ul class="list-group list-group-unbordered mb-3">
                             <li class="list-group-item">
-                                <b><i class="fa fa-phone-alt"></i></b> <a class="float-right"><?= !empty($employee->Cellular_Phone_Number)?$employee->Cellular_Phone_Number:'' ?></a>
+                                <b><i class="fa fa-phone-alt"></i></b> <a class="float-right"><?= !empty($employee->Mobile_Phone_No)?$employee->Mobile_Phone_No:'' ?></a>
                             </li>
                             <li class="list-group-item">
-                                <b><i class="fa fa-mail-bulk"></i></b><a class="float-right"><?= !empty($employee->Company_E_Mail)?$employee->Company_E_Mail:'' ?></a>
+                                <b><i class="fa fa-mail-bulk"></i></b><a class="float-right"><?= !empty($employee->E_Mail)?$employee->E_Mail:'' ?></a>
                             </li>
                             <li class="list-group-item">
-                                <b><i class="fa fa-hourglass-start"></i></b> <a title="Length of Service" class="float-right"><?= !empty($employee->DService)?$employee->DService:'' ?></a>
+                                <b><i class="fa fa-hourglass-start"></i></b> <a title="Length of Service" class="float-right"><?= !empty($employee->Service_Period)?$employee->Service_Period:'' ?></a>
                             </li>
                         </ul>
 
@@ -67,7 +67,7 @@ exit;*/
                         <strong><i class="fas fa-book mr-1"></i> Job Title</strong>
 
                         <p class="text-muted">
-                            <?= !empty($employee->Job_Title)?$employee->Job_Title:'' ?>
+                            <?= !empty($employee->Job_Description)?$employee->Job_Description:'' ?>
                         </p>
 
                         <hr>
@@ -81,14 +81,14 @@ exit;*/
                         <strong><i class="fas fa-birthday-cake mr-1"></i> Age</strong>
 
                         <p class="text-muted">
-                            <?= !empty($employee->DAge)?$employee->DAge:''?>
+                            <?= !empty($employee->Age)?$employee->Age:''?>
                         </p>
 
                         <hr>
 
                         <strong><i class="far fa-file-alt mr-1"></i> Date of Join:</strong>
 
-                        <p class="text-muted"><?= !empty($employee->Date_Of_Join)?$employee->Date_Of_Join:'' ?></p>
+                        <p class="text-muted"><?= !empty($employee->Employment_Date)?$employee->Employment_Date:'' ?></p>
                     </div>
                     <!-- /.card-body -->
                 </div>

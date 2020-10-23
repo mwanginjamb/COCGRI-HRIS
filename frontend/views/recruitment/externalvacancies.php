@@ -65,10 +65,10 @@ $script = <<<JS
             ajax: absolute +'recruitment/getexternalvacancies',
             paging: true,
             columns: [
-                { title: 'Job_ID' ,data: 'Job_ID'},
-                { title: 'Job_Description' ,data: 'Job_Description'},
-                { title: 'No_of_Posts' ,data: 'No_of_Posts'},
-                { title: 'Date_Created' ,data: 'Date_Created'},                
+                { title: 'Job ID' ,data: 'Job_ID'},
+                { title: 'Job Description' ,data: 'Job_Description'},
+                { title: 'No of Posts' ,data: 'No_of_Posts'},
+                { title: 'Date Created' ,data: 'Date_Created'},                
                 { title: 'Requisition Type' ,data: 'ReqType'},                
                 { title: 'Action', data: 'action' },
                
@@ -86,7 +86,7 @@ $script = <<<JS
         
        //Hidding some 
        var table = $('#requistions').DataTable();
-       //table.columns([3,4,5,6,]).visible(false);
+       table.columns([3]).visible(false);
     
     /*End Data tables*/
         $('#requistions').on('click','tr', function(){

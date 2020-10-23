@@ -50,38 +50,19 @@ use yii\widgets\ActiveForm;
                             <?= $form->field($model, 'First_Name')->textInput() ?>
                             <?= $form->field($model, 'Middle_Name')->textInput() ?>
                             <?= $form->field($model, 'Last_Name')->textInput() ?>
-                            <?= $form->field($model, 'Initials')->textInput() ?>
 
-                            <?= $form->field($model, 'Full_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'imageFile')->fileInput(['accept' => 'image/*']) ?>
-                            <div class="image">
-                                <?php if(!empty($model->ImageUrl)){
-                                    print '<img src="'.Yii::$app->recruitment->absoluteUrl().$model->ImageUrl.'">';
-                                } ?>
-                            </div>
 
                         </div>
                         <div class="col-md-6">
-                            <?= $form->field($model, 'ID_Number')->textInput() ?>
-                            <?= $form->field($model, 'Gender')->textInput() ?>
-                            <?= $form->field($model, 'Date_Of_Birth')->textInput(['type'=> 'date']) ?>
-                            <?= $form->field($model, 'Age')->textInput(['readonly' => true, 'disabled' => true]) ?>
-                            <?= $form->field($model, 'Known_As')->textInput() ?>
-                            <?= $form->field($model, 'Marital_Status')->dropDownList([
-                                    'Single' => 'Single',
-                                    'Married' => 'Married',
-                                    'Separated' => 'Separated',
-                                    'Divorced' => 'Divorced',
-                                    'Widow_er' => 'Widow_er',
-                                    'Other' => 'Other'
-                            ],['prompt' => 'Select Status']) ?>
-                            <?= $form->field($model, 'Ethnic_Origin')->dropDownList(['African' => 'African', 'Indian' => 'Indian', 'White' => 'White', 'Coloured' => 'Coloured','usa' => 'American' ], ['prompt' => 'Select Ethnic Origin..']) ?>
-                            <?= $form->field($model, 'Disabled')->dropDownList(['No' => 'NO', 'Yes' => 'YES'],['prompt' => 'Select Disability Status']) ?>
-                            <?= $form->field($model, 'Citizenship')->dropDownList($countries, ['prompt' => 'Select Citizenship']) ?>
-                            <?= $form->field($model, 'Passport_Number')->textInput() ?>
 
+                            <?= $form->field($model, 'Initials')->textInput() ?>
 
-
+                            <?= $form->field($model, 'Full_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Gender')->dropDownList([
+                                '_blank_' => '_blank_',
+                                'Female' => 'Female',
+                                'Male' => 'Male',
+                            ],['prompt' => 'Select Gender']) ?>
 
                         </div>
                     </div>
@@ -105,22 +86,20 @@ use yii\widgets\ActiveForm;
                 <div class="row">
                     <div class=" row col-md-12">
                         <div class="col-md-6">
-                            <?= $form->field($model, 'Postal_Address')->textInput(['placeholder' => 'Postal Address']) ?>
-                            <?= $form->field($model, 'Residential_Address')->textInput(['placeholder'=> 'Residential Address']) ?>
-                            <?= $form->field($model, 'City')->textInput(['placeholder'=> 'Your City']) ?>
-                            <?= $form->field($model, 'Post_Code')->textInput(['placeholder '=> 'Postal Code']) ?>
-                            <?= $form->field($model, 'County')->textInput(['placeholder '=> 'Your County']) ?>
-                            <?= $form->field($model, 'Home_Phone_Number')->textInput(['placeholder '=> 'Home Phone Number']) ?>
+                            <?= $form->field($model, 'Address')->textInput(['placeholder' => 'Postal Address']) ?>
+                            <?= $form->field($model, 'Country_Region_Code')->dropDownList($countries, ['prompt' => 'Select Country of Origin..']) ?>
+                            <?= $form->field($model, 'City')->dropDownList($countries, ['prompt' => 'Select City..']) ?>
+                            <?= $form->field($model, 'Post_Code')->dropDownList($countries, ['prompt' => 'Select Post Code..']) ?>
 
                         </div>
                         <div class="col-md-6">
-                            <?= $form->field($model, 'Cellular_Phone_Number')->textInput(['placeholder'=> 'Mobile Phone Number']) ?>
-                            <?= $form->field($model, 'Work_Phone_Number')->textInput(['placeholder'=> 'Work Phone Number']) ?>
-                            <?= $form->field($model, 'E_Mail')->textInput(['placeholder'=> 'E-mail Address', 'type' => 'email']) ?>
-                            <?= $form->field($model, 'Country_Code')->dropDownList($countries, ['prompt' => 'Select Country of Origin..']) ?>
 
-                            <?= $form->field($model, 'Location_Division_Code')->textInput(['placeholder'=> 'Locality']) ?>
-                            <?= $form->field($model, 'Company_E_Mail')->textInput(['placeholder'=> 'Official E-Mail']) ?>
+                            <?= $form->field($model, 'County')->textInput(['placeholder'=> 'County']) ?>
+                            <?= $form->field($model, 'Phone_No')->textInput(['placeholder'=> 'Phone Number']) ?>
+                            <?= $form->field($model, 'Mobile_Phone_No')->textInput(['placeholder '=> 'Cell Number']) ?>
+
+                            <?= $form->field($model, 'E_Mail')->textInput(['placeholder'=> 'E-mail Address', 'type' => 'email']) ?>
+
 
                         </div>
                     </div>
@@ -144,19 +123,42 @@ use yii\widgets\ActiveForm;
                 <div class="row">
                     <div class=" row col-md-12">
                         <div class="col-md-6">
-                            <?= $form->field($model, 'Union_Member_x003F_')->checkbox() ?>
-                            <?= $form->field($model, 'NSSF_No')->textInput() ?>
-                            <?= $form->field($model, 'NHIF_No')->textInput() ?>
-                            <?= $form->field($model, 'HELB_No')->textInput() ?>
+
+                            <?= $form->field($model, 'imageFile')->fileInput(['accept' => 'image/*']) ?>
+                            <div class="image">
+                                <?php if(!empty($model->ImageUrl)){
+                                    print '<img src="'.Yii::$app->recruitment->absoluteUrl().$model->ImageUrl.'">';
+                                } ?>
+                            </div>
+
+
+                            <?= $form->field($model, 'Birth_Date')->textInput(['type' => 'date']) ?>
+
 
 
 
                         </div>
                         <div class="col-md-6">
-                            <?= $form->field($model,'Key')->hiddenInput()->label('...') ?>
-                            <?= $form->field($model, 'Tribe')->textInput() ?>
-                            <?= $form->field($model, 'Religion')->dropDownList($religion,['prompt' => 'Select Religion']) ?>
-                            <?= $form->field($model, 'Post_Office_No')->textInput() ?>
+                            <?= $form->field($model,'Key')->hiddenInput()->label(false) ?>
+
+                            <?= $form->field($model, 'Disabled')->checkbox() ?>
+                            <?= $form->field($model, 'Describe_Disability')->textInput() ?>
+                            <?= $form->field($model, 'NHIF_Number')->textInput() ?>
+
+
+                            <?= $form->field($model, 'NHIF_Number')->textInput() ?>
+                            <?= $form->field($model, 'KRA_Number')->textInput() ?>
+                            <?= $form->field($model, 'Age')->textInput(['readonly' => true,'disabled'=> true]) ?>
+                            <?= $form->field($model, 'National_ID')->textInput() ?>
+
+                            <?= $form->field($model, 'Marital_Status')->dropDownList([
+                                'Single' => 'Single',
+                                'Married' => 'Married',
+                                'Separated' => 'Separated',
+                                'Divorced' => 'Divorced',
+                                'Widow_er' => 'Widow_er',
+                                'Other' => 'Other'
+                            ],['prompt' => 'Select Status']) ?>
 
 
                         </div>

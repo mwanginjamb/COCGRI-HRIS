@@ -663,6 +663,35 @@ class FundRequisitionController extends Controller
         }
     }
 
+    /*Print Surrender*/
+    public function actionPrintRequisition($No)
+    {
+        $service = Yii::$app->params['ServiceName']['PortalReports'];
+        $data = [
+            'fundsReq' => $No
+        ];
+        $path = Yii::$app->navhelper->PortalReports($service,$data,'IanGenerateFundsRequisition');
+        if(!is_file($path['return_value'])){
+            Yii::$app->session->setFlash('error','File is not available: '.$path['return_value']);
+            return $this->render('printout',[
+                'report' => false,
+                'content' => null,
+                'No' => $No
+            ]);
+        }
+
+        $binary = file_get_contents($path['return_value']);
+        $content = chunk_split(base64_encode($binary));
+        //delete the file after getting it's contents --> This is some house keeping
+        unlink($path['return_value']);
+        return $this->render('printout',[
+            'report' => true,
+            'content' => $content,
+            'No' => $No
+        ]);
+
+    }
+
 
 
 }

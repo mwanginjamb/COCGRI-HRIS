@@ -26,6 +26,8 @@ class Referee extends Model
     public function rules()
     {
         return [
+            [['First_Name','Last_Name','Instituition','Email','Phone_No'],'required'],
+            ['Email','email'],
 
         ];
     }

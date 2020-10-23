@@ -540,14 +540,14 @@ class MedicalcoverController extends Controller
         ];
 
 
-        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanSendImprestForApproval');
+        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanSendMediicalForApproval');
 
         if(!is_string($result)){
-            Yii::$app->session->setFlash('success', 'Imprest Request Sent to Supervisor Successfully.', true);
+            Yii::$app->session->setFlash('success', 'Request Sent to Supervisor for Approval Successfully.', true);
             return $this->redirect(['view','No' => $No]);
         }else{
 
-            Yii::$app->session->setFlash('error', 'Error Sending Imprest Request for Approval  : '. $result);
+            Yii::$app->session->setFlash('error', 'Error Sending Request for Approval  : '. $result);
             return $this->redirect(['view','No' => $No]);
 
         }
@@ -564,14 +564,14 @@ class MedicalcoverController extends Controller
         ];
 
 
-        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanCancelImprestForApproval');
+        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanCancelMediicalApprovalRequest');
 
         if(!is_string($result)){
-            Yii::$app->session->setFlash('success', 'Imprest Request Cancelled Successfully.', true);
+            Yii::$app->session->setFlash('success', 'Document Approval Request Cancelled Successfully.', true);
             return $this->redirect(['view','No' => $No]);
         }else{
 
-            Yii::$app->session->setFlash('error', 'Error Cancelling Imprest Approval Request.  : '. $result);
+            Yii::$app->session->setFlash('error', 'Error Cancelling Document Approval Request.  : '. $result);
             return $this->redirect(['view','No' => $No]);
 
         }

@@ -16,7 +16,7 @@ class Dashboard extends Component
 {
 
     public function getStaffCount(){
-        $service = Yii::$app->params['ServiceName']['employees'];
+        $service = Yii::$app->params['ServiceName']['Employees'];
         $filter = [];
         $result = Yii::$app->navhelper->getData($service,$filter);
         if(is_object($result) || is_string($result)){//RETURNS AN EMPTY object if the filter result fails
@@ -28,7 +28,8 @@ class Dashboard extends Component
     /*My Rejected Approval Requests*/
 
     public function getRejectedApprovals(){
-        $service = Yii::$app->params['ServiceName']['RequeststoApprove'];
+
+        $service = Yii::$app->params['ServiceName']['RequestsTo_ApprovePortal'];
         $filter = [
             'Sender_ID' => Yii::$app->user->identity->getId(),
             'Status' => 'Rejected'
@@ -45,7 +46,8 @@ class Dashboard extends Component
     /* My Approved Requests */
 
     public function getApprovedApprovals(){
-        $service = Yii::$app->params['ServiceName']['RequeststoApprove'];
+
+        $service = Yii::$app->params['ServiceName']['RequestsTo_ApprovePortal'];
         $filter = [
             'Sender_ID' => Yii::$app->user->identity->getId(),
             'Status' => 'Approved'
@@ -62,7 +64,8 @@ class Dashboard extends Component
     /* Get Pending Approvals */
 
     public function getOpenApprovals(){
-        $service = Yii::$app->params['ServiceName']['RequeststoApprove'];
+
+        $service = Yii::$app->params['ServiceName']['RequestsTo_ApprovePortal'];
         $filter = [
             'Sender_ID' => Yii::$app->user->identity->getId(),
             'Status' => 'Open'
@@ -81,9 +84,10 @@ class Dashboard extends Component
     /*Request I have approved*/
 
     public function getSuperApproved(){
-        $service = Yii::$app->params['ServiceName']['RequeststoApprove'];
+
+        $service = Yii::$app->params['ServiceName']['RequestsTo_ApprovePortal'];
         $filter = [
-            'Approver_ID' => Yii::$app->user->identity->getId(),
+            'Employee_No' => Yii::$app->user->identity->{'Employee No_'},
             'Status' => 'Approved'
         ];
         $result = Yii::$app->navhelper->getData($service,$filter);
@@ -99,9 +103,10 @@ class Dashboard extends Component
     /* Requests I have Rejected */
 
     public function getSuperRejected(){
-        $service = Yii::$app->params['ServiceName']['RequeststoApprove'];
+
+        $service = Yii::$app->params['ServiceName']['RequestsTo_ApprovePortal'];
         $filter = [
-            'Approver_ID' => Yii::$app->user->identity->getId(),
+            'Employee_No' => Yii::$app->user->identity->{'Employee No_'},
             'Status' => 'Rejected'
         ];
         $result = Yii::$app->navhelper->getData($service,$filter);
@@ -117,6 +122,7 @@ class Dashboard extends Component
     /*Get Number of job vacancies available*/
 
     public function getVacancies(){
+        return 0;
         $service = Yii::$app->params['ServiceName']['JobsList'];
         $filter = [
             'No_of_Posts' => '>0',
@@ -141,6 +147,7 @@ class Dashboard extends Component
     /*Get Staff on Leave*/
 
     public function getOnLeave(){
+        return 0;
         $service = Yii::$app->params['ServiceName']['activeLeaveList'];
         $filter = [];
         $result = Yii::$app->navhelper->getData($service,$filter);
@@ -155,6 +162,7 @@ class Dashboard extends Component
     //Get Number of Job Applications made by an AAS  employee
 
     public function getInternalapplications(){
+        return 0;
         if(!Yii::$app->user->isGuest){
             $srvc = Yii::$app->params['ServiceName']['employeeCard'];
             $filter = [

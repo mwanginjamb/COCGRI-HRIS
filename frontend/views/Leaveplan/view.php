@@ -23,7 +23,7 @@ Yii::$app->session->set('isSupervisor',false);*/
 <div class="row">
     <div class="col-md-4">
 
-        <?= ($model->Status == 'New')?Html::a('<i class="fas fa-paper-plane"></i> Send Approval Req',['send-for-approval'],['class' => 'btn btn-app submitforapproval',
+        <?= ($model->Status == 'Open')?Html::a('<i class="fas fa-paper-plane"></i> Send Approval Req',['send-for-approval'],['class' => 'btn btn-app submitforapproval',
             'data' => [
                 'confirm' => 'Are you sure you want to send this document for approval?',
                 'params'=>[
@@ -151,17 +151,18 @@ Yii::$app->session->set('isSupervisor',false);*/
                         <table class="table table-bordered">
                             <thead>
                             <tr>
-                                <td><b>Plan_No</b></td>
-                                <td><b>Employee_Code</b></td>
-                                <td><b>Leave_Code</b></td>
-                                <td><b>Leave_Type_Description</b></td>
-                                <td><b>Leave_Balance</b></td>
-                                <td><b>Start_Date</b></td>
-                                <td><b>End_Date</b></td>
-                                <td><b>Days_Planned</b></td>
+                                <td><b>Plan No</b></td>
+                                <td><b>Employee Code</b></td>
+                                <td><b>Leave Code</b></td>
+                                <td><b>Leave Type Description</b></td>
+                                <td><b>Leave Balance</b></td>
+                                <td><b>Start Date</b></td>
+                                <td><b>End Date</b></td>
+                                <td><b>Days Planned</b></td>
                                 <td><b>Holidays</b></td>
                                 <td><b>Weekend_Days</b></td>
-                                <td><b>Total_No_Of_Days</b></td>
+                                <td><b>Total No Of Days</b></td>
+                                <td><b>Action</b></td>
 
                             </tr>
                             </thead>

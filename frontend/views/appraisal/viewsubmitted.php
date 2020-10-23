@@ -452,11 +452,11 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
         <!--Training Plan Card -->
 <?php if(($model->EY_Appraisal_Status <> 'Peer_1_Level') && ($model->EY_Appraisal_Status <> 'Peer_2_Level' )){ ?>
-        <div class="card-info">
+       <!-- <div class="card-info">
             <div class="card-header">
                 <h4 class="card-title">Training Plan</h4> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-                <?= Html::a('<i class="fas fa-plus"></i> Add New',['training-plan/create','Appraisal_No'=> $model->Appraisal_No,'Employee_No' => $model->Employee_No],['class' => 'btn btn-xs btn-primary add-trainingplan']) ?>
+                <?/*= Html::a('<i class="fas fa-plus"></i> Add New',['training-plan/create','Appraisal_No'=> $model->Appraisal_No,'Employee_No' => $model->Employee_No],['class' => 'btn btn-xs btn-primary add-trainingplan']) */?>
             </div>
             <div class="card-body">
                 <table class="table table-bordered">
@@ -474,23 +474,23 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                     </thead>
                     <tbody>
 
-                <?php if(property_exists($card->Training_Plan,'Training_Plan')){ ?>
-                    <?php foreach($card->Training_Plan->Training_Plan as $training){ ?>
+                <?php /*if(property_exists($card->Training_Plan,'Training_Plan')){ */?>
+                    <?php /*foreach($card->Training_Plan->Training_Plan as $training){ */?>
                         <tr>
-                            <td><?= $training->Line_No ?></td>
-                            <td><?= $training->Appraisal_No ?></td>
-                            <td><?= $training->Employee_No ?></td>
-                            <td><?= $training->Training_Action ?></td>
-                            <td><?= $training->Delivery_Method ?></td>
-                            <td><?= $training->Due_Date ?></td>
-                            <td><?= Html::a('<i class="fas fa-edit"></i> ',['training-plan/update','Line_No'=> $training->Line_No,'Appraisal_No'=> $model->Appraisal_No,'Employee_No' => $model->Employee_No],['class' => 'btn btn-xs btn-outline-primary update-trainingplan']) ?></td>
+                            <td><?/*= $training->Line_No */?></td>
+                            <td><?/*= $training->Appraisal_No */?></td>
+                            <td><?/*= $training->Employee_No */?></td>
+                            <td><?/*= $training->Training_Action */?></td>
+                            <td><?/*= $training->Delivery_Method */?></td>
+                            <td><?/*= $training->Due_Date */?></td>
+                            <td><?/*= Html::a('<i class="fas fa-edit"></i> ',['training-plan/update','Line_No'=> $training->Line_No,'Appraisal_No'=> $model->Appraisal_No,'Employee_No' => $model->Employee_No],['class' => 'btn btn-xs btn-outline-primary update-trainingplan']) */?></td>
                         </tr>
-                    <?php } ?>
-                <?php }  ?>
+                    <?php /*} */?>
+                <?php /*}  */?>
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div>-->
 
 <?php } ?>
         <!--/Training Plan Card -->
@@ -574,7 +574,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                                     <td><?= !empty($be->Peer_2_Remark)?$be->Peer_2_Remark:'' ?></td>
                                                     <td><?= !empty($be->Agreed_Rating)?$be->Agreed_Rating:'' ?></td>
                                                     <td><?= !empty($be->Overall_Remarks)?$be->Overall_Remarks:'' ?></td>
-                                                    <td><?= ($be->Applicable)?Html::a('<i title="Evaluate Behaviour" class="fa fa-edit"></i>',['employeeappraisalbehaviour/update','Employee_No'=>$be->Employee_No,'Line_No'=> $be->Line_No,'Appraisal_No' => $be->Appraisal_Code ],['class' => ' evalbehaviour btn btn-info btn-xs']):'' ?></td>
+                                                    <td><?= ($be->Applicable && $model->Goal_Setting_Status == 'Approved')?Html::a('<i title="Evaluate Behaviour" class="fa fa-edit"></i>',['employeeappraisalbehaviour/update','Employee_No'=>$be->Employee_No,'Line_No'=> $be->Line_No,'Appraisal_No' => $be->Appraisal_Code ],['class' => ' evalbehaviour btn btn-info btn-xs']):'' ?></td>
                                                 </tr>
                                                 <?php
                                             endforeach;

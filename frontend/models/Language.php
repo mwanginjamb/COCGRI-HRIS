@@ -13,18 +13,20 @@ use yii\base\Model;
 class Language extends Model
 {
     public $Key;
-    public $Applicant_No;
-    public $Language_Description;
+    //public $Applicant_No;
+    //public $Language_Description;
     public $Read;
     public $Write;
     public $Speak;
     public $Line_No;
+    public $Profile_No;
+    public $Language;
 
 
     public function rules()
     {
         return [
-
+            [['Language'],'required']
         ];
     }
 

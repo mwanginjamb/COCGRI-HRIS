@@ -43,7 +43,7 @@ use yii\widgets\ActiveForm;
 
                                     <?= (Yii::$app->session->get('MY_Appraisal_Status') == 'Closed' && Yii::$app->session->get('EY_Appraisal_Status') == 'Agreement_Level' && Yii::$app->session->get('isSupervisor'))?$form->field($model, 'Agreed_Rating')->dropDownList($ratings,['prompt' => 'Select Rating']):''?>
 
-                                    <?= (Yii::$app->session->get('MY_Appraisal_Status') == 'Closed' && Yii::$app->session->get('EY_Appraisal_Status') == 'Supervisor_Level' && Yii::$app->session->get('isSupervisor'))?$form->field($model, 'Rating_Comments')->textInput(['type' => 'number']):'' ?>
+                                    <?= (Yii::$app->session->get('MY_Appraisal_Status') == 'Closed' && Yii::$app->session->get('EY_Appraisal_Status') == 'Supervisor_Level' && Yii::$app->session->get('isSupervisor'))?$form->field($model, 'Rating_Comments')->textarea(['rows' => 2]):'' ?>
 
                                     <?= $form->field($model, 'Key')->hiddenInput(['readonly'=> true])->label(false) ?>
 

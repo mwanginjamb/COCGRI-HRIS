@@ -404,20 +404,20 @@ class LeaveplanController extends Controller
         $service = Yii::$app->params['ServiceName']['PortalFactory'];
 
         $data = [
-            'applicationPlan_No' => $Plan_No,
-            'sendMail' => 1,
+            'applicationNo' => $Plan_No,
+            'sendMail' => true,
             'approvalUrl' => '',
         ];
 
 
-        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanSendImprestForApproval');
+        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanSendLeavePlanForApproval');
 
         if(!is_string($result)){
-            Yii::$app->session->setFlash('success', 'Imprest Request Sent to Supervisor Successfully.', true);
+            Yii::$app->session->setFlash('success', 'Request Sent to Supervisor Successfully.', true);
             return $this->redirect(['view','Plan_No' => $Plan_No]);
         }else{
 
-            Yii::$app->session->setFlash('error', 'Error Sending Imprest Request for Approval  : '. $result);
+            Yii::$app->session->setFlash('error', 'Error Sending  Request for Approval  : '. $result);
             return $this->redirect(['view','Plan_No' => $Plan_No]);
 
         }
@@ -434,14 +434,14 @@ class LeaveplanController extends Controller
         ];
 
 
-        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanCancelImprestForApproval');
+        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanCancelLeavePlanApprovalRequest');
 
         if(!is_string($result)){
-            Yii::$app->session->setFlash('success', 'Imprest Request Cancelled Successfully.', true);
+            Yii::$app->session->setFlash('success', 'Request Cancelled Successfully.', true);
             return $this->redirect(['view','Plan_No' => $Plan_No]);
         }else{
 
-            Yii::$app->session->setFlash('error', 'Error Cancelling Imprest Approval Request.  : '. $result);
+            Yii::$app->session->setFlash('error', 'Error Cancelling Approval Request.  : '. $result);
             return $this->redirect(['view','Plan_No' => $Plan_No]);
 
         }

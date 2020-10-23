@@ -68,18 +68,18 @@ class MedicalController extends Controller
     }
 
     public function actionIndex(){
-        $p9years = $this->getP9years();
+        //$p9years = $this->getP9years();
         $service = Yii::$app->params['ServiceName']['PortalReports'];
 
         //Yii::$app->recruitment->printrr(ArrayHelper::map($payrollperiods,'Date_Opened','desc'));
 
 
             $data = [
-                'employeeNo' => Yii::$app->user->identity->{'Employee No_'}
+                'empNo' => Yii::$app->user->identity->{'Employee No_'}
              ];
-            $path = Yii::$app->navhelper->IanGenerateMedicalStatementReport($service,$data);
+            $path = Yii::$app->navhelper->PortalReports($service,$data,'IanGenerateMedicalStatement');
 
-            // Yii::$app->recruitment->printrr($path);
+             //Yii::$app->recruitment->printrr($path);
             if(!is_file($path['return_value'])){
                 //throw new HttpException(404,"Resouce Not Found: ".$path['return_value']);
                 return $this->render('index',[

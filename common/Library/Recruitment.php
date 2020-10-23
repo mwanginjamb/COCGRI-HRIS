@@ -73,7 +73,7 @@ class Recruitment extends Component
             $hruser = Hruser::findByUsername(Yii::$app->session->get('HRUSER')->username);
             return $hruser->profileID;
         } else if(!Yii::$app->user->isGuest && !Yii::$app->session->has('HRUSER')){
-            $srvc = Yii::$app->params['ServiceName']['employeeCard'];
+            $srvc = Yii::$app->params['ServiceName']['EmployeeCard'];
             $filter = [
                 'No' => Yii::$app->user->identity->employee[0]->No
             ];
@@ -135,7 +135,7 @@ class Recruitment extends Component
 
                     //check if an identity is guest, then check for ProfileID 
                     if(!Yii::$app->user->isGuest){
-                        $srvc = Yii::$app->params['ServiceName']['employeeCard'];
+                        $srvc = Yii::$app->params['ServiceName']['EmployeeCard'];
                         $filter = [
                             'No' => Yii::$app->user->identity->employee[0]->No
                         ];
@@ -247,7 +247,7 @@ class Recruitment extends Component
 
         $service = Yii::$app->params['ServiceName']['HRJobApplicationsCard'];
         $filter = [
-            'Job_Application_No' => \Yii::$app->session->get('Job_Application_No'),
+            'No' => \Yii::$app->session->get('Job_Application_No'),
         ];
 
         $result = Yii::$app->navhelper->getData($service,$filter);
@@ -266,7 +266,7 @@ class Recruitment extends Component
 
         $service = Yii::$app->params['ServiceName']['HRJobApplicationsCard'];
         $filter = [
-            'Job_Application_No' => \Yii::$app->session->get('Job_Application_No')
+            'No' => \Yii::$app->session->get('Job_Application_No')
         ];
 
         $result = Yii::$app->navhelper->getData($service,$filter);
@@ -283,7 +283,7 @@ class Recruitment extends Component
     //Show Job Responsibility Specifications / children
 
     public function Responsibilityspecs($resp){
-        $service = Yii::$app->params['ServiceName']['JobResponsibilities'];
+        $service = Yii::$app->params['ServiceName']['ResponsibilitySpecification'];
         $filter = [
             'Responsibility_Line_No' => $resp
         ];
@@ -311,7 +311,7 @@ class Recruitment extends Component
     }
 
     public function Requirementspecs($req){
-        $service = Yii::$app->params['ServiceName']['JobRequirements'];
+        $service = Yii::$app->params['ServiceName']['RequirementSpecification'];
         $filter = [
             'Requirement_Line_No' => $req
         ];

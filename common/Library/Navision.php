@@ -968,6 +968,20 @@ class Navision extends Component
 
     }
 
+    //Get Job Requirement Entries
+
+    public function Jobs($credentials, $soapWsdl, $Entry,$method)
+    {
+        $client = $this->createClient($credentials, $soapWsdl);
+        try {
+            $result = $client->$method($Entry);
+            return $result;
+        } catch (\SoapFault $e) {
+            return $e->getMessage();
+        }
+
+    }
+
 
 
 

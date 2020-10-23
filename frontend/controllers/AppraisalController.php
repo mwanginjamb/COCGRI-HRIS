@@ -1253,7 +1253,7 @@ class AppraisalController extends Controller
     //Get Employees this is just for selecting peer1 and Peer 2
 
     public function getEmployees(){
-        $service = Yii::$app->params['ServiceName']['employees'];
+        $service = Yii::$app->params['ServiceName']['Employees'];
 
         $employees = \Yii::$app->navhelper->getData($service);
         $res = [];
@@ -1282,11 +1282,11 @@ class AppraisalController extends Controller
             ];
             $path = Yii::$app->navhelper->IanGenerateAppraisalReport($service,$data);
             //Yii::$app->recruitment->printrr($path);
-            if(!is_file($path['return_value'])){
+            if(!isset($path['return_value']) || !is_file($path['return_value'])){
 
                 return $this->render('report',[
                     'report' => false,
-                    'message' => $path['return_value']
+                    'message' => isset($path['return_value'])?$path['return_value']:'Report is not available',
                 ]);
             }
             $binary = file_get_contents($path['return_value']); //fopen($path['return_value'],'rb');

@@ -48,6 +48,20 @@ Yii::$app->session->set('isSupervisor',false);*/
             'title' => 'Cancel Imprest Approval Request'
 
         ]):'' ?>
+
+
+        <?= Html::a('<i class="fas fa-file-pdf"></i> Print Surrender',['print-surrender'],['class' => 'btn btn-app ',
+            'data' => [
+                'confirm' => 'Print Surrender?',
+                'params'=>[
+                    'No'=> $model->No,
+                ],
+                'method' => 'get',
+            ],
+            'title' => 'Print Surrender.'
+
+        ]) ?>
+
     </div>
 </div>
 

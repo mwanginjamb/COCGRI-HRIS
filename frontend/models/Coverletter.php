@@ -58,7 +58,7 @@ class Coverletter extends Model
             //Update Job Applicant Card
             $applicationService = Yii::$app->params['ServiceName']['HRJobApplicationsCard'];
             $filter = [
-                'Job_Application_No' => \Yii::$app->session->get('Job_Application_No'),//Yii::$app->recruitment->getProfileID(),
+                'No' => \Yii::$app->session->get('Job_Application_No'),//Yii::$app->recruitment->getProfileID(),
             ];
            // Yii::$app->recruitment->printrr($filter);
             $application = Yii::$app->navhelper->getData($applicationService,$filter);
@@ -80,7 +80,7 @@ class Coverletter extends Model
 
         $service = Yii::$app->params['ServiceName']['HRJobApplicationsCard'];
         $filter = [
-            'Job_Application_No' => \Yii::$app->session->get('Job_Application_No')
+            'No' => \Yii::$app->session->get('Job_Application_No')
         ];
 
         $result = Yii::$app->navhelper->getData($service,$filter);

@@ -31,7 +31,7 @@ class QualificationController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup','index'],
+                'only' => ['logout', 'signup','index','professional'],
                 'rules' => [
                     [
                         'actions' => ['signup'],
@@ -507,7 +507,7 @@ class QualificationController extends Controller
 
     public function getQualificationsList(){
         $service = Yii::$app->params['ServiceName']['HRqualifications'];
-        $filter = ['Code' => 'Academic'];
+        $filter = ['Code' => 'ACADEMIC'];
 
         $qualifications = \Yii::$app->navhelper->getData($service,$filter);
 
@@ -528,7 +528,7 @@ class QualificationController extends Controller
 
     public function getProfessionalQualificationsList(){
         $service = Yii::$app->params['ServiceName']['HRqualifications'];
-        $filter = ['Code' => 'PROFESSIONAL'];
+        $filter = ['Code' => 'PROF'];
 
         $qualifications = \Yii::$app->navhelper->getData($service,$filter);
 

@@ -87,6 +87,7 @@ public $Bank_Branch_No;
 public $Bank_Account_No;
 public $IBAN;
 public $SWIFT_Code;
+public $Job_Description;
 
     public function rules()
     {

@@ -77,7 +77,7 @@ class LanguageController extends Controller
 
         if(Yii::$app->request->post() && $this->loadpost(Yii::$app->request->post()['Language'],$model)){
 
-            $model->Applicant_No = Yii::$app->recruitment->getProfileID();
+            $model->Profile_No = Yii::$app->recruitment->getProfileID();
 
             $result = Yii::$app->navhelper->postData($service,$model);
 
@@ -225,7 +225,7 @@ class LanguageController extends Controller
 
     public function actionGetlanguage(){
         $service = Yii::$app->params['ServiceName']['applicantLanguages'];
-        $filter = ['Applicant_No' => \Yii::$app->recruitment->getProfileID()];
+        $filter = ['Profile_No' => \Yii::$app->recruitment->getProfileID()];
         $languages = \Yii::$app->navhelper->getData($service,$filter);
 
         $result = [];
@@ -252,8 +252,8 @@ class LanguageController extends Controller
             $result['data'][] = [
                 'index' => $count,
                 'Key' => $lang->Key,
-                'Applicant_No' => !empty($lang->Applicant_No)?$lang->Applicant_No:'',
-                'Language_Description' => !empty($lang->Language_Description)?$lang->Language_Description:'',
+                'Applicant_No' => !empty($lang->Profile_No)?$lang->Profile_No:'',
+                'Language_Description' => !empty($lang->Language)?$lang->Language:'',
                 'Read' => $read,
                 'Write' => $write,
                 'Speak' => $speak,

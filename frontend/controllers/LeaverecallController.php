@@ -473,19 +473,19 @@ class LeaverecallController extends Controller
 
         $data = [
             'applicationNo' => $No,
-            'sendMail' => 1,
+            'sendMail' => true,
             'approvalUrl' => '',
         ];
 
 
-        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanSendImprestForApproval');
+        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanSendLeaveRecallForApproval');
 
         if(!is_string($result)){
-            Yii::$app->session->setFlash('success', 'Imprest Request Sent to Supervisor Successfully.', true);
+            Yii::$app->session->setFlash('success', 'Request Sent to Supervisor Successfully.', true);
             return $this->redirect(['view','No' => $No]);
         }else{
 
-            Yii::$app->session->setFlash('error', 'Error Sending Imprest Request for Approval  : '. $result);
+            Yii::$app->session->setFlash('error', 'Error Sending Request for Approval  : '. $result);
             return $this->redirect(['view','No' => $No]);
 
         }
@@ -502,14 +502,14 @@ class LeaverecallController extends Controller
         ];
 
 
-        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanCancelImprestForApproval');
+        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanCancelLeaveRecallApprovalRequest');
 
         if(!is_string($result)){
-            Yii::$app->session->setFlash('success', 'Imprest Request Cancelled Successfully.', true);
+            Yii::$app->session->setFlash('success', 'Request Cancelled Successfully.', true);
             return $this->redirect(['view','No' => $No]);
         }else{
 
-            Yii::$app->session->setFlash('error', 'Error Cancelling Imprest Approval Request.  : '. $result);
+            Yii::$app->session->setFlash('error', 'Error Cancelling Approval Request.  : '. $result);
             return $this->redirect(['view','No' => $No]);
 
         }

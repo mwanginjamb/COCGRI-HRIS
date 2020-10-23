@@ -6,21 +6,21 @@ return [
         '@npm'   => '@vendor/npm-asset',
     ],
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
-    'name' => 'HRMIS',
+    'name' => 'COGRI - HRMIS',
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'sqlsrv:server=FRANCIS\FRANC;database=AAS',
+            'dsn' => 'sqlsrv:server=FRANCIS\SQLEXPRESS14;database=COCGRI',
             'username' => 'Njambi',
             'password' => 'njambi123',
             'charset' => 'utf8',
         ],
         'nav' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'sqlsrv:server=FRANCIS\FRANC;database=Africa academy of sciences',
+            'dsn' => 'sqlsrv:server=FRANCIS\SQLEXPRESS14;database=COCGRI',
             'username' => 'Njambi',
             'password' => 'njambi123',
             'charset' => 'utf8',

@@ -1,6 +1,6 @@
 <?php
 return [
-    'generalTitle' => 'COCRI - Self Service',
+    'generalTitle' => 'KEMRI - Self Service',
     'adminEmail' => 'customer@softeboard.com',
     'supportEmail' => 'customer@softeboard.com',
     'senderEmail' => 'customer@softeboard.com',
@@ -143,10 +143,17 @@ return [
 
         'RequisitionEmployeeList' => 'RequisitionEmployeeList',//70029
         'RequisitionEmployeeCard' => 'RequisitionEmployeeCard',//70028
-        'JobsList' => 'JobsList',//70009
-        'JobsCard' => 'JobsCard',//70002
-        'JobApplicantProfile' => 'JobApplicantProfile', //50001
-        'applicantProfile' => 'applicantProfile',//50001
+
+
+        /**********Active COGI PAGES*****************/
+
+        'JobsList' => 'JobsList',//55057
+        'JobsCard' => 'JobsCard',//55055
+        'RequirementSpecification'=> 'RequirementSpecification', //55049
+        'ResponsibilitySpecification' => 'ResponsibilitySpecification', //55048
+
+        /**********Active COGI PAGES*****************/
+        'JobApplicantProfile' => 'JobApplicantProfile', //55081
         'referees' => 'referees',//55060
         'applicantLanguages' => 'applicantLanguages', //55061
         'experience' => 'experience', //55062
@@ -158,7 +165,7 @@ return [
         'HRqualifications' => 'HRqualifications', //5205
         'JobApplicantRequirementEntries' => 'JobApplicantRequirementEntries', //55065
         'HRJobApplicationsList' => 'HRJobApplicationsList', //70020 ----> Not published on client side
-        'HRJobApplicationsCard'=>'HRJobApplicationsCard',//70021
+        'HRJobApplicationsCard'=>'HRJobApplicationsCard',//55059
 
         'Countries' => 'Countries', //10
         'Religion' => 'Religion', //70085

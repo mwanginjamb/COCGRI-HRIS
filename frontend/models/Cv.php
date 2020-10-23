@@ -57,12 +57,12 @@ class Cv extends Model
             //Update Job Applicant Card
            $applicationService = Yii::$app->params['ServiceName']['HRJobApplicationsCard'];
             $filter = [
-                'Job_Application_No' => \Yii::$app->session->get('Job_Application_No'),
+                'No' => \Yii::$app->session->get('Job_Application_No'),
             ];
             $application = Yii::$app->navhelper->getData($applicationService,$filter);
             $updateData = [
                 'Key' => $application[0]->Key,
-                'CV' => $this->sharepointUrl
+                'Curriculum_Vitae' => $this->sharepointUrl
             ];
             Yii::$app->navhelper->updateData($applicationService,$updateData);
 
@@ -78,12 +78,12 @@ class Cv extends Model
 
         $service = Yii::$app->params['ServiceName']['HRJobApplicationsCard'];
         $filter = [
-            'Job_Application_No' => \Yii::$app->session->get('Job_Application_No')
+            'No' => \Yii::$app->session->get('Job_Application_No')
         ];
 
         $result = Yii::$app->navhelper->getData($service,$filter);
         if(is_array($result)) {
-            return basename($result[0]->CV);
+            return basename($result[0]->Curriculum_Vitae);
         }else{
             return false;
         }

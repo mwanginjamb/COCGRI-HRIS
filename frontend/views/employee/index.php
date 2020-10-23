@@ -37,9 +37,13 @@ if(Yii::$app->session->hasFlash('success')){
 <div class="row">
     <div class="col-md-12">
         <?php $form = ActiveForm::begin(['action'=> ['leave/create']]); ?>
-        <div class="card">
+        <div class="card collapsed-card">
             <div class="card-header">
                 <h3 class="card-title">General Details</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                    </button>
+                </div>
             </div>
             <div class="card-body">
 
@@ -88,9 +92,13 @@ if(Yii::$app->session->hasFlash('success')){
 
 
 
-        <div class="card">
+        <div class="card collapsed-card">
             <div class="card-header">
                 <h3 class="card-title">Address & Contact</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                    </button>
+                </div>
             </div>
             <div class="card-body">
 
@@ -133,9 +141,13 @@ if(Yii::$app->session->hasFlash('success')){
 
 
 
-        <div class="card">
+        <div class="card collapsed-card">
             <div class="card-header">
                 <h3 class="card-title">Personal Details</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                    </button>
+                </div>
             </div>
             <div class="card-body">
 
@@ -173,9 +185,13 @@ if(Yii::$app->session->hasFlash('success')){
             </div>
         </div>
 
-        <div class="card">
+        <div class="card collapsed-card">
             <div class="card-header">
                 <h3 class="card-title">Administration</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                    </button>
+                </div>
             </div>
             <div class="card-body">
 
@@ -225,9 +241,13 @@ if(Yii::$app->session->hasFlash('success')){
             </div>
         </div>
 
-        <div class="card">
+        <div class="card collapsed-card">
             <div class="card-header">
                 <h3 class="card-title">Payments</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                    </button>
+                </div>
             </div>
             <div class="card-body">
 

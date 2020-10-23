@@ -52,7 +52,7 @@ use yii\widgets\ActiveForm;
                                     <?= $form->field($model, 'Email')->textInput(['type' => 'email']) ?>
                                 </tr>
                                 <tr>
-                                    <?= $form->field($model, 'Phone_No')->textInput(['max-length' => 10]) ?>
+                                    <?= $form->field($model, 'Phone_No')->textInput(['maxlength' => 11]) ?>
                                 </tr>
                                 <tr>
                                     <?= $form->field($model, 'Key')->hiddenInput(['readonly' => true])->label(false) ?>

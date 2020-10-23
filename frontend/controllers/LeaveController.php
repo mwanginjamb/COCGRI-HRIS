@@ -107,11 +107,11 @@ class LeaveController extends Controller
             $result = Yii::$app->navhelper->updateData($service,$model);
             if(!is_string($result)){
 
-                Yii::$app->session->setFlash('success','Medical Cover Claim Created Successfully.' );
+                Yii::$app->session->setFlash('success','Leave Request Created Successfully.' );
                 return $this->redirect(['view','No' => $result->Application_No]);
 
             }else{
-                Yii::$app->session->setFlash('error','Error Creating Medical Cover Claim '.$result );
+                Yii::$app->session->setFlash('error','Error Creating Leave Request'.$result );
                 return $this->redirect(['index']);
 
             }
@@ -578,14 +578,14 @@ class LeaveController extends Controller
         ];
 
 
-        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanSendImprestForApproval');
+        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanSendLeaveForApproval');
 
         if(!is_string($result)){
-            Yii::$app->session->setFlash('success', 'Imprest Request Sent to Supervisor Successfully.', true);
+            Yii::$app->session->setFlash('success', 'Request Sent to Supervisor for Approval Successfully.', true);
             return $this->redirect(['view','No' => $No]);
         }else{
 
-            Yii::$app->session->setFlash('error', 'Error Sending Imprest Request for Approval  : '. $result);
+            Yii::$app->session->setFlash('error', 'Error Sending Request for Approval  : '. $result);
             return $this->redirect(['view','No' => $No]);
 
         }
@@ -602,14 +602,14 @@ class LeaveController extends Controller
         ];
 
 
-        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanCancelImprestForApproval');
+        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanCancelLeaveApprovalRequest');
 
         if(!is_string($result)){
-            Yii::$app->session->setFlash('success', 'Imprest Request Cancelled Successfully.', true);
+            Yii::$app->session->setFlash('success', 'Approval Request Cancelled Successfully.', true);
             return $this->redirect(['view','No' => $No]);
         }else{
 
-            Yii::$app->session->setFlash('error', 'Error Cancelling Imprest Approval Request.  : '. $result);
+            Yii::$app->session->setFlash('error', 'Error Cancelling Approval Request.  : '. $result);
             return $this->redirect(['view','No' => $No]);
 
         }

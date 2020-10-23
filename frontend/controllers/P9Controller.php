@@ -68,17 +68,23 @@ class P9Controller extends Controller
     }
 
     public function actionIndex(){
-        $p9years = $this->getP9years();
+       // $p9years = $this->getP9years();
+
+        $p9years = [
+            ['Year' => '2018','desc' => '2018'],
+            ['Year' => '2019','desc' => '2019'],
+            ['Year' => '2020','desc' => '2020'],
+        ];
         $service = Yii::$app->params['ServiceName']['PortalReports'];
 
         //Yii::$app->recruitment->printrr(ArrayHelper::map($payrollperiods,'Date_Opened','desc'));
         if(Yii::$app->request->post()){
 
             $data = [
-                'p9Year' =>Yii::$app->request->post('p9year'),
-                'employeeNo' => Yii::$app->user->identity->{'Employee No_'}
+                //'p9Year' =>Yii::$app->request->post('p9year'),
+                'empNo' => Yii::$app->user->identity->{'Employee No_'}
              ];
-            $path = Yii::$app->navhelper->IanGenerateP9($service,$data);
+            $path = Yii::$app->navhelper->PortalReports($service,$data,'IanGeneratep9');
             if(!is_file($path['return_value'])){
                 //throw new HttpException(404,"Resouce Not Found: ".$path['return_value']);
                 return $this->render('index',[
@@ -92,7 +98,7 @@ class P9Controller extends Controller
             //delete the file after getting it's contents --> This is some house keeping
             unlink($path['return_value']);
 
-           // Yii::$app->recruitment->printrr($path);
+           //Yii::$app->recruitment->printrr($path);
             return $this->render('index',[
                 'report' => true,
                 'content' => $content,

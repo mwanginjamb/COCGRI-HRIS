@@ -204,7 +204,8 @@ class ApprovalsController extends Controller
         $service = Yii::$app->params['ServiceName']['RequestsTo_ApprovePortal'];
 
         $filter = [
-            'Employee_No' => Yii::$app->user->identity->{'Employee No_'},
+            //'Employee_No' => Yii::$app->user->identity->{'Employee No_'},
+            'Approver_ID' => Yii::$app->user->identity->{'User ID'},
         ];
         $approvals = \Yii::$app->navhelper->getData($service,$filter);
 
@@ -218,11 +219,33 @@ class ApprovalsController extends Controller
             foreach($approvals as $app){
 
 
+                    if(stripos($app->Details, 'leave') !== FALSE && stripos($app->Details, 'Recall') == FALSE && stripos($app->Details, 'Plan') == FALSE){
+                        $Approvelink = ($app->Status == 'Open')? Html::a('Approve Leave',['approve-leave','app'=> $app->Document_No ],['class'=>'btn btn-success btn-xs','data' => [
+                            'confirm' => 'Are you sure you want to Approve this request?',
+                            'method' => 'post',
+                        ]]):'';
+                    }
+                    elseif(stripos($app->Details, 'Recall') !== FALSE)
+                    {
+                        $Approvelink = ($app->Status == 'Open')? Html::a('Approve Leave Recall',['approve-recall','app'=> $app->Document_No ],['class'=>'btn btn-success btn-xs','data' => [
+                            'confirm' => 'Are you sure you want to Approve this request?',
+                            'method' => 'post',
+                        ]]):'';
+                    }
+                    elseif(stripos($app->Details, 'Plan') !== FALSE)
+                    {
+                        $Approvelink = ($app->Status == 'Open')? Html::a('Approve Leave Plan',['approve-leave-plan','app'=> $app->Document_No ],['class'=>'btn btn-success btn-xs','data' => [
+                            'confirm' => 'Are you sure you want to Approve this request?',
+                            'method' => 'post',
+                        ]]):'';
+                    }
+                    else{
+                        $Approvelink = ($app->Status == 'Open')? Html::a('Approve Request',['approve-request','app'=> $app->Document_No ],['class'=>'btn btn-success btn-xs','data' => [
+                            'confirm' => 'Are you sure you want to Approve this request?',
+                            'method' => 'post',
+                        ]]):'';
+                    }
 
-                    $Approvelink = ($app->Status == 'Open')? Html::a('Approve Request',['approve-request','app'=> $app->Document_No ],['class'=>'btn btn-success btn-xs','data' => [
-                        'confirm' => 'Are you sure you want to Approve this request?',
-                        'method' => 'post',
-                    ]]):'';
                     $Rejectlink = ($app->Status == 'Open')? Html::a('Reject Request',['reject-request' ],['class'=>'btn btn-warning reject btn-xs',
                         'rel' => $app->Document_No
                         ]): "";
@@ -331,7 +354,7 @@ class ApprovalsController extends Controller
 
            /* print '<pre>';
             print_r($request); return;*/
-            Yii::$app->session->setFlash('success','Leave Request Rejected Successfully',true);
+            Yii::$app->session->setFlash('success','Request Rejected Successfully',true);
             return $this->redirect(['index']);
         }else{
 
@@ -340,6 +363,75 @@ class ApprovalsController extends Controller
 
             Yii::$app->session->setFlash('error','Approvals Page: Error Rejecting Leave Request : '.$request,true);
             return $this->redirect(['index']);
+        }
+    }
+
+
+    public function actionApproveLeave($app)
+    {
+        $service = Yii::$app->params['ServiceName']['PortalFactory'];
+
+        $data = [
+            'applicationNo' => $app,
+        ];
+
+
+        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanApproveLeave');
+
+        if(!is_string($result)){
+            Yii::$app->session->setFlash('success', 'Request Approved Successfully.', true);
+            return $this->redirect(['index']);
+        }else{
+
+            Yii::$app->session->setFlash('error', 'Error Approving Request.  : '. $result);
+            return $this->redirect(['index']);
+
+        }
+    }
+
+    public function actionApproveRecall($app)
+    {
+        $service = Yii::$app->params['ServiceName']['PortalFactory'];
+
+        $data = [
+            'applicationNo' => $app,
+        ];
+
+
+        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanApproveLeaveRecall');
+
+        if(!is_string($result)){
+            Yii::$app->session->setFlash('success', 'Request Approved Successfully.', true);
+            return $this->redirect(['index']);
+        }else{
+
+            Yii::$app->session->setFlash('error', 'Error Approving Request.  : '. $result);
+            return $this->redirect(['index']);
+
+        }
+    }
+
+    /* Approve Leave Plan */
+
+    public function actionApproveLeavePlan($app)
+    {
+        $service = Yii::$app->params['ServiceName']['PortalFactory'];
+
+        $data = [
+            'applicationNo' => $app,
+        ];
+
+
+        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanApproveLeavePlan');
+
+        if(!is_string($result)){
+            Yii::$app->session->setFlash('success', 'Request Approved Successfully.', true);
+            return $this->redirect(['index']);
+        }else{
+
+            Yii::$app->session->setFlash('error', 'Error Approving Request.  : '. $result);
+            return $this->redirect(['index']);
+
         }
     }
 

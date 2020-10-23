@@ -474,7 +474,7 @@ class OvertimeController extends Controller
         ];
 
 
-        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanSendImprestForApproval');
+        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanSendOverTimeForApproval');
 
         if(!is_string($result)){
             Yii::$app->session->setFlash('success', 'Document Sent for Approval Successfully.', true);
@@ -498,7 +498,7 @@ class OvertimeController extends Controller
         ];
 
 
-        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanCancelImprestForApproval');
+        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanCancelOverTimeApprovalRequest');
 
         if(!is_string($result)){
             Yii::$app->session->setFlash('success', 'Document Approval Request Cancelled Successfully.', true);

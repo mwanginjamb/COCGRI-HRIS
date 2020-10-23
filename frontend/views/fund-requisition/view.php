@@ -48,6 +48,22 @@ Yii::$app->session->set('isSupervisor',false);*/
             'title' => 'Cancel Fund Requisition Approval Request'
 
         ]):'' ?>
+
+
+
+        <?= Html::a('<i class="fas fa-file-pdf"></i> Print Requisition',['print-requisition'],['class' => 'btn btn-app ',
+            'data' => [
+                'confirm' => 'Print Requisition?',
+                'params'=>[
+                    'No'=> $model->No,
+                ],
+                'method' => 'get',
+            ],
+            'title' => 'Print Requisition.'
+
+        ]) ?>
+
+
     </div>
 </div>
 

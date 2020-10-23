@@ -90,7 +90,7 @@ class ApplicantprofileController extends Controller
             $model->Age = !empty(Yii::$app->user->identity->employee[0]->DAge)?Yii::$app->user->identity->employee[0]->DAge:'';
             $model->Gender = !empty(Yii::$app->user->identity->employee[0]->Gender)?Yii::$app->user->identity->employee[0]->Gender:'';
             $model->Marital_Status = !empty(Yii::$app->user->identity->employee[0]->Marital_Status)?Yii::$app->user->identity->employee[0]->Marital_Status:'';
-            $model->Citizenship = !empty(Yii::$app->user->identity->employee[0]->Citizenship)?Yii::$app->user->identity->employee[0]->Citizenship:'';
+
             $model->E_Mail = !empty(Yii::$app->user->identity->employee[0]->E_Mail)?Yii::$app->user->identity->employee[0]->E_Mail:'';
             $model->Postal_Address = !empty(Yii::$app->user->identity->employee[0]->Postal_Address)?Yii::$app->user->identity->employee[0]->Postal_Address:'';
             $model->Post_Code = !empty(Yii::$app->user->identity->employee[0]->Post_Code)?Yii::$app->user->identity->employee[0]->Post_Code:'';
@@ -98,12 +98,12 @@ class ApplicantprofileController extends Controller
             $model->NHIF_No = !empty(Yii::$app->user->identity->employee[0]->NHIF_No)?Yii::$app->user->identity->employee[0]->NHIF_No:'';
             $model->NHIF_No = !empty(Yii::$app->user->identity->employee[0]->NHIF_No)?Yii::$app->user->identity->employee[0]->NHIF_No:'';
             $model->HELB_No = !empty(Yii::$app->user->identity->employee[0]->HELB_No)?Yii::$app->user->identity->employee[0]->HELB_No:'';
-            $model->Union_Member_x003F_ = !empty(Yii::$app->user->identity->employee[0]->Union_Member_x003F_)?Yii::$app->user->identity->employee[0]->Union_Member_x003F_:'';
 
         }else if(Yii::$app->session->has('HRUSER')){ //for external users - non- employees just prepopulate the email
             $model->E_Mail = Yii::$app->session->get('HRUSER')->email;
+            $model->First_Name = Yii::$app->session->get('HRUSER')->username;
         }
-        $service = Yii::$app->params['ServiceName']['applicantProfile'];
+        $service = Yii::$app->params['ServiceName']['JobApplicantProfile'];
 
         if(Yii::$app->request->post() && $this->loadpost(Yii::$app->request->post()['Applicantprofile'],$model)){
 
@@ -155,24 +155,45 @@ class ApplicantprofileController extends Controller
 
 
         $Countries = $this->getCountries();
-        $Religion = $this->getReligion();
+       // $Religion = $this->getReligion();
 
         return $this->render('create',[
 
             'model' => $model,
             'countries' => ArrayHelper::map($Countries,'Code','Name'),
-            'religion' => ArrayHelper::map($Religion,'Code','Description')
+            //'religion' => ArrayHelper::map($Religion,'Code','Description')
 
         ]);
     }
 
 
-    public function actionUpdate($No){
+    public function actionUpdate(){
+        if(!Yii::$app->user->isGuest && !empty( Yii::$app->user->identity->Employee[0]->ProfileID)){ //Profile ID for internal user
+            $profileID = Yii::$app->user->identity->Employee[0]->ProfileID;
 
+            Yii::$app->session->set('ProfileID',$profileID);
+
+        }else if(Yii::$app->session->has('HRUSER')){ //Profile ID for external user
+            $hruser = \common\models\Hruser::findByUsername(Yii::$app->session->get('HRUSER')->username);
+            $profileID =  $hruser->profileID;
+            Yii::$app->session->set('ProfileID',$profileID);
+        }
         //Remove Requirement entries if found persistent
 
         if(Yii::$app->session->has('requirements')){
             Yii::$app->session->remove('requirements');
+        }
+
+        /*if(Yii::$app->session->has('REQUISITION_NO')){
+            Yii::$app->session->remove('REQUISITION_NO');
+        }*/
+
+        if(Yii::$app->session->has('ProfileID')){
+            Yii::$app->session->remove('ProfileID');
+        }
+
+        if(Yii::$app->session->has('REQ_ENTRIES')){
+            Yii::$app->session->remove('REQ_ENTRIES');
         }
 
         //Remove Applicant No if found persistent
@@ -185,10 +206,10 @@ class ApplicantprofileController extends Controller
         if(Yii::$app->session->has('mode') && Yii::$app->session->get('mode') == 'external'){
             $this->layout = 'external';
         }
-        $service = Yii::$app->params['ServiceName']['applicantProfile'];
+        $service = Yii::$app->params['ServiceName']['JobApplicantProfile'];
 
         $filter = [
-            'No' => $No,
+            'No' => $profileID,
         ];
         $result = Yii::$app->navhelper->getData($service, $filter);
 
@@ -224,11 +245,11 @@ class ApplicantprofileController extends Controller
         }
 
         $Countries = $this->getCountries();
-        $Religion = $this->getReligion();
+       // $Religion = $this->getReligion();
         return $this->render('update',[
             'model' => $model,
             'countries' => ArrayHelper::map($Countries,'Code','Name'),
-            'religion' => ArrayHelper::map($Religion,'Code','Description')
+            'religion' => [],
 
         ]);
     }

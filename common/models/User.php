@@ -241,16 +241,17 @@ class User extends ActiveRecord implements IdentityInterface
         $employee = \Yii::$app->navhelper->getData($service,$filter);
         return $employee;
     }
-
+/* Get Appraisal Supervisor*/
     public function isSupervisor($AppraiseeNo = ''){
-        //loop through user setup check if current identity appears in approvers column
-        $super = $this::find()->where(['Approver ID ' => $this->getId()])->count();
 
-        if($super){
-            return true;
-        }else{
-            return false;
-        }
+        $service = Yii::$app->params['ServiceName']['AppraisalCard'];
+        $filter = [
+            'Supervisor_User_Id' => Yii::$app->user->identity->{'User ID'},
+        ];
+
+        $result = \Yii::$app->navhelper->getData($service,$filter);
+
+        return is_array($result);
     }
 
     public function isApprover()

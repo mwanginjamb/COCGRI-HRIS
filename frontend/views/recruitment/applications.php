@@ -56,7 +56,7 @@ $script = <<<JS
          /*Data Tables*/
          var absolute = $('#ab').val(); 
          
-         $.fn.dataTable.ext.errMode = 'throw';
+         //$.fn.dataTable.ext.errMode = 'throw';
         
     
           $('#requistions').DataTable({
@@ -65,7 +65,7 @@ $script = <<<JS
             ajax: absolute +'recruitment/getapplications',
             paging: true,
             columns: [
-                { title: 'Job Application No' ,data: 'Job_Application_No'},
+                { title: 'Job Application No' ,data: 'No'},
                 { title: 'Applicant Name' ,data: 'Applicant_Name'},
                 { title: 'Job Description' ,data: 'Job_Description'},
                 { title: 'Application Status' ,data: 'Application_Status'},            

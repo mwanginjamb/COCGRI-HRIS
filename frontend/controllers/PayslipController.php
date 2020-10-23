@@ -67,23 +67,29 @@ class PayslipController extends Controller
     }
 
     public function actionIndex(){
-        $payrollperiods = $this->getPayrollperiods();
+        //$payrollperiods = $this->getPayrollperiods();
+        $payrollperiods = [
+            ['Date_Opened' => '2018','desc' => 'Jan 2020'],
+            ['Date_Opened' => '2019','desc' => 'Feb 2020'],
+            ['Date_Opened' => '2020','desc' => 'March 2020'],
+        ];
         $service = Yii::$app->params['ServiceName']['PortalReports'];
 
         //Yii::$app->recruitment->printrr(ArrayHelper::map($payrollperiods,'Date_Opened','desc'));
         if(Yii::$app->request->post()){
             //Yii::$app->recruitment->printrr(Yii::$app->request->post('payperiods'));
             $data = [
-                'payrollPeriod' =>Yii::$app->request->post('payperiods'),
-                'employeeNo' => Yii::$app->user->identity->{'Employee No_'}
+                //'payrollPeriod' =>Yii::$app->request->post('payperiods'),
+                'empNo' => Yii::$app->user->identity->{'Employee No_'}
              ];
-            $path = Yii::$app->navhelper->IanGeneratePayslip($service,$data);
+            $path = Yii::$app->navhelper->PortalReports($service,$data,'IanGeneratePayslip');
+            //Yii::$app->recruitment->printrr($path);
             $binary = file_get_contents($path['return_value']); //fopen($path['return_value'],'rb');
             $content = chunk_split(base64_encode($binary));
             //delete the file after getting it's contents --> This is some house keeping
             unlink($path['return_value']);
 
-           // Yii::$app->recruitment->printrr($path);
+
             return $this->render('index',[
                 'report' => true,
                 'content' => $content,
