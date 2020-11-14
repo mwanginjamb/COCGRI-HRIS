@@ -15,6 +15,14 @@ $absoluteUrl = \yii\helpers\Url::home(true);
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title"><?= Html::encode($this->title) ?></h3>
+
+                <?php if(Yii::$app->session->hasFlash('success')): ?>
+                    <div class="alert alert-success"><?= Yii::$app->session->getFlash('success')?></div>
+                <?php endif; ?>
+
+                <?php if(Yii::$app->session->hasFlash('error')): ?>
+                    <div class="alert alert-danger"><?= Yii::$app->session->getFlash('error')?></div>
+                <?php endif; ?>
             </div>
             <div class="card-body">
 
@@ -25,6 +33,22 @@ $absoluteUrl = \yii\helpers\Url::home(true);
             $form = ActiveForm::begin([
                     // 'id' => $model->formName()
             ]); ?>
+
+
+
+
+            <div class="row">
+                <div class="col-md-6">
+                    <?= '<p><span>Employee No</span> '.Html::a($model->Employee_No,'#'); '</p>' ?>
+                    <?= '<p><span>Employee Name</span> '.Html::a($model->Employee_Name,'#'); '</p>' ?>
+                </div>
+                <div class="col-md-6">
+                    <?= '<p><span>Program Code</span> '.Html::a($model->_x003C_Global_Dimension_1_Code_x003E_,'#'); '</p>' ?>
+                    <?= '<p><span>Department Code </span> '.Html::a($model->Global_Dimension_2_Code,'#'); '</p>' ?>
+                </div>
+            </div>
+
+
                 <div class="row">
                     <div class="row col-md-12">
 
@@ -32,56 +56,60 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
                         <div class="col-md-6">
 
-                            <?= $form->field($model, 'Application_No')->hiddenInput()->label(false) ?>
-                            <?= $form->field($model, 'Key')->hiddenInput()->label(false) ?>
 
-                            <?= '<p><span>Employee No</span> '.Html::a($model->Employee_No,'#'); '</p>' ?>
-                            <?= '<p><span>Employee Name</span> '.Html::a($model->Employee_Name,'#'); '</p>' ?>
-                            <?= '<p><span>Program Code</span> '.Html::a($model->_x003C_Global_Dimension_1_Code_x003E_,'#'); '</p>' ?>
-                            <?= '<p><span>Department Code </span> '.Html::a($model->Global_Dimension_2_Code,'#'); '</p>' ?>
-                            <?= $form->field($model, 'Application_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Application_Date')->textInput(['required' => true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'User_ID')->textInput(['required' => true, 'disabled'=>true]) ?>
+
+
                             <?= $form->field($model, 'Leave_Code')->dropDownList($leavetypes,['prompt' => 'Select ..']) ?>
+
                             <?= $form->field($model, 'Start_Date')->textInput(['type' => 'date','required' => true]) ?>
                             <?= $form->field($model, 'Days_To_Go_on_Leave')->textInput(['type' => 'number','required' =>  true,'min'=> 1]) ?>
-                            <?= $form->field($model, 'End_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Total_No_Of_Days')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Leave_balance')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Reliever')->dropDownList($employees,['prompt' => 'Select ..','required'=> true]) ?>
+                            <?= $form->field($model, 'Comments')->textarea(['rows'=> 2,'maxlength' => 250]) ?>
+
+
 
                         </div>
 
                         <div class="col-md-6">
-                            <?= $form->field($model, 'Holidays')->textInput(['readonly'=> true,'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Weekend_Days')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Balance_After')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Reporting_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Comments')->textarea(['rows'=> 2,'maxlength' => 250]) ?>
-                            <?= $form->field($model, 'Reliever')->dropDownList($employees,['prompt' => 'Select ..']) ?>
 
-                            <?= $form->field($model, 'Reliever_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Status')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+
+
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12">
+
+                                    <?= $form->field($model, 'End_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                                    <?= $form->field($model, 'Total_No_Of_Days')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                                    <?= $form->field($model, 'Leave_balance')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                                    <?= $form->field($model, 'Reliever_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                                    <?= $form->field($model, 'Status')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+
+
+                                    <?= $form->field($model, 'Holidays')->textInput(['readonly'=> true,'disabled'=>true]) ?>
+                                    <?= $form->field($model, 'Weekend_Days')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                                    <?= $form->field($model, 'Balance_After')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                                    <?= $form->field($model, 'Reporting_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                                    <?= $form->field($model, 'Application_Date')->textInput(['required' => true, 'disabled'=>true]) ?>
+                                    <?= $form->field($model, 'Key')->hiddenInput(['required' => true, 'disabled'=>true])->label(false) ?>
+                                </div>
+                            </div>
+
+
+
+
+                            <p class="parent"><span>+</span>
+
                             <?= '<p><span>Approval_Entries</span> '.Html::a($model->Approval_Entries,'#'); '</p>' ?>
+                            <?= $form->field($model, 'Application_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
 
+                            <?= $form->field($model, 'User_ID')->textInput(['required' => true, 'disabled'=>true]) ?>
 
-
-
-
-
-
-
-
-
-
+                            </p>
 
                         </div>
 
-
-
                     </div>
-
-
-
 
                 </div>
 
@@ -105,6 +133,23 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
                 </div>
                 <?php ActiveForm::end(); ?>
+
+
+
+                <!---Upload Leave Attachment File-->
+
+                <?php $atform = \yii\widgets\ActiveForm::begin(['id'=>'attachmentform'],['options' => ['enctype' => 'multipart/form-data']]); ?>
+                    <?= $atform->errorSummary($Attachmentmodel)?>
+                    <button class="btn btn-primary btn-file"><?= $Attachmentmodel->getPath($model->Application_No)?'<i class="fa fa-upload"></i>&nbsp;&nbsp;Update Leave Attachment':'<i class="fa fa-upload"></i>&nbsp;&nbsp;Upload Leave Attachment' ?>
+                        <?= $atform->field($Attachmentmodel,'attachmentfile')->fileInput(['id' => 'attachmentfile', 'name' => 'attachmentfile' ])->label(false);?>
+                    </button>
+                    <?= $atform->field($Attachmentmodel,'Document_No')->hiddenInput(['value' => $model->Application_No])->label(false);?>
+                <?php \yii\widgets\ActiveForm::end(); ?>
+
+                <?php if($Attachmentmodel->getPath($model->Application_No)){   ?>
+
+                <iframe src="data:application/pdf;base64,<?= $Attachmentmodel->readAttachment($model->Application_No); ?>" height="950px" width="100%"></iframe>
+                <?php }  ?>
             </div>
         </div>
 
@@ -124,7 +169,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
                     </button>
-                    <h4 class="modal-title" id="myModalLabel" style="position: absolute">Imprest Management</h4>
+                    <h4 class="modal-title" id="myModalLabel" style="position: absolute">Leave Management</h4>
                 </div>
                 <div class="modal-body">
 
@@ -140,31 +185,20 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 <input type="hidden" name="url" value="<?= $absoluteUrl ?>">
 <?php
 $script = <<<JS
- //Submit Rejection form and get results in json    
-       /* $('form').on('submit', function(e){
-            e.preventDefault()
-            const data = $(this).serialize();
-            const url = $(this).attr('action');
-            $.post(url,data).done(function(msg){
-                    $('.modal').modal('show')
-                    .find('.modal-body')
-                    .html(msg.note);
-        
-                },'json');
-        });*/
-
-        // Set Cover Type
+    $('#attachmentform').hide();
+        // Set Leave Type
         
      $('#leave-leave_code').change(function(e){
         const Leave_Code = e.target.value;
         const No = $('#leave-application_no').val();
         if(No.length){
+            
             const url = $('input[name=url]').val()+'leave/setleavetype';
             $.post(url,{'Leave_Code': Leave_Code,'No': No}).done(function(msg){
                    //populate empty form fields with new data
                    
-                   $('#leave-leave_balance').val(msg.Leave_balance);
-                   $('#medicalcover-key').val(msg.Key);
+                   $('#leave-leave_balance').val(msg.Leave_balance);  
+                   $('#leave-key').val(msg.Key);
                     console.log(typeof msg);
                     console.table(msg);
                     if((typeof msg) === 'string') { // A string is an error
@@ -182,10 +216,27 @@ $script = <<<JS
                     }
                     
                 },'json');
-        }
+            
+        }     
      });
      
+     /*Check if Leave Type requires an attachment */
      
+     $('#leave-leave_code').change(function(e){
+         e.preventDefault();
+          const Leave_Code = e.target.value;
+          // Check if leave required an attachment or not
+            const Vurl = $('input[name=url]').val()+'leave/requiresattachment?Code='+Leave_Code;
+            $.post(Vurl).done(function(msg){
+                console.log(msg);
+                if(msg.Requires_Attachment){
+                    $('#attachmentform').show();
+                }else{
+                    $('#attachmentform').hide();
+                }
+            });
+         
+     });
      /*Set Start Date*/
      
       $('#leave-start_date').blur(function(e){
@@ -196,7 +247,7 @@ $script = <<<JS
             $.post(url,{'Start_Date': Start_Date,'No': No}).done(function(msg){
                    //populate empty form fields with new data
                     $('#leave-leave_balance').val(msg.Leave_balance);
-                    $('#medicalcover-key').val(msg.Key);
+                    $('#leave-key').val(msg.Key);
                    
                     console.log(typeof msg);
                     console.table(msg);
@@ -236,7 +287,7 @@ $script = <<<JS
                     $('#leave-holidays').val(msg.Holidays);
                     $('#leave-weekend_days').val(msg.Weekend_Days);
                     $('#leave-balance_after').val(msg.Balance_After);                    
-                    $('#medicalcover-key').val(msg.Key);
+                    $('#leave-key').val(msg.Key);
                    
                     console.log(typeof msg);
                     console.table(msg);
@@ -259,64 +310,10 @@ $script = <<<JS
      });
      
      
-     /* set department */
-     
-     $('#imprestcard-global_dimension_2_code').change(function(e){
-        const dimension = e.target.value;
-        const No = $('#imprestcard-no').val();
-        if(No.length){
-            const url = $('input[name=url]').val()+'imprest/setdimension?dimension=Global_Dimension_2_Code';
-            $.post(url,{'dimension': dimension,'No': No}).done(function(msg){
-                   //populate empty form fields with new data
-                    console.log(typeof msg);
-                    console.table(msg);
-                    if((typeof msg) === 'string') { // A string is an error
-                        const parent = document.querySelector('.field-imprestcard-global_dimension_2_code');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = msg;
-                        
-                    }else{ // An object represents correct details
-                        const parent = document.querySelector('.field-imprestcard-global_dimension_2_code');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = ''; 
-                        
-                    }
-                    
-                },'json');
-        }
-     });
+   
      
      
-     /*Set Imprest Type*/
-     
-     $('#imprestcard-imprest_type').change(function(e){
-        const Imprest_Type = e.target.value;
-        const No = $('#imprestcard-no').val();
-        if(No.length){
-            const url = $('input[name=url]').val()+'imprest/setimpresttype';
-            $.post(url,{'Imprest_Type': Imprest_Type,'No': No}).done(function(msg){
-                   //populate empty form fields with new data
-                    console.log(typeof msg);
-                    console.table(msg);
-                    if((typeof msg) === 'string') { // A string is an error
-                        const parent = document.querySelector('.field-imprestcard-imprest_type');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = msg;
-                        
-                    }else{ // An object represents correct details
-                        const parent = document.querySelector('.field-imprestcard-imprest_type');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = '';
-                        
-                         $('.modal').modal('show')
-                        .find('.modal-body')
-                        .html('<div class="alert alert-success">Imprest Type Update Successfully.</div>');
-                        
-                    }
-                    
-                },'json');
-        }
-     });
+    
      
      
      /* Add Line */
@@ -346,7 +343,53 @@ $script = <<<JS
     }); 
      
      
+    
+    $('#attachmentfile').change((e) => {
+        $(e.target).closest('form').trigger('submit');
+    });
+    
+    /*Divs parenting*/
+    
+    $('p.parent').find('span').text('+');
+    $('p.parent').find('span').css({"color":"red", "font-weight":"bolder"});    
+    $('p.parent').nextUntil('p.parent').slideUp(1, function(){});    
+    $('p.parent').click(function(){
+            $(this).find('span').text(function(_, value){return value=='-'?'+':'-'}); //to disregard an argument -event- on a function use an underscore in the parameter               
+            $(this).nextUntil('p.parent').slideToggle(100, function(){});
+     });
+    
      
 JS;
 
 $this->registerJs($script);
+
+$style = <<<CSS
+    
+    
+    .btn-file {
+        display: flex;
+        position: relative;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+    
+    }
+
+    .btn-file input {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+    }
+    
+   
+
+CSS;
+
+$this->registerCss($style);
+
+

@@ -10,6 +10,7 @@ namespace frontend\controllers;
 use frontend\models\Employeeappraisalkra;
 use frontend\models\Experience;
 use frontend\models\Leaveplanline;
+use frontend\models\Vehiclerequisitionline;
 use frontend\models\Weeknessdevelopmentplan;
 use Yii;
 use yii\filters\AccessControl;
@@ -24,7 +25,7 @@ use frontend\models\Leave;
 use yii\web\Response;
 use kartik\mpdf\Pdf;
 
-class LeaveplanlineController extends Controller
+class VehiclerequisitionlineController extends Controller
 {
     public function behaviors()
     {
@@ -69,33 +70,29 @@ class LeaveplanlineController extends Controller
 
     }
 
-    public function actionCreate($Plan_No){
-       $service = Yii::$app->params['ServiceName']['LeavePlanLine'];
+    public function actionCreate($No){
+       $service = Yii::$app->params['ServiceName']['BookingRequisitionLine'];
 
-        if(Yii::$app->request->get('Plan_No') && !isset( Yii::$app->request->post()['Leaveplanline'])){
 
-                $model = new Leaveplanline() ;
-                $model->Line_No = time();
-                $model->Plan_No = $Plan_No;
-                $model->Leave_Code = 'Annual';
-                $model->Employee_Code = Yii::$app->user->identity->Employee[0]->No;
+        if(Yii::$app->request->get('No') && !Yii::$app->request->post()){
+                $model = new Vehiclerequisitionline();
+                $model->Booking_Requisition_No = $No;
                 $result = Yii::$app->navhelper->postData($service, $model);
-                // Yii::$app->recruitment->printrr($result);
+                //Yii::$app->recruitment->printrr($result);
 
-                 Yii::$app->navhelper->loadmodel($result,$model);
-
+                $model = Yii::$app->navhelper->loadmodel($result,$model);
         }
         
 
-        if(Yii::$app->request->post() && Yii::$app->request->post()['Leaveplanline'] ){
+        if(Yii::$app->request->post() && Yii::$app->request->post()['Vehiclerequisitionline'] ){
 
 
-            $refresh = Yii::$app->navhelper->getData($service,['Line_No' => Yii::$app->request->post()['Leaveplanline']['Line_No']]);
+            $refresh = Yii::$app->navhelper->getData($service,['BookingRequisitionLine' => Yii::$app->request->post()['Vehiclerequisitionline']['BookingRequisitionLine']]);
 
             $data = [
                 'Key' => $refresh[0]->Key,
-                'Start_Date' => Yii::$app->request->post()['Leaveplanline']['Start_Date'],
-                'End_Date' => Yii::$app->request->post()['Leaveplanline']['End_Date']
+                'Start_Date' => Yii::$app->request->post()['Vehiclerequisitionline']['Booking_Date'],
+                'Booking_Duration' => Yii::$app->request->post()['Vehiclerequisitionline']['Booking_Duration']
             ];
 
             $result = Yii::$app->navhelper->updateData($service,$data);
@@ -104,10 +101,10 @@ class LeaveplanlineController extends Controller
             // return $model;
             if(!is_string($result)){
 
-                return ['note' => '<div class="alert alert-success">Leave Plan Line Created Successfully. </div>' ];
+                return ['note' => '<div class="alert alert-success">Requisition Line Created Successfully. </div>' ];
             }else{
 
-                return ['note' => '<div class="alert alert-danger">Error Creating Leave Plan Line: '.$result.'</div>'];
+                return ['note' => '<div class="alert alert-danger">Error Creating Requisition Line: '.$result.'</div>'];
             }
 
         }
@@ -115,6 +112,7 @@ class LeaveplanlineController extends Controller
         if(Yii::$app->request->isAjax){
             return $this->renderAjax('create', [
                 'model' => $model,
+                'vehicles' => $this->getVehicles(),
             ]);
         }
 
@@ -123,25 +121,25 @@ class LeaveplanlineController extends Controller
 
 
     public function actionUpdate(){
-        $model = new Leaveplanline() ;
+        $model = new Vehiclerequisitionline() ;
         $model->isNewRecord = false;
-        $service = Yii::$app->params['ServiceName']['LeavePlanLine'];
+        $service = Yii::$app->params['ServiceName']['BookingRequisitionLine'];
         $filter = [
-            'Line_No' => Yii::$app->request->get('Line_No'),
+            'Booking_Requisition_No' => Yii::$app->request->get('No'),
         ];
         $result = Yii::$app->navhelper->getData($service,$filter);
 
         if(is_array($result)){
             //load nav result to model
-            Yii::$app->navhelper->loadmodel($result[0],$model) ;//$this->loadtomodeEmployee_Nol($result[0],$Expmodel);
+            $model = Yii::$app->navhelper->loadmodel($result[0],$model) ;
         }else{
             Yii::$app->recruitment->printrr($result);
         }
 
 
-        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Leaveplanline'],$model) ){
+        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Vehiclerequisitionline'],$model) ){
 
-            $refresh = Yii::$app->navhelper->getData($service,['Line_No' => Yii::$app->request->post()['Leaveplanline']['Line_No']]);
+            $refresh = Yii::$app->navhelper->getData($service,['Booking_Requisition_No' => Yii::$app->request->post()['Vehiclerequisitionline']['Booking_Requisition_No']]);
             $model->Key = $refresh[0]->Key;
 
             $result = Yii::$app->navhelper->updateData($service,$model);
@@ -149,10 +147,10 @@ class LeaveplanlineController extends Controller
             Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             if(!is_string($result)){
 
-                return ['note' => '<div class="alert alert-success">Leave Plan Line Updated Successfully. </div>' ];
+                return ['note' => '<div class="alert alert-success"> Line Updated Successfully. </div>' ];
             }else{
 
-                return ['note' => '<div class="alert alert-danger">Error Updating Leave Plan Line: '.$result.'</div>'];
+                return ['note' => '<div class="alert alert-danger">Error Updating Line: '.$result.'</div>'];
             }
 
         }
@@ -160,16 +158,18 @@ class LeaveplanlineController extends Controller
         if(Yii::$app->request->isAjax){
             return $this->renderAjax('update', [
                 'model' => $model,
+                'vehicles' => $this->getVehicles(),
             ]);
         }
 
         return $this->render('update',[
             'model' => $model,
+            'vehicles' => $this->getVehicles(),
         ]);
     }
 
     public function actionDelete(){
-        $service = Yii::$app->params['ServiceName']['LeavePlanLine'];
+        $service = Yii::$app->params['ServiceName']['BookingRequisitionLine'];
         $result = Yii::$app->navhelper->deleteData($service,Yii::$app->request->get('Key'));
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         if(!is_string($result)){
@@ -251,7 +251,25 @@ class LeaveplanlineController extends Controller
     }
 
 
+    /*Get Vehicles */
+    public function getVehicles(){
+        $service = Yii::$app->params['ServiceName']['AvailableVehicleLookUp'];
 
+        $result = \Yii::$app->navhelper->getData($service, []);
+        $arr = [];
+        $i = 0;
+        foreach($result as $res){
+            if(!empty($res->Vehicle_Registration_No) && !empty($res->Make_Model)){
+                ++$i;
+                $arr[$i] = [
+                    'Code' => $res->Vehicle_Registration_No,
+                    'Description' => $res->Make_Model
+                ];
+            }
+        }
+
+        return ArrayHelper::map($arr,'Code','Description');
+    }
 
 
 

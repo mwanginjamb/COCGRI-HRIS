@@ -13,6 +13,7 @@ use frontend\models\Experience;
 use frontend\models\Imprestcard;
 use frontend\models\Imprestline;
 use frontend\models\Imprestsurrendercard;
+use frontend\models\Leaveattachment;
 use frontend\models\Leaveplancard;
 use frontend\models\Leave;
 use frontend\models\Salaryadvance;
@@ -28,6 +29,7 @@ use yii\web\BadRequestHttpException;
 
 use yii\web\Response;
 use kartik\mpdf\Pdf;
+use yii\web\UploadedFile;
 
 class LeaveController extends Controller
 {
@@ -119,7 +121,13 @@ class LeaveController extends Controller
         }
 
 
-        //Yii::$app->recruitment->printrr($model);
+        // Upload Attachment File
+        if(!empty($_FILES)){
+            $Attachmentmodel = new Leaveattachment();
+            $Attachmentmodel->Document_No =  Yii::$app->request->post()['Leaveattachment']['Document_No'];
+            $Attachmentmodel->attachmentfile = UploadedFile::getInstanceByName('attachmentfile');
+            $result = $Attachmentmodel->Upload($Attachmentmodel->Document_No);
+        }
 
         return $this->render('create',[
             'model' => $model,
@@ -148,6 +156,26 @@ class LeaveController extends Controller
             Yii::$app->recruitment->printrr($result);
         }
 
+        // Upload Attachment File
+        if(!empty($_FILES)){
+          //  Yii::$app->recruitment->printrr($_FILES);
+            $Attachmentmodel = new Leaveattachment();
+            $Attachmentmodel->Document_No =  Yii::$app->request->post()['Leaveattachment']['Document_No'];
+            $Attachmentmodel->attachmentfile = UploadedFile::getInstanceByName('attachmentfile');
+            $result = $Attachmentmodel->Upload($Attachmentmodel->Document_No);
+            if(!is_string($result) || $result == true){
+                Yii::$app->session->setFlash('success','Leave Attachement Saved Successfully. ', true);
+            }else{
+                Yii::$app->session->setFlash('error','Could not save attachment.'.$result, true);
+            }
+
+            return $this->render('update',[
+                'model' => $model,
+                'leavetypes' => $this->getLeaveTypes(),
+                'employees' => $this->getEmployees(),
+
+            ]);
+        }
 
         if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Leave'],$model) ){
             $filter = [
@@ -161,12 +189,12 @@ class LeaveController extends Controller
 
             if(!is_string($result)){
 
-                Yii::$app->session->setFlash('success','Medical Cover Claim Updated Successfully.' );
+                Yii::$app->session->setFlash('success','Leave Updated Successfully.' );
 
                 return $this->redirect(['view','No' => $result->Application_No]);
 
             }else{
-                Yii::$app->session->setFlash('success','Error Updating Medical Cover Claim '.$result );
+                Yii::$app->session->setFlash('success','Error Updating Leave Document '.$result );
                 return $this->render('update',[
                     'model' => $model,
                 ]);
@@ -176,7 +204,7 @@ class LeaveController extends Controller
         }
 
 
-        // Yii::$app->recruitment->printrr($model);
+
         if(Yii::$app->request->isAjax){
             return $this->renderAjax('update', [
                 'model' => $model,
@@ -186,6 +214,8 @@ class LeaveController extends Controller
 
             ]);
         }
+
+
 
         return $this->render('update',[
             'model' => $model,
@@ -389,13 +419,36 @@ class LeaveController extends Controller
 
     public function getLeaveTypes($gender = ''){
         $service = Yii::$app->params['ServiceName']['LeaveTypesSetup']; //['leaveTypes'];
+        $filter = [];
+
+        $arr = [];
+        $i = 0;
+        $result = \Yii::$app->navhelper->getData($service,$filter);
+        foreach($result as $res)
+        {
+            if($res->Gender == 'Both' || $res->Gender == Yii::$app->user->identity->Employee[0]->Gender )
+            {
+                ++$i;
+                $arr[$i] = [
+                    'Code' => $res->Code,
+                    'Description' => $res->Description
+                ];
+            }
+        }
+        return ArrayHelper::map($arr,'Code','Description');
+    }
+
+    public function actionRequiresattachment($Code)
+    {
+        $service = Yii::$app->params['ServiceName']['LeaveTypesSetup'];
         $filter = [
-            // 'Gender' => $gender,
-            //'Gender' => !empty(Yii::$app->user->identity->Employee[0]->Gender)?Yii::$app->user->identity->Employee[0]->Gender:'Both'
+            'Code' => $Code
         ];
 
         $result = \Yii::$app->navhelper->getData($service,$filter);
-        return ArrayHelper::map($result,'Code','Description');
+
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return ['Requires_Attachment' => $result[0]->Requires_Attachment ];
     }
 
     public function getEmployees(){

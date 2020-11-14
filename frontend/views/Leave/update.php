@@ -27,6 +27,7 @@ $model->Start_Date = date('m-d-Y', strtotime($now.' + 2 days'));*/
         'model' => $model,
         'leavetypes' => $leavetypes,
         'employees' => $employees,
+        'Attachmentmodel' => new \frontend\models\Leaveattachment(),
     ]) ?>
 
 </div>

@@ -1,6 +1,7 @@
 <?php
 return [
-    'generalTitle' => 'KEMRI - Self Service',
+    'generalTitle' => 'IANSOFT - Self Service',
+    'demoCompany' => 'IANSOFT',
     'adminEmail' => 'customer@softeboard.com',
     'supportEmail' => 'customer@softeboard.com',
     'senderEmail' => 'customer@softeboard.com',
@@ -18,7 +19,7 @@ return [
     'WebServicePort'=>'4047',//Nav server Port
     'ServerInstance'=>'BC140',//Nav Server Instance
     'CompanyName'=>'COGRI',//Nav Company,
-    'CompanyNameStripped' => 'COGRI$',
+    'CompanyNameDb' => 'COGRI$',
     'ldPrefix'=>'francis',//ACTIVE DIRECTORY prefix
     'adServer' => 'KRB-SVR7.KRBHQS.GO.KE', //Active directory domain controller
 
@@ -85,6 +86,7 @@ return [
         'LeaveBalances' => 'LeaveBalances',//50041
         'LeaveRecallList' => 'LeaveRecallList', // 50065
         'LeaveRecallCard' => 'LeaveRecallCard', // 50064
+        'LeaveAttachments' => 'LeaveAttachments', //50031
 
 
 
@@ -212,11 +214,20 @@ return [
         'LearningAssessmentCompetence' => 'LearningAssessmentCompetence', //60035
 
 
-        'Payrollperiods' => 'Payrollperiods', //70255
+
+        /*Vehicle Requisitions*/
+
+        'BookingRequisitionList' => 'BookingRequisitionList', //70014
+        'BookingRequisitionDocument' => 'BookingRequisitionDocument', //70012
+        'BookingRequisitionLine' => 'BookingRequisitionLine', //70013
+        'AvailableVehicleLookUp' => 'AvailableVehicleLookUp', //70021
+
+
+        'Payrollperiods' => 'Payrollperiods', //58002
 
         //P9 report
 
-        'P9YEARS' => 'P9YEARS', //70286
+        'P9YEARS' => 'P9YEARS', //50067
 
         /* Request to Approve */
         'RequeststoApprove' => 'RequeststoApprove', //654
@@ -278,6 +289,13 @@ return [
         'application/vnd.ms-access',
         'application/rtf',
         'application/octet-stream'
+    ],
+    'LeavemaxUploadFiles' => 1,
+    'MimeTypes' => [
+        //'application/msword',
+        //'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        //'application/octet-stream',
+        'application/pdf'
     ]
 
 ];

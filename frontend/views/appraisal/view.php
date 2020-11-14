@@ -850,7 +850,7 @@ $script = <<<JS
     
     /*Divs parenting*/
     
-     $('p.parent').find('span').text('+');
+    $('p.parent').find('span').text('+');
     $('p.parent').find('span').css({"color":"red", "font-weight":"bolder"});    
     $('p.parent').nextUntil('p.parent').slideUp(1, function(){});    
     $('p.parent').click(function(){

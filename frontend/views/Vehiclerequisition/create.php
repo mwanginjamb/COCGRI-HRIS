@@ -11,13 +11,12 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\AgendaDocument */
 
-$this->title = 'Leave Application';
-$this->params['breadcrumbs'][] = ['label' => 'Leaves', 'url' => ['index']];
+$this->title = 'Leave Plan Application';
+$this->params['breadcrumbs'][] = ['label' => 'Leave Plan', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => 'New Request', 'url' => ['create']];
 //$this->params['breadcrumbs'][] = $this->title;
 
 $model->isNewRecord = true;
-
 ?>
 <div class="leave-document-create">
 
@@ -25,9 +24,7 @@ $model->isNewRecord = true;
 
     <?= $this->render('_form', [
         'model' => $model,
-        'leavetypes' => $leavetypes,
-        'employees' => $employees,
-        'Attachmentmodel' => new \frontend\models\Leaveattachment(),
+
     ]) ?>
 
 </div>

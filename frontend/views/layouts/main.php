@@ -202,7 +202,7 @@ $employee = (!Yii::$app->user->isGuest)?Yii::$app->user->identity->employee[0]:[
             <a href="<?= $absoluteUrl ?>site" class="brand-link">
                 <!--<img src="<?= $webroot ?>/images/Logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
                      style="opacity: .8">-->
-                <span class="brand-text font-weight-light">KEMRI - SELF SERVICE</span>
+                <span class="brand-text font-weight-light"><?= Yii::$app->params['generalTitle']?></span>
             </a>
 
             <!-- Sidebar -->
@@ -225,7 +225,7 @@ $employee = (!Yii::$app->user->isGuest)?Yii::$app->user->identity->employee[0]:[
 
 
 <!--Approval Management -->
-                        <?php if(!Yii::$app->user->isGuest &&Yii::$app->user->identity->isApprover()): ?>
+                        <?php if(!Yii::$app->user->isGuest &&Yii::$app->user->identity->isSupervisor()): ?>
                         <li class="nav-item has-treeview <?= Yii::$app->recruitment->currentCtrl('approvals')?'menu-open':'' ?>">
 
                             <a href="#" class="nav-link <?= Yii::$app->recruitment->currentCtrl('approvals')?'active':'' ?>">
@@ -839,6 +839,53 @@ $employee = (!Yii::$app->user->isGuest)?Yii::$app->user->identity->employee[0]:[
                         <!--/Medical Cover -->
 
 
+                        <!--Fleet Mgt-->
+
+                        <li class="nav-item has-treeview <?= Yii::$app->recruitment->currentCtrl(['vehiclerequisition','fuelrequisition'])?'menu-open':'' ?>">
+                            <a href="#" title="Performance Management" class="nav-link <?= Yii::$app->recruitment->currentCtrl('medicalcover')?'active':'' ?>">
+                                <i class="nav-icon fa fa-truck-moving"></i>
+                                <p>
+                                    Fleet Management
+                                    <i class="fas fa-angle-left right"></i>
+                                    <!--<span class="badge badge-info right">6</span>-->
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>vehiclerequisition/create" class="nav-link <?= Yii::$app->recruitment->currentaction('vehiclerequisition','create')?'active':'' ?>">
+                                        <i class="fa fa-key nav-icon"></i>
+                                        <p> New Booking Req.</p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>vehiclerequisition" class="nav-link <?= Yii::$app->recruitment->currentaction('vehiclerequisition','index')?'active':'' ?>">
+                                        <i class="fa fa-truck-pickup nav-icon"></i>
+                                        <p> Booking Req. List</p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>fuelrequisition/create" class="nav-link <?= Yii::$app->recruitment->currentaction('fuelrequsition','create')?'active':'' ?>">
+                                        <i class="fa fa-fire nav-icon"></i>
+                                        <p> New Fuel Req.</p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>fuelrequisition" class="nav-link <?= Yii::$app->recruitment->currentaction('fuelrequsition','create')?'active':'' ?>">
+                                        <i class=" fa fa-dumpster-fire nav-icon"></i>
+                                        <p> Fuel Req. List</p>
+                                    </a>
+                                </li>
+
+
+                            </ul>
+
+                        </li>
+
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -895,7 +942,7 @@ $employee = (!Yii::$app->user->isGuest)?Yii::$app->user->identity->employee[0]:[
 
         <!-- /.content-wrapper -->
         <footer class="main-footer">
-            <strong>Copyright &copy; COCGRI -  <?= Html::encode(Yii::$app->name) ?> 2014 - <?= date('Y') ?>   <a href="#"> KEMRI</a>.</strong>
+            <strong>Copyright &copy; <?= Yii::$app->params['generalTitle'] ?> -   2014 - <?= date('Y') ?>   <a href="#"> <?= strtoupper(Yii::$app->params['demoCompany'])?></a>.</strong>
             All rights reserved.
             <div class="float-right d-none d-sm-inline-block">
                 <b><?= Yii::signature() ?></b>

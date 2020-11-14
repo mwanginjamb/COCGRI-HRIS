@@ -68,47 +68,48 @@ class P9Controller extends Controller
     }
 
     public function actionIndex(){
-       // $p9years = $this->getP9years();
 
-        $p9years = [
-            ['Year' => '2018','desc' => '2018'],
-            ['Year' => '2019','desc' => '2019'],
-            ['Year' => '2020','desc' => '2020'],
-        ];
+        $p9years = $this->getP9years();
         $service = Yii::$app->params['ServiceName']['PortalReports'];
 
-        //Yii::$app->recruitment->printrr(ArrayHelper::map($payrollperiods,'Date_Opened','desc'));
+
         if(Yii::$app->request->post()){
 
             $data = [
-                //'p9Year' =>Yii::$app->request->post('p9year'),
-                'empNo' => Yii::$app->user->identity->{'Employee No_'}
+                'empNo' => Yii::$app->user->identity->{'Employee No_'},
+                'selectedYear' =>Yii::$app->request->post('p9year'),
              ];
+
+
             $path = Yii::$app->navhelper->PortalReports($service,$data,'IanGeneratep9');
-            if(!is_file($path['return_value'])){
-                //throw new HttpException(404,"Resouce Not Found: ".$path['return_value']);
+
+            if(is_file($path['return_value'])){
+                $binary = file_get_contents($path['return_value']); //fopen($path['return_value'],'rb');
+                $content = chunk_split(base64_encode($binary));
+                //delete the file after getting it's contents --> This is some house keeping
+                unlink($path['return_value']);
+                //Yii::$app->recruitment->printrr($content);
+
                 return $this->render('index',[
-                    'report' => false,
-                    'p9years' => ArrayHelper::map($p9years,'Year','desc'),
-                    'message' => $path['return_value']
+                    'report' => true,
+                    'content' => $content,
+                    'p9years' =>  $this->getP9years()
                 ]);
             }
-            $binary = file_get_contents($path['return_value']); //fopen($path['return_value'],'rb');
-            $content = chunk_split(base64_encode($binary));
-            //delete the file after getting it's contents --> This is some house keeping
-            unlink($path['return_value']);
 
-           //Yii::$app->recruitment->printrr($path);
+            // no report scenario
+
             return $this->render('index',[
-                'report' => true,
-                'content' => $content,
-                'p9years' => ArrayHelper::map($p9years,'Year','desc')
+                'report' => false,
+                'p9years' => $this->getP9years(),
+                'content' => null,
             ]);
+
         }
 
         return $this->render('index',[
             'report' => false,
-            'p9years' => ArrayHelper::map($p9years,'Year','desc')
+            'p9years' => $this->getP9years()
         ]);
 
     }
@@ -117,15 +118,22 @@ class P9Controller extends Controller
         $service = Yii::$app->params['ServiceName']['P9YEARS'];
 
         $periods = \Yii::$app->navhelper->getData($service);
-        krsort( $periods);//sort  keys in descending order
-        $res = [];
-        foreach($periods as $p){
-            $res[] = [
-                'Year' => $p->Year,
-                'desc' => $p->Year
-            ];
+        if(is_array($periods)){
+            krsort( $periods);//sort  keys in descending order
+
+            $res = [];
+            foreach($periods as $p){
+                $res[] = [
+                    'Year' => $p->Period_Year,
+                    'desc' => $p->Period_Year
+                ];
+            }
+            return ArrayHelper::map($res,'Year','desc');
+        }else{
+            return [];
         }
-        return $res;
+
+
     }
 
 

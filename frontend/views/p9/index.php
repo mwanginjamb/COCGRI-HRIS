@@ -36,8 +36,8 @@ $this->params['breadcrumbs'][] = ['label' => 'P9 Report', 'url' => ['index']];
                     </div>
                     <!--<iframe src="data:application/pdf;base64,<?/*= $content; */?>" height="950px" width="100%"></iframe>-->
                     <?php
-                    if(isset($message)){
-                        print '<p class="alert alert-info">'.$message.' . </p>';
+                    if(is_null($content)){
+                        print '<p class="alert alert-info">P9 Report for Requested Year is Not Available. </p>';
                     }
                     if($report && !isset($message)){ ?>
 

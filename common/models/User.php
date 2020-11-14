@@ -34,7 +34,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function tableName()
     {
-        return Yii::$app->params['CompanyNameStripped'].'User Setup ';
+        return Yii::$app->params['CompanyNameDb'].'User Setup ';
     }
 
     /**
@@ -258,7 +258,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $service = Yii::$app->params['ServiceName']['RequestsTo_ApprovePortal'];
         $filter = [
-            'Employee_No' => Yii::$app->user->identity->{'Employee No_'},
+            'Approver_No' => Yii::$app->user->identity->{'Employee No_'},
         ];
 
         $result = \Yii::$app->navhelper->getData($service,$filter);
