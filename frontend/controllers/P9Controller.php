@@ -69,47 +69,37 @@ class P9Controller extends Controller
 
     public function actionIndex(){
 
-        $p9years = $this->getP9years();
         $service = Yii::$app->params['ServiceName']['PortalReports'];
 
-
         if(Yii::$app->request->post()){
-
             $data = [
                 'empNo' => Yii::$app->user->identity->{'Employee No_'},
                 'selectedYear' =>Yii::$app->request->post('p9year'),
              ];
-
-
             $path = Yii::$app->navhelper->PortalReports($service,$data,'IanGeneratep9');
-
             if(is_file($path['return_value'])){
                 $binary = file_get_contents($path['return_value']); //fopen($path['return_value'],'rb');
                 $content = chunk_split(base64_encode($binary));
                 //delete the file after getting it's contents --> This is some house keeping
                 unlink($path['return_value']);
                 //Yii::$app->recruitment->printrr($content);
-
                 return $this->render('index',[
                     'report' => true,
                     'content' => $content,
                     'p9years' =>  $this->getP9years()
                 ]);
             }
-
             // no report scenario
-
             return $this->render('index',[
                 'report' => false,
                 'p9years' => $this->getP9years(),
                 'content' => null,
             ]);
-
         }
-
         return $this->render('index',[
             'report' => false,
-            'p9years' => $this->getP9years()
+            'p9years' => $this->getP9years(),
+            'content' => true,
         ]);
 
     }

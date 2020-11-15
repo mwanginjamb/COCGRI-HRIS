@@ -205,7 +205,7 @@ class ApprovalsController extends Controller
 
         $filter = [
             //'Employee_No' => Yii::$app->user->identity->{'Employee No_'},
-            'Approver_ID' => Yii::$app->user->identity->{'User ID'},
+            'Approver_No' => Yii::$app->user->identity->{'Employee No_'},
         ];
         $approvals = \Yii::$app->navhelper->getData($service,$filter);
 

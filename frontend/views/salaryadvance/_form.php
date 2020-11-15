@@ -98,7 +98,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                 <div class="row">
 
                     <div class="form-group">
-                        <?= Html::submitButton(($model->isNewRecord)?'Save':'Update', ['class' => 'btn btn-success']) ?>
+                        <?= Html::submitButton(($model->isNewRecord)?'Save':'Update', ['class' => 'btn btn-success','id' => 'submit']) ?>
                     </div>
 
 
@@ -197,15 +197,16 @@ $script = <<<JS
                     console.log(typeof msg);
                     console.table(msg);
                     if((typeof msg) === 'string') { // A string is an error
-                        const parent = document.querySelector('.field-imprestcard-global_dimension_1_code');
+                        const parent = document.querySelector('.field-salaryadvance-amount_requested');
                         const helpbBlock = parent.children[2];
                         helpbBlock.innerText = msg;
+                        disableSubmit();
                         
                     }else{ // An object represents correct details
-                        const parent = document.querySelector('.field-imprestcard-global_dimension_1_code');
+                        const parent = document.querySelector('.field-salaryadvance-amount_requested');
                         const helpbBlock = parent.children[2];
                         helpbBlock.innerText = ''; 
-                        
+                        enableSubmit();
                     }
                     
                 },'json');
@@ -289,6 +290,16 @@ $script = <<<JS
         var reld = location.reload(true);
         setTimeout(reld,1000);
     }); 
+    
+    
+    function disableSubmit(){
+             document.getElementById('submit').setAttribute("disabled", "true");
+    }
+        
+    function enableSubmit(){
+        document.getElementById('submit').removeAttribute("disabled");
+    
+    }
      
      
      

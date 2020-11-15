@@ -23,7 +23,7 @@ Yii::$app->session->set('isSupervisor',false);*/
 <div class="row">
     <div class="col-md-4">
 
-        <?= ($model->Status == 'Open')?Html::a('<i class="fas fa-paper-plane"></i> Send Approval Req',['send-for-approval'],['class' => 'btn btn-app submitforapproval',
+        <?= ($model->Booking_Requisition_Status == 'New')?Html::a('<i class="fas fa-paper-plane"></i> Send Approval Req',['send-for-approval'],['class' => 'btn btn-app submitforapproval',
             'data' => [
                 'confirm' => 'Are you sure you want to send this document for approval?',
                 'params'=>[
@@ -37,7 +37,7 @@ Yii::$app->session->set('isSupervisor',false);*/
         ]):'' ?>
 
 
-        <?= ($model->Status == 'Pending_Approval')?Html::a('<i class="fas fa-times"></i> Cancel Approval Req.',['cancel-request'],['class' => 'btn btn-app submitforapproval',
+        <?= ($model->Booking_Requisition_Status == 'Pending_Approval')?Html::a('<i class="fas fa-times"></i> Cancel Approval Req.',['cancel-request'],['class' => 'btn btn-app submitforapproval',
             'data' => [
             'confirm' => 'Are you sure you want to cancel imprest approval request?',
             'params'=>[
@@ -110,7 +110,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                                 <?= $form->field($model, 'Department')->textInput(['readonly'=> true,'disabled'=> true]) ?>
                                 <?= $form->field($model, 'Booking_Requisition_Status')->textInput(['readonly'=> true,'disabled'=> true]) ?>
                                 <?= $form->field($model, 'Booked_Status')->textInput(['readonly'=> true,'disabled'=> true]) ?>
-                                <?= $form->field($model, 'Status')->textInput(['readonly'=> true,'disabled'=> true]) ?>
+
 
 
                             </div>
@@ -254,7 +254,7 @@ $script = <<<JS
         
       //Add  plan Line
     
-     $('.add-line').on('click',function(e){
+     $('.add-line, .update-objective').on('click',function(e){
         e.preventDefault();
         var url = $(this).attr('href');
         console.log('clicking...');

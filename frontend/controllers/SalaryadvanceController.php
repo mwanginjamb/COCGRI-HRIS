@@ -400,7 +400,6 @@ class SalaryadvanceController extends Controller
 
     public function getEmployees(){
         $service = Yii::$app->params['ServiceName']['Employees'];
-
         $employees = \Yii::$app->navhelper->getData($service);
         return ArrayHelper::map($employees,'No','FullName');
     }
@@ -504,49 +503,35 @@ class SalaryadvanceController extends Controller
     public function actionSetloantype(){
         $model = new Salaryadvance();
         $service = Yii::$app->params['ServiceName']['SalaryAdvanceCard'];
-
         $filter = [
             'No' => Yii::$app->request->post('No')
         ];
         $request = Yii::$app->navhelper->getData($service, $filter);
-
         if(is_array($request)){
             Yii::$app->navhelper->loadmodel($request[0],$model);
             $model->Key = $request[0]->Key;
             $model->Loan_Type = Yii::$app->request->post('loan');
         }
-
-
         $result = Yii::$app->navhelper->updateData($service,$model);
-
         Yii::$app->response->format = \yii\web\response::FORMAT_JSON;
-
         return $result;
-
     }
 
     public function actionSetamount(){
         $model = new Salaryadvance();
         $service = Yii::$app->params['ServiceName']['SalaryAdvanceCard'];
-
         $filter = [
             'No' => Yii::$app->request->post('No')
         ];
         $request = Yii::$app->navhelper->getData($service, $filter);
-
         if(is_array($request)){
             Yii::$app->navhelper->loadmodel($request[0],$model);
             $model->Key = $request[0]->Key;
             $model->Amount_Requested = Yii::$app->request->post('amount');
         }
-
-
         $result = Yii::$app->navhelper->updateData($service,$model);
-
         Yii::$app->response->format = \yii\web\response::FORMAT_JSON;
-
         return $result;
-
     }
 
     /* Set Imprest Type */

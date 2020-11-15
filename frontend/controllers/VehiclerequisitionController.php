@@ -31,7 +31,7 @@ use frontend\models\Leave;
 use yii\web\Response;
 use kartik\mpdf\Pdf;
 
-class VehiclerequsitionController extends Controller
+class VehiclerequisitionController extends Controller
 {
     public function behaviors()
     {
@@ -399,12 +399,12 @@ class VehiclerequsitionController extends Controller
 
     /* Call Approval Workflow Methods */
 
-    public function actionSendForApproval($Plan_No)
+    public function actionSendForApproval()
     {
         $service = Yii::$app->params['ServiceName']['PortalFactory'];
 
         $data = [
-            'applicationNo' => $Plan_No,
+            'applicationNo' => Yii::$app->request->get('Booking_Requisition_No'),
             'sendMail' => true,
             'approvalUrl' => '',
         ];

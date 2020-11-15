@@ -6,14 +6,12 @@
  * Time: 12:31 PM
  */
 
-
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\AgendaDocument */
 
 $this->title = 'Update Line.';
-
 $model->Booking_Date = (date('Y',strtotime($model->Booking_Date)) == '0001')?$model->Booking_Date = date('Y-m-d'):$model->Booking_Date;
 //$model->End_Date = (date('Y',strtotime($model->End_Date)) == '0001')?$model->End_Date = date('Y-m-d'):$model->End_Date;
 

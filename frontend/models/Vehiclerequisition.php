@@ -33,8 +33,8 @@ public $isNewRecord;
     public function rules()
     {
         return [
-                ['Reason_For_Booking', 'required'],
-                ['Reason_For_Booking', 'string',[5,250]],
+                [['Reason_For_Booking','Booking_Requisition_No'], 'required'],
+               // ['Reason_For_Booking', 'string',[5,250]],
         ];
     }
 

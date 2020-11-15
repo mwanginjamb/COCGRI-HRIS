@@ -24,10 +24,11 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
 
                             <div class="col-md-12">
-                                    <?= $form->field($model, 'Booking_Requisition_No')->dropDownList($vehicles, ['prompt' => 'Select Vehicle']) ?>
+                                    <?= $form->field($model, 'Vehicle_Regitration_No')->dropDownList($vehicles, ['prompt' => 'Select Vehicle']) ?>
                                     <?= $form->field($model, 'Booking_Date')->textInput(['type' => 'date']) ?>
                                     <?= $form->field($model, 'Booking_Duration')->textInput() ?>
                                     <?= $form->field($model, 'Key')->hiddenInput(['readonly'=> true])->label(false) ?>
+                                    <?= $form->field($model, 'Booking_Requisition_No')->textInput(['readonly' => true]) ?>
                             </div>
 
 

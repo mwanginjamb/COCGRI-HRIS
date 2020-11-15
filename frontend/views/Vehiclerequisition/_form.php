@@ -32,7 +32,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
                         <div class="col-md-6">
 
-                            <?= $form->field($model, 'Booking_Requisition_No')->textInput(['readonly'=> true]) ?>
+                            <?= $form->field($model, 'Booking_Requisition_No')->textInput() ?>
                             <?= $form->field($model, 'Key')->hiddenInput()->label(false) ?>
                             <?= $form->field($model, 'Requisition_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                             <?= $form->field($model, 'Reason_For_Booking')->textInput(['maxlength'=> 250, 'required'=>true]) ?>
@@ -45,9 +45,9 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
                         <div class="col-md-6">
                             <?= $form->field($model, 'Department')->textInput(['readonly'=> true,'disabled'=> true]) ?>
-                            <?= $form->field($model, 'Booking_Requisition_Status"')->textInput(['readonly'=> true,'disabled'=> true]) ?>
+                            <?= $form->field($model, 'Booking_Requisition_Status')->textInput(['readonly'=> true,'disabled'=> true]) ?>
                             <?= $form->field($model, 'Booked_Status')->textInput(['readonly'=> true,'disabled'=> true]) ?>
-                            <?= $form->field($model, 'Status')->textInput(['readonly'=> true,'disabled'=> true]) ?>
+                            <?= $form->field($model, 'Booking_Requisition_Status')->textInput(['readonly'=> true,'disabled'=> true]) ?>
 
                         </div>
 

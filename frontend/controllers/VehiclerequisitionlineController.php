@@ -72,22 +72,25 @@ class VehiclerequisitionlineController extends Controller
 
     public function actionCreate($No){
        $service = Yii::$app->params['ServiceName']['BookingRequisitionLine'];
-
+       $model = new Vehiclerequisitionline();
 
         if(Yii::$app->request->get('No') && !Yii::$app->request->post()){
-                $model = new Vehiclerequisitionline();
+
                 $model->Booking_Requisition_No = $No;
                 $result = Yii::$app->navhelper->postData($service, $model);
                 //Yii::$app->recruitment->printrr($result);
 
-                $model = Yii::$app->navhelper->loadmodel($result,$model);
+                Yii::$app->navhelper->loadmodel($result,$model);
         }
         
 
         if(Yii::$app->request->post() && Yii::$app->request->post()['Vehiclerequisitionline'] ){
 
+            $filter = [
+                'Booking_Requisition_No' => Yii::$app->request->get('No'),
+            ];
 
-            $refresh = Yii::$app->navhelper->getData($service,['BookingRequisitionLine' => Yii::$app->request->post()['Vehiclerequisitionline']['BookingRequisitionLine']]);
+            $refresh = Yii::$app->navhelper->getData($service,$filter);
 
             $data = [
                 'Key' => $refresh[0]->Key,
@@ -131,7 +134,7 @@ class VehiclerequisitionlineController extends Controller
 
         if(is_array($result)){
             //load nav result to model
-            $model = Yii::$app->navhelper->loadmodel($result[0],$model) ;
+            Yii::$app->navhelper->loadmodel($result[0],$model) ;
         }else{
             Yii::$app->recruitment->printrr($result);
         }
@@ -139,8 +142,13 @@ class VehiclerequisitionlineController extends Controller
 
         if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Vehiclerequisitionline'],$model) ){
 
-            $refresh = Yii::$app->navhelper->getData($service,['Booking_Requisition_No' => Yii::$app->request->post()['Vehiclerequisitionline']['Booking_Requisition_No']]);
+            $filter = [
+                'Booking_Requisition_No' => Yii::$app->request->get('No'),
+            ];
+            $refresh = Yii::$app->navhelper->getData($service, $filter);
             $model->Key = $refresh[0]->Key;
+
+            //Yii::$app->recruitment->printrr($model);
 
             $result = Yii::$app->navhelper->updateData($service,$model);
 
