@@ -230,7 +230,6 @@ class LeaveController extends Controller
         $result = Yii::$app->navhelper->deleteData($service,Yii::$app->request->get('Key'));
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         if(!is_string($result)){
-
             return ['note' => '<div class="alert alert-success">Record Purged Successfully</div>'];
         }else{
             return ['note' => '<div class="alert alert-danger">Error Purging Record: '.$result.'</div>' ];
@@ -285,7 +284,6 @@ class LeaveController extends Controller
                 'Employee_No' => !empty($item->Employee_No)?$item->Employee_No:'',
                 'Employee_Name' => !empty($item->Employee_Name)?$item->Employee_Name:'',
                 'Application_Date' => !empty($item->Application_Date)?$item->Application_Date:'',
-                'Receipt_Amount' => !empty($item->Receipt_Amount)?$item->Receipt_Amount:'',
                 'Status' => $item->Status,
                 'Action' => $link,
                 'Update_Action' => $updateLink,
@@ -469,11 +467,7 @@ class LeaveController extends Controller
                 }
 
             }
-
-
-
         }
-
         return ArrayHelper::map($data,'No','Full_Name');
     }
 

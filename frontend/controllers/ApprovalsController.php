@@ -265,7 +265,7 @@ class ApprovalsController extends Controller
                     // 'ToApprove' => $app->ToApprove,
                     'Details' => $app->Details,
                     'Comment' => $app->Comment,
-                    'Sender_ID' => $this->getName($app->Sender_ID),
+                    'Sender_ID' => $app->Sender_Name,
                     'Due_Date' => $app->Due_Date,
                     'Status' => $app->Status,
                     'Document_No' => $app->Document_No,

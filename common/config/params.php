@@ -219,8 +219,13 @@ return [
 
         'BookingRequisitionList' => 'BookingRequisitionList', //70014
         'BookingRequisitionDocument' => 'BookingRequisitionDocument', //70012
+        'BookingRequisitionPortal' => 'BookingRequisitionPortal',//70056
         'BookingRequisitionLine' => 'BookingRequisitionLine', //70013
         'AvailableVehicleLookUp' => 'AvailableVehicleLookUp', //70021
+
+        'FuelingDocumentPortal' => 'FuelingDocumentPortal', // 70055
+        'FuelingList' => 'FuelingList', // 70008
+        'FuelingLine' => 'FuelingLine', // 70007
 
 
         'Payrollperiods' => 'Payrollperiods', //58002

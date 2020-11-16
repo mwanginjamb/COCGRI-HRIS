@@ -841,7 +841,7 @@ $employee = (!Yii::$app->user->isGuest)?Yii::$app->user->identity->employee[0]:[
 
                         <!--Fleet Mgt-->
 
-                        <li class="nav-item has-treeview <?= Yii::$app->recruitment->currentCtrl(['vehiclerequisition','fuelrequisition'])?'menu-open':'' ?>">
+                        <li class="nav-item has-treeview <?= Yii::$app->recruitment->currentCtrl(['vehiclerequisition','fuel'])?'menu-open':'' ?>">
                             <a href="#" title="Performance Management" class="nav-link <?= Yii::$app->recruitment->currentCtrl('medicalcover')?'active':'' ?>">
                                 <i class="nav-icon fa fa-truck-moving"></i>
                                 <p>
@@ -868,14 +868,14 @@ $employee = (!Yii::$app->user->isGuest)?Yii::$app->user->identity->employee[0]:[
                                 </li>
 
                                 <li class="nav-item">
-                                    <a href="<?= $absoluteUrl ?>fuelrequisition/create" class="nav-link <?= Yii::$app->recruitment->currentaction('fuelrequsition','create')?'active':'' ?>">
+                                    <a href="<?= $absoluteUrl ?>fuel/create" class="nav-link <?= Yii::$app->recruitment->currentaction('fuel','create')?'active':'' ?>">
                                         <i class="fa fa-fire nav-icon"></i>
                                         <p> New Fuel Req.</p>
                                     </a>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a href="<?= $absoluteUrl ?>fuelrequisition" class="nav-link <?= Yii::$app->recruitment->currentaction('fuelrequsition','create')?'active':'' ?>">
+                                    <a href="<?= $absoluteUrl ?>fuel" class="nav-link <?= Yii::$app->recruitment->currentaction('fuel','create')?'active':'' ?>">
                                         <i class=" fa fa-dumpster-fire nav-icon"></i>
                                         <p> Fuel Req. List</p>
                                     </a>

@@ -11,7 +11,7 @@
 /* @var $this yii\web\View */
 
 $this->title = Yii::$app->params['generalTitle'];
-$this->params['breadcrumbs'][] = ['label' => 'Leave Application List', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Fuel Requisition List', 'url' => ['index']];
 $this->params['breadcrumbs'][] = '';
 $url = \yii\helpers\Url::home(true);
 ?>
@@ -19,8 +19,8 @@ $url = \yii\helpers\Url::home(true);
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-        <?= \yii\helpers\Html::a('New Leave Application Request',['create'],['class' => 'btn btn-info push-right', 'data' => [
-            'confirm' => 'Are you sure you want to create a new Leave Application Request?',
+        <?= \yii\helpers\Html::a('New Fuel Requisition',['create'],['class' => 'btn btn-info push-right', 'data' => [
+            'confirm' => 'Are you sure you want to create a new Requisition?',
             'method' => 'get',
         ],]) ?>
             </div>
@@ -50,12 +50,7 @@ if(Yii::$app->session->hasFlash('success')){
     <div class="col-md-12">
         <div class="card card-info">
             <div class="card-header">
-                <h3 class="card-title">Leave Application List</h3>
-
-
-
-
-
+                <h3 class="card-title">Fuel Requisition List</h3>
 
             </div>
             <div class="card-body">
@@ -80,21 +75,23 @@ $script = <<<JS
           $('#table').DataTable({
            
             //serverSide: true,  
-            ajax: url+'leave/list',
+            ajax: url+'fuel/list',
             paging: true,
             columns: [
                 { title: 'No' ,data: 'No'},
-                { title: 'Employee No' ,data: 'Employee_No'},
-                { title: 'Employee Name' ,data: 'Employee_Name'},
-                { title: 'Application Date' ,data: 'Application_Date'},                
+                { title: 'Vehicle Registration_No' ,data: 'Vehicle_Registration_No'},
+                { title: 'Vehicle Model' ,data: 'Vehicle_Model'},
+                { title: 'Driver Name' ,data: 'Driver_Name'},
+                { title: 'Created Date' ,data: 'Created_Date'},
+                { title: 'Type of Fuel' ,data: 'Type_of_Fuel'},
+                { title: 'Total Fuel Cost' ,data: 'Total_Fuel_Cost'},
+                
                 { title: 'Status' ,data: 'Status'},
                 { title: 'Action', data: 'Action' },
-                { title: 'Update Action', data: 'Update_Action' },
-                { title: 'Details', data: 'view' },
-               
+                               
             ] ,                              
            language: {
-                "zeroRecords": "No Leave Applications to display"
+                "zeroRecords": "No Fuel Requisitions to display"
             },
             
             order : [[ 0, "desc" ]]
