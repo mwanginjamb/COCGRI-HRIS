@@ -302,33 +302,30 @@ class RecruitmentController extends Controller
 
     public function actionGetvacancies(){
         $service = Yii::$app->params['ServiceName']['JobsList'];
-        $filter = [
-            'Requisition_Type' => 'Internal'
-        ];
+        $filter = [];
         $requisitions = \Yii::$app->navhelper->getData($service,$filter);
         $result = [];
         foreach($requisitions as $req){
-            if((isset($req->No_Posts) && !empty($req->Job_Description) && !empty($req->Job_Id))  ) {
+            if(($req->No_Posts >= 0 && !empty($req->Job_Description) && !empty($req->Job_Id)) && ($req->Requisition_Type == 'Internal' || $req->Requisition_Type == 'Both')  ) {
+                $Viewlink = Html::a('Apply', ['view', 'Job_ID' => $req->Job_Id], [
+                    'class' => 'btn btn-outline-primary btn-xs',
+                    'data' => [
+                        'params' => ['type' => 'Internal'],
+                        'method' => 'post',
+                    ],
+                ]);
 
-                $RequisitionType = Yii::$app->recruitment->getRequisitionType($req->Job_ID);
-                if(($req->No_of_Posts >= 0 && !empty($req->Job_Description) && !empty($req->Job_ID)) && ($RequisitionType == 'Internal' || $RequisitionType == 'Both' ) ) {
-                    $Viewlink = Html::a('Apply', ['view', 'Job_ID' => $req->Job_ID], ['class' => 'btn btn-outline-primary btn-xs']);
+                $result['data'][] = [
+                    'Job_ID' => !empty($req->Job_Id) ? $req->Job_Id : 'Not Set',
+                    'Job_Description' => !empty($req->Job_Description) ? $req->Job_Description : '',
+                    'No_of_Posts' => !empty($req->No_Posts) ? $req->No_Posts : 'Not Set',
+                    'Date_Created' => !empty($req->Date_Created) ? $req->Date_Created : 'Not Set',
+                    'ReqType' => !empty($req->Requisition_Type) ? $req->Requisition_Type : 'Not Set',
+                    'action' => !empty($Viewlink) ? $Viewlink : '',
 
-                    $result['data'][] = [
-                        'Job_ID' => !empty($req->Job_ID) ? $req->Job_ID : 'Not Set',
-                        'Job_Description' => !empty($req->Job_Description) ? $req->Job_Description : '',
-                        'No_of_Posts' => !empty($req->No_of_Posts) ? $req->No_of_Posts : 'Not Set',
-                        'Date_Created' => !empty($req->Date_Created) ? $req->Date_Created : '',
-                        'ReqType' => \Yii::$app->recruitment->getRequisitionType($req->Job_ID),
-                        'action' => !empty($Viewlink) ? $Viewlink : '',
-
-                    ];
-
-                }
-
+                ];
 
             }
-
 
         }
         return $result;
@@ -336,13 +333,11 @@ class RecruitmentController extends Controller
 
     public function actionGetexternalvacancies(){
         $service = Yii::$app->params['ServiceName']['JobsList'];
-        $filter = [
-            'Requisition_Type' => 'External'
-        ];
+        $filter = [];
         $requisitions = \Yii::$app->navhelper->getData($service,$filter);
         $result = [];
         foreach($requisitions as $req){
-            if(($req->No_Posts >= 0 && !empty($req->Job_Description) && !empty($req->Job_Id))  ) {
+            if(($req->No_Posts >= 0 && !empty($req->Job_Description) && !empty($req->Job_Id)) && ($req->Requisition_Type == 'External' || $req->Requisition_Type == 'Both')  ) {
                 $Viewlink = Html::a('Apply', ['view', 'Job_ID' => $req->Job_Id], [
                     'class' => 'btn btn-outline-primary btn-xs',
                     'data' => [

@@ -32,10 +32,7 @@ use yii\widgets\ActiveForm;
                                 
 
                                 <tr>
-                                    <?= $form->field($model, 'Qualification_Code')->dropDownList($qlist, ['prompt' => 'Select Qualification..','required' => 1]) ?>
-                                </tr>
-                                <tr>
-                                    <?= $form->field($model, 'Description')->textInput(['readonly' => 'true']) ?>
+                                    <?= $form->field($model, 'Description')->textInput(['maxlength' => 250]) ?>
                                 </tr>
                                 <tr>
                                     <?= $form->field($model, 'From_Date')->textInput(['type' => 'date']) ?>

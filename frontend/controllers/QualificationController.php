@@ -31,7 +31,7 @@ class QualificationController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup','index','professional'],
+                'only' => ['logout', 'signup','index'],
                 'rules' => [
                     [
                         'actions' => ['signup'],
@@ -74,10 +74,10 @@ class QualificationController extends Controller
 
     }
 
-     public function actionProfessional(){
-         if(Yii::$app->session->has('mode') && Yii::$app->session->get('mode') == 'external'){
-             $this->layout = 'external';
-         }
+    public function actionProfessional(){
+        if(Yii::$app->session->has('mode') && Yii::$app->session->get('mode') == 'external'){
+            $this->layout = 'external';
+        }
         return $this->render('professional');
 
     }
@@ -89,19 +89,19 @@ class QualificationController extends Controller
         $service = Yii::$app->params['ServiceName']['qualifications'];
 
         if(Yii::$app->request->post() && $this->loadpost(Yii::$app->request->post()['Qualification'],$model)){
-            list($code, $desc) = explode(' - ',Yii::$app->request->post()['Qualification']['Qualification_Code']);
-            $model->Qualification_Code = $code;
-            $model->Description = $desc;
+
+            $model->Qualification_Code = 'ACADEMIC';
+            $model->Description = Yii::$app->request->post()['Qualification']['Description'];
 
             $model->Employee_No = Yii::$app->recruitment->getProfileID();
 
-             if(!empty($_FILES['Qualification']['name']['imageFile'])){
+            if(!empty($_FILES['Qualification']['name']['imageFile'])){
 
-                 $this->metadata = [
-                     'profileid' => $model->Employee_No,
-                     'documenttype' => 'Academic Qualification',
-                     'description' => $model->Description,
-                 ];
+                $this->metadata = [
+                    'profileid' => $model->Employee_No,
+                    'documenttype' => 'Academic Qualification',
+                    'description' => $model->Description,
+                ];
                 Yii::$app->session->set('metadata',$this->metadata);
                 $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
                 $model->upload();
@@ -137,7 +137,7 @@ class QualificationController extends Controller
         return $this->render('create',[
 
             'model' => $model,
-            
+
 
 
         ]);
@@ -151,18 +151,18 @@ class QualificationController extends Controller
         if(Yii::$app->request->post() && $this->loadpost(Yii::$app->request->post()['Qualification'],$model)){
 
 
-            list($code, $desc) = explode(' - ',Yii::$app->request->post()['Qualification']['Qualification_Code']);
-            $model->Qualification_Code = $code;
-            $model->Description =  $desc;
+
+            $model->Qualification_Code = 'PROFESSIONAL';
+            $model->Description =  Yii::$app->request->post()['Qualification']['Description'];
 
             $model->Employee_No = Yii::$app->recruitment->getProfileID();
-             if(!empty($_FILES['Qualification']['name']['imageFile'])){
-                 $this->metadata = [
-                     'profileid' => $model->Employee_No,
-                     'documenttype' => 'Professional Qualification',
-                     'description' => $model->Description,
-                 ];
-                 Yii::$app->session->set('metadata',$this->metadata);
+            if(!empty($_FILES['Qualification']['name']['imageFile'])){
+                $this->metadata = [
+                    'profileid' => $model->Employee_No,
+                    'documenttype' => 'Professional Qualification',
+                    'description' => $model->Description,
+                ];
+                Yii::$app->session->set('metadata',$this->metadata);
                 $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
                 $model->upload();
             }
@@ -211,14 +211,13 @@ class QualificationController extends Controller
         //load nav result to model
         $model = $this->loadtomodel($result[0],$Expmodel);
 
-        
+
 
         if(Yii::$app->request->post() && $this->loadpost(Yii::$app->request->post()['Qualification'],$model)){
 
 
-            list($code, $desc) = explode(' - ',Yii::$app->request->post()['Qualification']['Qualification_Code']);
-            $model->Qualification_Code = $code;
-            $model->Description =  $desc;
+            $model->Qualification_Code = 'ACADEMIC';
+            $model->Description =  Yii::$app->request->post()['Qualification']['Description'];
 
             $this->metadata = [
                 'profileid' => $model->Employee_No,
@@ -227,7 +226,7 @@ class QualificationController extends Controller
             ];
             Yii::$app->session->set('metadata',$this->metadata);
 
-             if(!empty($_FILES['Qualification']['name']['imageFile'])){
+            if(!empty($_FILES['Qualification']['name']['imageFile'])){
                 $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
                 $model->upload();
             }
@@ -259,7 +258,7 @@ class QualificationController extends Controller
     }
 
 
-     public function actionUpdateprofessional(){
+    public function actionUpdateprofessional(){
         $service = Yii::$app->params['ServiceName']['qualifications'];
         $filter = [
             'Line_No' => Yii::$app->request->get('Line'),
@@ -269,22 +268,21 @@ class QualificationController extends Controller
         //load nav result to model
         $model = $this->loadtomodel($result[0],$Expmodel);
 
-        
+
 
         if(Yii::$app->request->post() && $this->loadpost(Yii::$app->request->post()['Qualification'],$model)){
 
-            list($code, $desc) = explode(' - ',Yii::$app->request->post()['Qualification']['Qualification_Code']);
-            $model->Qualification_Code = $code;
-            $model->Description = $desc;
+            $model->Qualification_Code = 'PROFESSIONAL';
+            $model->Description =  Yii::$app->request->post()['Qualification']['Description'];
 
-             if(!empty($_FILES['Qualification']['name']['imageFile'])){
+            if(!empty($_FILES['Qualification']['name']['imageFile'])){
 
-                 $this->metadata = [
-                     'profileid' => $model->Employee_No,
-                     'documenttype' => 'Academic Qualification',
-                     'description' => $model->Description,
-                 ];
-                 Yii::$app->session->set('metadata',$this->metadata);
+                $this->metadata = [
+                    'profileid' => $model->Employee_No,
+                    'documenttype' => 'Academic Qualification',
+                    'description' => $model->Description,
+                ];
+                Yii::$app->session->set('metadata',$this->metadata);
                 $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
                 $model->upload();
             }
@@ -450,8 +448,8 @@ class QualificationController extends Controller
         return $result;
     }
 
-   
- public function actionGetprofessionalqualifications(){
+
+    public function actionGetprofessionalqualifications(){
         $service = Yii::$app->params['ServiceName']['qualifications'];
 
         $filter = [
@@ -499,28 +497,28 @@ class QualificationController extends Controller
 
         return $result;
     }
-    
 
-  
+
+
 
 
 
     public function getQualificationsList(){
         $service = Yii::$app->params['ServiceName']['HRqualifications'];
-        $filter = ['Code' => 'ACADEMIC'];
+        $filter = ['Code' => 'Academic'];
 
         $qualifications = \Yii::$app->navhelper->getData($service,$filter);
 
         $res = [];
 
-         foreach($qualifications  as $c){
+        foreach($qualifications  as $c){
             if(!empty($c->Description) && !empty($c->Code)){
                 $res[] = [
                     'Code' => $c->Code .' - '.$c->Description,
                     'Description' =>  $c->Code .' - '.$c->Description
                 ];
             }
-                
+
         }
 
         return $res;
@@ -528,20 +526,20 @@ class QualificationController extends Controller
 
     public function getProfessionalQualificationsList(){
         $service = Yii::$app->params['ServiceName']['HRqualifications'];
-        $filter = ['Code' => 'PROF'];
+        $filter = ['Code' => 'PROFESSIONAL'];
 
         $qualifications = \Yii::$app->navhelper->getData($service,$filter);
 
         $res = [];
 
-         foreach($qualifications  as $c){
+        foreach($qualifications  as $c){
             if(!empty($c->Description) && !empty($c->Code)){
                 $res[] = [
                     'Code' => $c->Code .' - '.$c->Description,
                     'Description' =>  $c->Code .' - '.$c->Description
                 ];
             }
-                
+
         }
 
         return $res;
@@ -611,7 +609,7 @@ class QualificationController extends Controller
         return $this->render('read',[
             'mimeType' => $mimetype,
             'documentPath' => $absolute
-            ]);
+        ]);
     }
 
     public function actionDownload($path){
@@ -619,11 +617,11 @@ class QualificationController extends Controller
             $this->layout = 'external';
         }
         $base = basename($path);
-       /* $ctx = Yii::$app->recruitment->connectWithAppOnlyToken(
-            Yii::$app->params['sharepointUrl'],
-            Yii::$app->params['clientID'],
-            Yii::$app->params['clientSecret']
-        );*/
+        /* $ctx = Yii::$app->recruitment->connectWithAppOnlyToken(
+             Yii::$app->params['sharepointUrl'],
+             Yii::$app->params['clientID'],
+             Yii::$app->params['clientSecret']
+         );*/
         $ctx = Yii::$app->recruitment->connectWithUserCredentials(Yii::$app->params['sharepointUrl'],Yii::$app->params['sharepointUsername'],Yii::$app->params['sharepointPassword']);
         $fileUrl = '/'.Yii::$app->params['library'].'/'.$base;
         $targetFilePath = './qualifications/download.pdf';

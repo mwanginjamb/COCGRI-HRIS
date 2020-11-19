@@ -149,7 +149,7 @@ return [
 
         /**********Active COGI PAGES*****************/
 
-        'JobsList' => 'JobsList',//55057
+        'JobsList' => 'JobsList',//55057 --> Approved Requisitions
         'JobsCard' => 'JobsCard',//55055
         'RequirementSpecification'=> 'RequirementSpecification', //55049
         'ResponsibilitySpecification' => 'ResponsibilitySpecification', //55048

@@ -22,6 +22,7 @@ public $Reason_For_Booking;
 public $Requested_By;
 public $Department;
 public $Booking_Requisition_Status;
+public $Employee_No;
 public $Booked_Status;
 public $isNewRecord;
 

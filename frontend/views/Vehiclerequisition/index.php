@@ -75,7 +75,7 @@ $script = <<<JS
           $('#table').DataTable({
            
             //serverSide: true,  
-            ajax: url+'leaveplan/list',
+            ajax: url+'vehiclerequisition/list',
             paging: true,
             columns: [
                 { title: 'No' ,data: 'No'},

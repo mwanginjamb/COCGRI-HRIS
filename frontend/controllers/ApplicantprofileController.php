@@ -73,7 +73,7 @@ class ApplicantprofileController extends Controller
 
     public function actionCreate(){
         //Yii::$app->recruitment->printrr(Yii::$app->session->get('HRUSER'));
-        if(Yii::$app->session->has('mode') && Yii::$app->session->get('mode') == 'external'){
+        if(Yii::$app->session->has('mode') && Yii::$app->session->get('mode') == 'external' && Yii::$app->session->has('HRUSER')){
             $this->layout = 'external';
         }
 
@@ -92,12 +92,12 @@ class ApplicantprofileController extends Controller
             $model->Marital_Status = !empty(Yii::$app->user->identity->employee[0]->Marital_Status)?Yii::$app->user->identity->employee[0]->Marital_Status:'';
 
             $model->E_Mail = !empty(Yii::$app->user->identity->employee[0]->E_Mail)?Yii::$app->user->identity->employee[0]->E_Mail:'';
-            $model->Postal_Address = !empty(Yii::$app->user->identity->employee[0]->Postal_Address)?Yii::$app->user->identity->employee[0]->Postal_Address:'';
+            $model->Address = !empty(Yii::$app->user->identity->employee[0]->Address)?Yii::$app->user->identity->employee[0]->Address:'';
             $model->Post_Code = !empty(Yii::$app->user->identity->employee[0]->Post_Code)?Yii::$app->user->identity->employee[0]->Post_Code:'';
-            $model->NSSF_No = !empty(Yii::$app->user->identity->employee[0]->NSSF_No)?Yii::$app->user->identity->employee[0]->NSSF_No:'';
-            $model->NHIF_No = !empty(Yii::$app->user->identity->employee[0]->NHIF_No)?Yii::$app->user->identity->employee[0]->NHIF_No:'';
-            $model->NHIF_No = !empty(Yii::$app->user->identity->employee[0]->NHIF_No)?Yii::$app->user->identity->employee[0]->NHIF_No:'';
-            $model->HELB_No = !empty(Yii::$app->user->identity->employee[0]->HELB_No)?Yii::$app->user->identity->employee[0]->HELB_No:'';
+            $model->NHIF_Number = !empty(Yii::$app->user->identity->employee[0]->NHIF_Number)?Yii::$app->user->identity->employee[0]->NHIF_Number:'';
+            $model->NSSF_Number = !empty(Yii::$app->user->identity->employee[0]->NSSF_Number)?Yii::$app->user->identity->employee[0]->NSSF_Number:'';
+            $model->KRA_Number = !empty(Yii::$app->user->identity->employee[0]->KRA_Number)?Yii::$app->user->identity->employee[0]->KRA_Number:'';
+            $model->National_ID = !empty(Yii::$app->user->identity->employee[0]->National_ID)?Yii::$app->user->identity->employee[0]->National_ID:'';
 
         }else if(Yii::$app->session->has('HRUSER')){ //for external users - non- employees just prepopulate the email
             $model->E_Mail = Yii::$app->session->get('HRUSER')->email;
@@ -203,7 +203,7 @@ class ApplicantprofileController extends Controller
 
         //Yii::$app->recruitment->printrr($_SESSION);
         //Check Applicant access mode (Internal or external) then serve right layout
-        if(Yii::$app->session->has('mode') && Yii::$app->session->get('mode') == 'external'){
+        if(Yii::$app->session->has('mode') && Yii::$app->session->get('mode') == 'external' && Yii::$app->session->has('HRUSER')){
             $this->layout = 'external';
         }
         $service = Yii::$app->params['ServiceName']['JobApplicantProfile'];
@@ -255,9 +255,7 @@ class ApplicantprofileController extends Controller
     }
 
     public function actionView($ApplicationNo){
-        $service = Yii::$app->params['ServiceName']['leaveApplicationCard'];
-        $leaveTypes = $this->getLeaveTypes();
-        $employees = $this->getEmployees();
+        $service = Yii::$app->params['ServiceName']['JobApplicantProfile'];
 
         $filter = [
             'Application_No' => $ApplicationNo
@@ -272,8 +270,7 @@ class ApplicantprofileController extends Controller
 
         return $this->render('view',[
             'model' => $model,
-            'leaveTypes' => ArrayHelper::map($leaveTypes,'Code','Description'),
-            'relievers' => ArrayHelper::map($employees,'No','Full_Name'),
+
         ]);
     }
 

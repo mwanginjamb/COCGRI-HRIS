@@ -80,14 +80,17 @@ class VehiclerequisitionController extends Controller
     public function actionCreate(){
 
         $model = new Vehiclerequisition();
-        $service = Yii::$app->params['ServiceName']['BookingRequisitionDocument'];
+        $service = Yii::$app->params['ServiceName']['BookingRequisitionPortal'];
 
         /*Do initial request */
         if(!isset(Yii::$app->request->post()['Vehiclerequisition'])){
-            $request = Yii::$app->navhelper->postData($service,[]);
-            if(is_object($request) )
+            $model->Employee_No = Yii::$app->user->identity->{'Employee No_'};
+            $request = Yii::$app->navhelper->postData($service, $model);
+            if(!is_string($request) )
             {
                 Yii::$app->navhelper->loadmodel($request,$model);
+            }else{
+                Yii::$app->recruitment->plrintrr($model);
             }
         }
 
@@ -227,26 +230,31 @@ class VehiclerequisitionController extends Controller
         $results = \Yii::$app->navhelper->getData($service,$filter);
         $result = [];
         foreach($results as $item){
-            $link = $updateLink = $deleteLink =  '';
-            $Viewlink = Html::a('<i class="fas fa-eye"></i>',['view','No'=> $item->Booking_Requisition_No ],['class'=>'btn btn-outline-primary btn-xs','title' => 'View Request.' ]);
-            if($item->Status == 'Open'){
-                $link = Html::a('<i class="fas fa-paper-plane"></i>',['send-for-approval','No'=> $item->Booking_Requisition_No ],['title'=>'Send Approval Request','class'=>'btn btn-primary btn-xs']);
-                $updateLink = Html::a('<i class="far fa-edit"></i>',['update','No'=> $item->Booking_Requisition_No ],['class'=>'btn btn-info btn-xs','title' => 'Update Request']);
-            }else if($item->Status == 'Pending_Approval'){
-                $link = Html::a('<i class="fas fa-times"></i>',['cancel-request','No'=> $item->Booking_Requisition_No ],['title'=>'Cancel Approval Request','class'=>'btn btn-warning btn-xs']);
+
+            if(!empty($item->Booking_Requisition_No ))
+            {
+                $link = $updateLink = $deleteLink =  '';
+                $Viewlink = Html::a('<i class="fas fa-eye"></i>',['view','No'=> $item->Booking_Requisition_No ],['class'=>'btn btn-outline-primary btn-xs','title' => 'View Request.' ]);
+                if($item->Booking_Requisition_Status == 'Open'){
+                    $link = Html::a('<i class="fas fa-paper-plane"></i>',['send-for-approval','No'=> $item->Booking_Requisition_No ],['title'=>'Send Approval Request','class'=>'btn btn-primary btn-xs']);
+                    $updateLink = Html::a('<i class="far fa-edit"></i>',['update','No'=> $item->Booking_Requisition_No ],['class'=>'btn btn-info btn-xs','title' => 'Update Request']);
+                }else if($item->Booking_Requisition_Status == 'Pending_Approval'){
+                    $link = Html::a('<i class="fas fa-times"></i>',['cancel-request','No'=> $item->Booking_Requisition_No ],['title'=>'Cancel Approval Request','class'=>'btn btn-warning btn-xs']);
+                }
+
+                $result['data'][] = [
+                    'Key' => $item->Key,
+                    'No' => $item->Booking_Requisition_No,
+                    'Employee_No' => !empty($item->Employee_No)?$item->Employee_No:'',
+                    'Requisition_Date' => !empty($item->Requisition_Date)?$item->Requisition_Date:'',
+                    'Reason_For_Booking' => !empty($item->Reason_For_Booking)?$item->Reason_For_Booking:'',
+                    'Department' => !empty($item->Department)?$item->Department:'',
+                    'Booking_Requisition_Status' => $item->Booking_Requisition_Status,
+                    'Action' => $link.' '. $updateLink.' '.$Viewlink ,
+
+                ];
             }
 
-            $result['data'][] = [
-                'Key' => $item->Key,
-                'No' => $item->Booking_Requisition_No,
-                'Employee_No' => !empty($item->Employee_No)?$item->Employee_No:'',
-                'Requisition_Date' => !empty($item->Requisition_Date)?$item->Requisition_Date:'',
-                'Reason_For_Booking' => !empty($item->Reason_For_Booking)?$item->Reason_For_Booking:'',
-                'Department' => !empty($item->Department)?$item->Department:'',
-                'Booking_Requisition_Status' => $item->Booking_Requisition_Status,
-                'Action' => $link.' '. $updateLink.' '.$Viewlink ,
-
-            ];
         }
 
         return $result;
