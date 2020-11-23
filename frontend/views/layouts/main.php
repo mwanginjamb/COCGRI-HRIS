@@ -274,20 +274,6 @@ $employee = (!Yii::$app->user->isGuest)?Yii::$app->user->identity->employee[0]:[
                                     </a>
                                 </li>
 
-                                <!--<li class="nav-item">
-                                    <a href="<?= $absoluteUrl ?>leave/leavebalances" class="nav-link <?= Yii::$app->recruitment->currentaction('leave','leavebalances')?'active':'' ?>">
-                                        <i class="fa fa-balance-scale nav-icon"></i>
-                                        <p>Leave Balances</p>
-                                    </a>
-                                </li>-->
-
-                                <!--<li class="nav-item">
-                                    <a href="<?= $absoluteUrl ?>leave/reportview" class="nav-link <?= Yii::$app->recruitment->currentaction('leave','reportview')?'active':'' ?>">
-                                        <i class="fa fa-file-pdf nav-icon"></i>
-                                        <p>Leave History Report</p>
-                                    </a>
-                                </li>-->
-
                                 <li class="nav-item">
                                     <a href="<?= $absoluteUrl ?>leavestatement/index" class="nav-link <?= Yii::$app->recruitment->currentaction('leavestatement','index')?'active':'' ?>">
                                         <i class="fa fa-file-pdf nav-icon"></i>
@@ -885,6 +871,49 @@ $employee = (!Yii::$app->user->isGuest)?Yii::$app->user->identity->employee[0]:[
                             </ul>
 
                         </li>
+
+
+                        <!--/Fleet Mgt-->
+
+                        <!--Procurement-->
+
+                        <li class="nav-item has-treeview <?= Yii::$app->recruitment->currentCtrl(['storerequisition'])?'menu-open':'' ?>">
+                            <a href="#" title="Performance Management" class="nav-link <?= Yii::$app->recruitment->currentCtrl('storerequisition')?'active':'' ?>">
+                                <i class="nav-icon fa fa-truck-loading"></i>
+                                <p>
+                                    Procurement
+                                    <i class="fas fa-angle-left right"></i>
+                                    <!--<span class="badge badge-info right">6</span>-->
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>storerequisition/create" class="nav-link <?= Yii::$app->recruitment->currentaction('storerequisition','create')?'active':'' ?>">
+                                        <i class="fa fa-truck-loading nav-icon"></i>
+                                        <p> New Store Req.</p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>storerequisition" class="nav-link <?= Yii::$app->recruitment->currentaction('storerequisition','index')?'active':'' ?>">
+                                        <i class="fa fa-truck-loading nav-icon"></i>
+                                        <p> Store Req. List</p>
+                                    </a>
+                                </li>
+
+
+                            </ul>
+
+                        </li>
+
+
+                        <!--/Procurement-->
+
+
+
+
 
                     </ul>
                 </nav>

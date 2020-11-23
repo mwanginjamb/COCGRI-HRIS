@@ -294,13 +294,17 @@ exit;*/
 
 
                             foreach($balances as $key => $val){
-                                if($key == 'Key')
+                                if($key == 'Key') {
                                     continue;
-                                print '
+                                }
+                                elseif ($key == 'Annual_Leave_Bal' || $key == 'Compasionate_Leave_Bal'){
+                                    print '
                                     <tr>
                                         <td>'.$key.'</td><td>'.$val.'</td>
                                      </tr>
-                            ';
+                                     ';
+                                }
+
 
                             } ?>
 

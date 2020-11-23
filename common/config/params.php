@@ -69,9 +69,6 @@ return [
         'PostedReceiptsList' => 'PostedReceiptsList',//64056 (Page)
 
 
-        /**************************FUND REQUISITION*************************************/
-
-
         /**************************Leave Plan*************************************/
 
         'LeavePlanList' => 'LeavePlanList', //50025
@@ -89,7 +86,7 @@ return [
         'LeaveAttachments' => 'LeaveAttachments', //50031
 
 
-
+        /**************************Fund Requisitions*************************************/
 
         'AllowanceRequestList' => 'AllowanceRequestList', //64093(Page)
         'AllowanceRequestCard' => 'AllowanceRequestCard', // 64094(Page)
@@ -147,14 +144,13 @@ return [
         'RequisitionEmployeeCard' => 'RequisitionEmployeeCard',//70028
 
 
-        /**********Active COGI PAGES*****************/
+        /**********Active COGRI PAGES*****************/
 
         'JobsList' => 'JobsList',//55057 --> Approved Requisitions
         'JobsCard' => 'JobsCard',//55055
         'RequirementSpecification'=> 'RequirementSpecification', //55049
         'ResponsibilitySpecification' => 'ResponsibilitySpecification', //55048
 
-        /**********Active COGI PAGES*****************/
         'JobApplicantProfile' => 'JobApplicantProfile', //55081
         'referees' => 'referees',//55060
         'applicantLanguages' => 'applicantLanguages', //55061
@@ -239,7 +235,7 @@ return [
         'RequestsTo_ApprovePortal'=> 'RequestsTo_ApprovePortal', // 67123
 
 
-        /* Contract Renewal Services*/
+        /* Contract Renewal Services -- not yet validated on cogri*/
 
         'NewContractRenewal' => 'NewContractRenewal', // 55077
         'supervisorList' => 'supervisorList', // 55078
@@ -247,8 +243,19 @@ return [
         'ApprovedContractsList' => 'ApprovedContractsList', // 55080
         'RejectedContractRenewal' => 'RejectedContractRenewal', // 55081
         'ContractRenewalCard' => 'ContractRenewalCard', // 55082
-
         'ContractRenewalStatusChange' => 'ContractRenewalStatusChange', // Code Unit 50024
+
+
+
+
+        /**************************STORE REQUISITION*************************************/
+
+        'StoreRequisitionList' => 'StoreRequisitionList', //66080
+        'StoreRequisitionCard' => 'StoreRequisitionCard', //66081
+        'StoreRequisitionLine' => 'StoreRequisitionLine', //66082
+        'Locations' => 'Locations', //15
+        'Items' => 'Items', //32
+
 
         /********************CODE UNITS SERVICES***************************************/
         'PortalFactory' => 'PortalFactory', //Code Unit 50062
