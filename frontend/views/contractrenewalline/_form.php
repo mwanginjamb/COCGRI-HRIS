@@ -24,30 +24,13 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
 
                             <div class="col-md-12">
-                                    <?= $form->field($model, 'Requisition_No')->textInput(['readonly' => true]) ?>
-                                    <?= $form->field($model, 'No')->dropDownList($items, ['prompt' => 'Select Item...']) ?>
-                                    <?= $form->field($model, 'Location')->dropDownList($locations, ['prompt' => 'Select Location...']) ?>
-                                    <?= $form->field($model, 'Quantity')->textInput(['type' => 'number']) ?>
+                                    <?= $form->field($model, 'Request_No')->hiddenInput(['readonly' => true]) ?>
+                                    <?= $form->field($model, 'Contract_Code')->dropDownList($contracts, ['prompt' => 'Select Contract Type...']) ?>
+                                    <?= $form->field($model, 'Contract_Start_Date')->textInput(['type' => 'date']) ?>
+                                    <?= $form->field($model, 'Contract_End_Date')->textInput(['type' => 'date']) ?>
                                     <?= $form->field($model, 'Key')->hiddenInput(['readonly'=> true])->label(false) ?>
-                                    <?= $form->field($model, 'Line_No')->textInput(['readonly'=> true])->label(false) ?>
-                                    <?= $form->field($model, 'Available_Quantity')->textInput(['readonly'=> true,'disabled' => true]); ?>
-
                             </div>
-
-
-
                 </div>
-
-
-
-
-
-
-
-
-
-
-
 
                 <div class="row">
 

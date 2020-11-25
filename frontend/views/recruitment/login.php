@@ -15,16 +15,26 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 
-            <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
+            <?php $form = ActiveForm::begin(['id' => 'login-form']);
+
+
+            if(Yii::$app->session->hasFlash('success'))
+            {
+                print '<div class="alert alert-success">'.Yii::$app->session->getFlash('success').'</div>';
+            }
+
+            ?>
+
+
 
 
 
                 <?= $form->field($model, 'username',[
                         'inputTemplate' => '<div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-user"></i></span>{input}</div>',
-])->textInput([
-        'autofocus' => true,
-        'placeholder' => 'Username'
-    ])->label(false) ?>
+                    ])->textInput([
+                            'autofocus' => true,
+                            'placeholder' => 'Username'
+                        ])->label(false) ?>
 
 
 
@@ -47,6 +57,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
 
                     <?= Html::a('signup', ['/recruitment/signup'],['class' => 'btn btn-warning']) ?>
+
+                    <?= Html::a('Reset Password', ['/recruitment/request-password-reset'],['class' => 'btn btn-warning']) ?>
                 </div>
 
     <?php ActiveForm::end(); ?>

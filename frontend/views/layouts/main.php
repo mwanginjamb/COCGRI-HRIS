@@ -912,6 +912,93 @@ $employee = (!Yii::$app->user->isGuest)?Yii::$app->user->identity->employee[0]:[
                         <!--/Procurement-->
 
 
+                        <!--Contract Management --->
+
+                        <li class="nav-item has-treeview <?= Yii::$app->recruitment->currentCtrl('contractrenewal')?'menu-open':'' ?>">
+                            <a href="#" title="Contract Management" class="nav-link <?= Yii::$app->recruitment->currentCtrl('contractrenewal')?'active':'' ?>">
+                                <i class="nav-icon fa fa-paperclip"></i>
+                                <p>
+                                    Contract Renewal
+                                    <i class="fas fa-angle-left right"></i>
+                                    <!--<span class="badge badge-info right">6</span>-->
+                                </p>
+                            </a>
+                        <ul class="nav nav-treeview">
+
+                            <li class="nav-item">
+                                <a href="<?= $absoluteUrl ?>contractrenewal/create" class="nav-link <?= Yii::$app->recruitment->currentaction('contractrenewal','create')?'active':'' ?>">
+                                    <i class="fa fa-check-square nav-icon"></i>
+                                    <p> Renew Conctract</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="<?= $absoluteUrl ?>contractrenewal" class="nav-link <?= Yii::$app->recruitment->currentaction('contractrenewal','index')?'active':'' ?>">
+                                    <i class="fa fa-check-square nav-icon"></i>
+                                    <p> Contracts Renewal List</p>
+                                </a>
+                            </li>
+
+
+                        </ul>
+
+                        </li>
+
+                        <!--end contract Management -->
+
+
+
+                        <!-- Start Probation Appraisal -->
+
+                        <li class="nav-item has-treeview <?= Yii::$app->recruitment->currentCtrl('probation')?'menu-open':'' ?>">
+                            <a href="#" title="Performance Management" class="nav-link <?= Yii::$app->recruitment->currentCtrl('appraisal')?'active':'' ?>">
+                                <i class="nav-icon fa fa-balance-scale"></i>
+                                <p>
+                                    Probation Appraisal
+                                    <i class="fas fa-angle-left right"></i>
+                                    <!--<span class="badge badge-info right">6</span>-->
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>probation" class="nav-link <?= Yii::$app->recruitment->currentaction('probation','index')?'active':'' ?>">
+                                        <i class="fa fa-check-square nav-icon"></i>
+                                        <p> Objective Setting</p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>probation/superlist" class="nav-link <?= Yii::$app->recruitment->currentaction('probation','superlist')?'active':'' ?>">
+                                        <i class="fa fa-check-square nav-icon"></i>
+                                        <p> Supervisor Appraisal List</p>
+                                    </a>
+                                </li>
+
+
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>probation/hrlist" class="nav-link <?= Yii::$app->recruitment->currentaction('probation','hrlist')?'active':'' ?>">
+                                        <i class="fa fa-check-square nav-icon"></i>
+                                        <p> HR Appraisal List</p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>probation/closedlist" class="nav-link <?= Yii::$app->recruitment->currentaction('probation','closedlist')?'active':'' ?>">
+                                        <i class="fa fa-check-square nav-icon"></i>
+                                        <p> Closed Probation List</p>
+                                    </a>
+                                </li>
+
+
+                            </ul>
+
+                        </li>
+
+                        <!---End Probationary Appraisal -->
+
 
 
 

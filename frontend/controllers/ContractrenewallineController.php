@@ -7,6 +7,7 @@
  */
 
 namespace frontend\controllers;
+use frontend\models\Contractrenewalline;
 use frontend\models\Employeeappraisalkra;
 use frontend\models\Experience;
 use frontend\models\Leaveplanline;
@@ -26,7 +27,7 @@ use frontend\models\Leave;
 use yii\web\Response;
 use kartik\mpdf\Pdf;
 
-class StorerequisitionlineController extends Controller
+class ContractrenewallineController extends Controller
 {
     public function behaviors()
     {
@@ -72,12 +73,12 @@ class StorerequisitionlineController extends Controller
     }
 
     public function actionCreate($No){
-       $service = Yii::$app->params['ServiceName']['StoreRequisitionLine'];
-       $model = new Storerequisitionline();
+       $service = Yii::$app->params['ServiceName']['ContractRenewalLines'];
+       $model = new Contractrenewalline();
 
         if(Yii::$app->request->get('No') && !Yii::$app->request->post()){
 
-                $model->Requisition_No = $No;
+                $model->Request_No = $No;
                 $result = Yii::$app->navhelper->postData($service, $model);
                 //Yii::$app->recruitment->printrr($result);
 
@@ -85,10 +86,10 @@ class StorerequisitionlineController extends Controller
         }
         
 
-        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Storerequisitionline'],$model) ){
+        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Contractrenewalline'],$model) ){
 
             $filter = [
-                'Requisition_No' => $model->Requisition_No,
+                'Request_No' => $model->Request_No,
             ];
 
             $result = Yii::$app->navhelper->updateData($service,$model);
@@ -107,8 +108,7 @@ class StorerequisitionlineController extends Controller
         if(Yii::$app->request->isAjax){
             return $this->renderAjax('create', [
                 'model' => $model,
-                'locations' => $this->getLocations(),
-                'items' => $this->getItems(),
+                'contracts' => $this->getContracts(),
             ]);
         }
 
@@ -117,11 +117,11 @@ class StorerequisitionlineController extends Controller
 
 
     public function actionUpdate(){
-        $model = new Storerequisitionline() ;
+        $model = new Contractrenewalline() ;
         $model->isNewRecord = false;
-        $service = Yii::$app->params['ServiceName']['StoreRequisitionLine'];
+        $service = Yii::$app->params['ServiceName']['ContractRenewalLines'];
         $filter = [
-            'Requisition_No' => Yii::$app->request->get('No'),
+            'Request_No' => Yii::$app->request->get('No'),
         ];
         $result = Yii::$app->navhelper->getData($service,$filter);
 
@@ -133,10 +133,10 @@ class StorerequisitionlineController extends Controller
         }
 
 
-        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Storerequisitionline'],$model) ){
+        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Contractrenewalline'],$model) ){
 
             $filter = [
-                'Requisition_No' => $model->Requisition_No,
+                'Request_No' => $model->Request_No,
             ];
             $refresh = Yii::$app->navhelper->getData($service, $filter);
             $model->Key = $refresh[0]->Key;
@@ -159,20 +159,18 @@ class StorerequisitionlineController extends Controller
         if(Yii::$app->request->isAjax){
             return $this->renderAjax('update', [
                 'model' => $model,
-                'locations' => $this->getLocations(),
-                'items' => $this->getItems(),
+                'contracts' => $this->getContracts(),
             ]);
         }
 
         return $this->render('update',[
             'model' => $model,
-            'locations' => $this->getLocations(),
-            'items' => $this->getItems(),
+            'contracts' => $this->getContracts(),
         ]);
     }
 
     public function actionDelete(){
-        $service = Yii::$app->params['ServiceName']['StoreRequisitionLine'];
+        $service = Yii::$app->params['ServiceName']['ContractRenewalLines'];
         $result = Yii::$app->navhelper->deleteData($service,Yii::$app->request->get('Key'));
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         if(!is_string($result)){
@@ -183,7 +181,7 @@ class StorerequisitionlineController extends Controller
     }
 
     public function actionSetquantity(){
-        $model = new Storerequisitionline();
+        $model = new Contractrenewalline();
         $service = Yii::$app->params['ServiceName']['StoreRequisitionLine'];
 
         $filter = [
@@ -208,7 +206,7 @@ class StorerequisitionlineController extends Controller
     // Set Location
 
     public function actionSetlocation(){
-        $model = new Storerequisitionline();
+        $model = new Contractrenewalline();
         $service = Yii::$app->params['ServiceName']['StoreRequisitionLine'];
 
         $filter = [
@@ -231,7 +229,7 @@ class StorerequisitionlineController extends Controller
     }
 
     public function actionSetitem(){
-        $model = new Storerequisitionline();
+        $model = new Contractrenewalline();
         $service = Yii::$app->params['ServiceName']['StoreRequisitionLine'];
 
         $filter = [
@@ -252,6 +250,31 @@ class StorerequisitionlineController extends Controller
 
     }
 
+    /*Get Emp Contracts */
+
+    public function getContracts(){
+        $service = Yii::$app->params['ServiceName']['EmployeeContracts'];
+        $filter = [];
+        $result = \Yii::$app->navhelper->getData($service, $filter);
+
+        $arr = [];
+        $i = 0;
+
+        if(is_array($result)){
+            foreach($result as $res)
+            {
+                ++$i;
+                $arr[$i] = [
+                    'Code' => $res->Code,
+                    'Description' => $res->Description
+                ];
+            }
+            return ArrayHelper::map($arr,'Code','Description');
+        }
+
+        return $arr;
+
+    }
 
     /*Get Locations*/
 

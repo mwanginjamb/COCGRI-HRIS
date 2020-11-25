@@ -7,6 +7,7 @@
  */
 
 namespace frontend\controllers;
+use frontend\models\Contractrenewal;
 use frontend\models\Storerequisition;
 use Yii;
 use yii\filters\AccessControl;
@@ -19,7 +20,7 @@ use yii\web\BadRequestHttpException;
 use yii\web\Response;
 use kartik\mpdf\Pdf;
 
-class StorerequisitionController extends Controller
+class ContractrenewalController extends Controller
 {
     public function behaviors()
     {
@@ -67,12 +68,12 @@ class StorerequisitionController extends Controller
 
     public function actionCreate(){
 
-        $model = new Storerequisition();
-        $service = Yii::$app->params['ServiceName']['StoreRequisitionCard'];
+        $model = new Contractrenewal();
+        $service = Yii::$app->params['ServiceName']['ContractRenewalCard'];
 
         /*Do initial request */
-        if(!isset(Yii::$app->request->post()['Storerequisition'])){
-            $model->Employee_No = Yii::$app->user->identity->{'Employee No_'};
+        if(!isset(Yii::$app->request->post()['Contractrenewal'])){
+          //  $model->Employee_No = Yii::$app->user->identity->{'Employee No_'}; // comes from a ddwn
             $request = Yii::$app->navhelper->postData($service, $model);
             if(!is_string($request) )
             {
@@ -82,7 +83,7 @@ class StorerequisitionController extends Controller
             }
         }
 
-        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Storerequisition'],$model) ){
+        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Contractrenewal'],$model) ){
 
 
             $result = Yii::$app->navhelper->updateData($service,$model);
@@ -104,8 +105,7 @@ class StorerequisitionController extends Controller
 
         return $this->render('create',[
             'model' => $model,
-            'programs' => $this->getPrograms(),
-            'departments' => $this->getDepartments(),
+            'employees' => $this->getEmployees()
         ]);
     }
 
@@ -113,8 +113,8 @@ class StorerequisitionController extends Controller
 
 
     public function actionUpdate($No){
-        $model = new Storerequisition();
-        $service = Yii::$app->params['ServiceName']['StoreRequisitionCard'];
+        $model = new Contractrenewal();
+        $service = Yii::$app->params['ServiceName']['ContractRenewalCard'];
         $model->isNewRecord = false;
 
         $filter = [
@@ -130,7 +130,7 @@ class StorerequisitionController extends Controller
         }
 
 
-        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Storerequisition'],$model) ){
+        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Contractrenewal'],$model) ){
 
             $result = Yii::$app->navhelper->updateData($service,$model);
 
@@ -153,23 +153,19 @@ class StorerequisitionController extends Controller
         if(Yii::$app->request->isAjax){
             return $this->renderAjax('update', [
                 'model' => $model,
-                'programs' => $this->getPrograms(),
-                'departments' => $this->getDepartments(),
-
-
+                'employees' => $this->getEmployees(),
             ]);
         }
 
         return $this->render('update',[
             'model' => $model,
-            'programs' => $this->getPrograms(),
-            'departments' => $this->getDepartments(),
+            'employees' => $this->getEmployees()
 
         ]);
     }
 
     public function actionDelete(){
-        $service = Yii::$app->params['ServiceName']['StoreRequisitionCard'];
+        $service = Yii::$app->params['ServiceName']['ContractRenewalCard'];
         $result = Yii::$app->navhelper->deleteData($service,Yii::$app->request->get('Key'));
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         if(!is_string($result)){
@@ -181,8 +177,8 @@ class StorerequisitionController extends Controller
     }
 
     public function actionView($No){
-        $model = new Storerequisition();
-        $service = Yii::$app->params['ServiceName']['StoreRequisitionCard'];
+        $model = new Contractrenewal();
+        $service = Yii::$app->params['ServiceName']['ContractRenewalCard'];
 
         $filter = [
             'No' => $No
@@ -203,9 +199,9 @@ class StorerequisitionController extends Controller
    // Get list
 
     public function actionList(){
-        $service = Yii::$app->params['ServiceName']['StoreRequisitionList'];
+        $service = Yii::$app->params['ServiceName']['ContractRenewalList'];
         $filter = [
-            'Employee_No' => Yii::$app->user->identity->Employee[0]->No,
+            // 'Employee_No' => Yii::$app->user->identity->Employee[0]->No,
         ];
 
         $results = \Yii::$app->navhelper->getData($service,$filter);
@@ -216,10 +212,10 @@ class StorerequisitionController extends Controller
             {
                 $link = $updateLink = $deleteLink =  '';
                 $Viewlink = Html::a('<i class="fas fa-eye"></i>',['view','No'=> $item->No ],['class'=>'btn btn-outline-primary btn-xs','title' => 'View Request.' ]);
-                if($item->Status == 'New'){
+                if($item->Approval_Status == 'New'){
                     $link = Html::a('<i class="fas fa-paper-plane"></i>',['send-for-approval','No'=> $item->No ],['title'=>'Send Approval Request','class'=>'btn btn-primary btn-xs']);
                     $updateLink = Html::a('<i class="far fa-edit"></i>',['update','No'=> $item->No ],['class'=>'btn btn-info btn-xs','title' => 'Update Request']);
-                }else if($item->Status == 'Pending_Approval'){
+                }else if($item->Approval_Status == 'Pending_Approval'){
                     $link = Html::a('<i class="fas fa-times"></i>',['cancel-request','No'=> $item->No ],['title'=>'Cancel Approval Request','class'=>'btn btn-warning btn-xs']);
                 }
 
@@ -228,9 +224,8 @@ class StorerequisitionController extends Controller
                     'No' => $item->No,
                     'Employee_No' => !empty($item->Employee_No)?$item->Employee_No:'',
                     'Employee_Name' => !empty($item->Created_On)?$item->Created_On:'',
-                    'Global_Dimension_3_Code' => !empty($item->Global_Dimension_3_Code)?$item->Global_Dimension_3_Code:'',
-                    'Requisition_Type' => !empty($item->Requisition_Type)?$item->Requisition_Type:'',
-                    'Status' => $item->Status,
+                    'Contract_Status' => !empty($item->Status)?$item->Status:'',
+                    'Approval_Status' => $item->Approval_Status,
                     'Action' => $link.' '. $updateLink.' '.$Viewlink ,
 
                 ];
@@ -301,9 +296,6 @@ class StorerequisitionController extends Controller
                 }
 
             }
-
-
-
         }
 
         return $data;

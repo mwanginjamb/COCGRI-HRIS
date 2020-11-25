@@ -49,6 +49,7 @@ return [
         'ContractRenewalStatusChange', // 50024
         'PortalFactory', // 50062
         'ImprestManagement', // 50017
+        'AppraisalStatusChange', //50228
     ],
     'ServiceName'=>[
 
@@ -235,15 +236,12 @@ return [
         'RequestsTo_ApprovePortal'=> 'RequestsTo_ApprovePortal', // 67123
 
 
-        /* Contract Renewal Services -- not yet validated on cogri*/
+        /* Contract Renewal Services --------------- */
 
-        'NewContractRenewal' => 'NewContractRenewal', // 55077
-        'supervisorList' => 'supervisorList', // 55078
-        'Hrcontractslist' => 'Hrcontractslist', // 55079
-        'ApprovedContractsList' => 'ApprovedContractsList', // 55080
-        'RejectedContractRenewal' => 'RejectedContractRenewal', // 55081
-        'ContractRenewalCard' => 'ContractRenewalCard', // 55082
-        'ContractRenewalStatusChange' => 'ContractRenewalStatusChange', // Code Unit 50024
+        'ContractRenewalList' => 'ContractRenewalList', //55016
+        'ContractRenewalCard' => 'ContractRenewalCard', //55017
+        'ContractRenewalLines' => 'ContractRenewalLines', //55018
+        'EmployeeContracts' => 'EmployeeContracts', //5217
 
 
 
@@ -263,6 +261,7 @@ return [
         'Portal_Workflows' => 'Portal_Workflows', //50019 Approval code unit
         'JobApplication' => 'JobApplication', //50002 Job Aplication Management Code Unit
         'PortalReports' => 'PortalReports',//50064
+        'AppraisalStatusChange' => 'AppraisalStatusChange', //50228
 
 
 

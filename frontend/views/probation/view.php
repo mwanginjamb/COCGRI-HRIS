@@ -262,8 +262,9 @@ Yii::$app->session->set('isSupervisor',false);*/
                            // print '<pre>'; print_r($model->getObjectives()); exit;
 
                          foreach($model->getObjectives() as $obj):
-                            $evaluateLink = Html::a('Evaluate',['objective/update','Line_No'=> $obj->Line_No,'Employee_No'=>$_GET['Employee_No'],'Appraisal_No' => $_GET['Appraisal_No']],['class' => 'update-objective btn btn-outline-info']);
-                        ?>
+                            $evaluateLink = Html::a('Evaluate',['objective/update','Line_No'=> $obj->Line_No,'Employee_No'=>$_GET['Employee_No'],'Appraisal_No' => $_GET['Appraisal_No']],['class' => 'update-objective btn btn-xs btn-outline-info']);
+                             $deleteLink = Html::a('<i class="fa fa-trash"></i>',['objective/delete','Key'=> $obj->Key ],['class'=>'delete btn btn-outline-danger btn-xs']);
+                         ?>
                                 <tr>
 
                                     <td><?= !empty($obj->Objective)?$obj->Objective:'Not Set' ?></td>
@@ -273,7 +274,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                                     <td><?= !empty($obj->New_Emp_Supervisor_Comment)?$obj->New_Emp_Supervisor_Comment:'Not Set' ?></td>
                                     <td><?= !empty($obj->New_Emp_Hr_Rating)?$obj->New_Emp_Hr_Rating:'Not Set' ?></td>
                                     <td><?= !empty($obj->New_Emp_Hr_Comments)?$obj->New_Emp_Hr_Comments:'Not Set' ?></td>
-                                    <td><?= $evaluateLink ?></td>
+                                    <td><?= $evaluateLink.' | '.$deleteLink ?></td>
                                 </tr>
                         <?php endforeach; ?>
                     </tbody>

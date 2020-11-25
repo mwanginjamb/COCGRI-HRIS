@@ -12,7 +12,7 @@
 
 use yii\helpers\Html;
 
-$this->title = 'KEMRI - New Employee Probation List';
+$this->title = Yii::$app->params['generalTitle'];
 $this->params['breadcrumbs'][] = ['label' => 'Performance Management', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => 'Probation Appraisal List', 'url' => ['index']];
 ?>
