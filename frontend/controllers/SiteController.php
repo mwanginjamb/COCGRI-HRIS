@@ -31,7 +31,7 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['logout', 'signup','index'],
+                'only' => ['logout', 'signup','index','getemployee'],
                 'rules' => [
                     [
                         'actions' => ['signup'],
@@ -83,7 +83,15 @@ class SiteController extends Controller
     public function actionIndex()
     {
 
-        $employee = $this->actionGetemployee()[0];
+       if(!is_array($this->actionGetemployee()))
+       {
+           Yii::$app->session->setFlash('error','You are not assigned to an existing employee.');
+           return $this->redirect(['logout']);
+       }
+
+
+
+        $employee = is_array($this->actionGetemployee())?$this->actionGetemployee()[0]:[];
         $supervisor = isset($employee->Supervisor_Code)?$this->getSupervisor($employee->Supervisor_Code):'';
         $balances = $this->Getleavebalance();
 
@@ -324,19 +332,22 @@ class SiteController extends Controller
         $balances = \Yii::$app->navhelper->getData($service,$filter);
         $result = [];
 
-        //print '<pre>';
-        // print_r($balances);exit;
+        /*print '<pre>';
+         print_r($balances);exit;*/
 
-        foreach($balances as $b){
-            $result = [
-                'Key' => $b->Key,
-                'Annual_Leave_Bal' => $b->Annual_Leave_Balance,
-                'Maternity_Leave_Bal' => $b->Martenity_Leave_Balance,
-                'Paternity' => $b->Partenity_Leave_Balance,
-                'Study_Leave_Bal' => $b->Study_Leave_Balance,
-                'Compasionate_Leave_Bal' => $b->Compasionate_Leave_Balance,
-                'Sick_Leave_Bal' => !empty($b->Sick_Leave_Bal)?$b->Sick_Leave_Bal:'Not Set'
-            ];
+        if(is_array($balances)) {
+            foreach($balances as $b){
+                $result = [
+                    'Key' => $b->Key,
+                    'Annual_Leave_Bal' => $b->Annual_Leave_Balance,
+                    'Maternity_Leave_Bal' => $b->Martenity_Leave_Balance,
+                    'Paternity' => $b->Partenity_Leave_Balance,
+                    'Study_Leave_Bal' => $b->Study_Leave_Balance,
+                    'Compasionate_Leave_Bal' => $b->Compasionate_Leave_Balance,
+                    'Sick_Leave_Bal' => !empty($b->Sick_Leave_Bal)?$b->Sick_Leave_Bal:'Not Set'
+                ];
+            }
+
         }
 
         return $result;

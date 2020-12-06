@@ -11,8 +11,8 @@ class Navhelper extends Component{
 
         # return true; //comment after dev or after testing outside Navision scope env
         $identity = \Yii::$app->user->identity;
-        $username = (!Yii::$app->user->isGuest)? Yii::$app->user->identity->{'User ID'} : Yii::$app->params['NavisionUsername'];
-        $password = Yii::$app->session->has('IdentityPassword')? Yii::$app->session->get('IdentityPassword'):Yii::$app->params['NavisionPassword'];
+        $username =  Yii::$app->params['NavisionUsername'];
+        $password =  Yii::$app->params['NavisionPassword'];
 
         $creds = (object)[];
         $creds->UserName = $username;

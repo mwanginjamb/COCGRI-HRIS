@@ -255,6 +255,13 @@ return [
         'Items' => 'Items', //32
 
 
+        /************************************Drug Issuance*********************************/
+
+        'prescriptionsIssueList' => 'prescriptionsIssueList', //66119
+        'PrescriptionIssueLines' => 'PrescriptionIssueLines', //66120
+        'PrescriptionIssueCard' => 'PrescriptionIssueCard', // 66121
+
+
         /********************CODE UNITS SERVICES***************************************/
         'PortalFactory' => 'PortalFactory', //Code Unit 50062
         'ImprestManagement' => 'ImprestManagement', // 50017

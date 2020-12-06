@@ -9,18 +9,20 @@ use yii\bootstrap\ActiveForm;
 
 
 $this->params['breadcrumbs'][] = $this->title;
-if(Yii::$app->session->hasFlash('error')){
-    print '<div class="alert alert-danger">'.Yii::$app->session->getFlash('error').'</div>';
-}
+
 ?>
 
 
 
 
 
-            <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
+            <?php $form = ActiveForm::begin(['id' => 'login-form']);
 
+                    if(Yii::$app->session->hasFlash('error')){
+                         print '<div class="alert alert-danger">'.Yii::$app->session->getFlash('error').'</div>';
+                    }
 
+            ?>
 
                 <?= $form->field($model, 'username',[
                     'inputTemplate' => '<div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-user"></i></span>{input}</div>',

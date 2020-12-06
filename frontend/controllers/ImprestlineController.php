@@ -246,7 +246,21 @@ class ImprestlineController extends Controller
         $service = Yii::$app->params['ServiceName']['PaymentTypes'];
 
         $result = \Yii::$app->navhelper->getData($service, []);
-        return ArrayHelper::map($result,'Code','Description');
+
+        $arr = []; $i = 0;
+        foreach($result as $p)
+        {
+            if(!empty($p->Description)){
+                ++$i;
+                $arr[$i] = [
+                    'Code' => $p->Code,
+                    'Description' => $p->Description
+
+                ];
+            }
+
+        }
+        return ArrayHelper::map($arr,'Code','Description');
     }
 
 

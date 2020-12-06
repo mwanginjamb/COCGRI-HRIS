@@ -25,7 +25,7 @@ class HRPasswordResetRequestForm extends Model
             ['email', 'email'],
             ['email', 'exist',
                 'targetClass' => '\common\models\Hruser',
-                'filter' => ['status' => User::STATUS_ACTIVE],
+                //'filter' => ['status' => Hruser::STATUS_ACTIVE],
                 'message' => 'There is no user with this email address.'
             ],
         ];
